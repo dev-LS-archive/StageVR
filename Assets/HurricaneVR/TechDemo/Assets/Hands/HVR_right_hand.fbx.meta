@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: d3fde6960c015404f9b509215eb56489
 ModelImporter:
-  serializedVersion: 19301
+  serializedVersion: 21300
   internalIDToNameTable: []
   externalObjects: {}
   materials:
@@ -14,8 +14,10 @@ ModelImporter:
     bakeSimulation: 0
     resampleCurves: 1
     optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
     motionNodeName: 
-    rigImportErrors: 
+    rigImportErrors: "Invalid Avatar Rig Configuration. Missing or invalid transform:\n\tRequired
+      human bone 'LeftUpperLeg' not found\n"
     rigImportWarnings: 
     animationImportErrors: 
     animationImportWarnings: 
@@ -23,7 +25,7 @@ ModelImporter:
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
     importConstraints: 0
-    animationCompression: 1
+    animationCompression: 3
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
@@ -43,21 +45,27 @@ ModelImporter:
     importBlendShapes: 1
     importCameras: 1
     importLights: 1
+    nodeNameCollisionStrategy: 0
     fileIdsGeneration: 2
     swapUVChannels: 0
     generateSecondaryUV: 1
     useFileUnits: 1
     keepQuads: 0
     weldVertices: 1
+    bakeAxisConversion: 0
     preserveHierarchy: 0
     skinWeightsMode: 0
     maxBonesPerVertex: 4
     minBoneWeight: 0.001
+    optimizeBones: 1
     meshOptimizationFlags: -1
     indexFormat: 0
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
     secondaryUVPackMargin: 4
     useFileScale: 1
   tangentSpace:
@@ -73,7 +81,127 @@ ModelImporter:
   humanDescription:
     serializedVersion: 3
     human: []
-    skeleton: []
+    skeleton:
+    - name: HVR_right_hand(Clone)
+      parentName: 
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Righthand
+      parentName: HVR_right_hand(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.000000037748947, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: RHand
+      parentName: HVR_right_hand(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.00000008146034, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: RHand 1
+      parentName: RHand
+      position: {x: -0.0036297496, y: 0.011196241, z: 0.11570544}
+      rotation: {x: -0.18930592, y: 0.1271576, z: -0.127826, w: 0.9652226}
+      scale: {x: 1, y: 1, z: 0.9999999}
+    - name: RMiddleFinger1
+      parentName: RHand 1
+      position: {x: 0.006011054, y: 0.12648933, z: -0.0026490923}
+      rotation: {x: 0.0039979517, y: -0.00007646304, z: 0.014760567, w: 0.9998831}
+      scale: {x: 1, y: 1.0000002, z: 1.0000001}
+    - name: RMiddleFinger2
+      parentName: RMiddleFinger1
+      position: {x: 1.174385e-10, y: 0.043860327, z: 6.2101435e-11}
+      rotation: {x: -0.031562377, y: 0.00041206973, z: -0.0023754986, w: 0.9994989}
+      scale: {x: 1, y: 1.0000002, z: 1.0000004}
+    - name: RMiddleFinger3
+      parentName: RMiddleFinger2
+      position: {x: 2.16005e-11, y: 0.029505948, z: -2.306706e-10}
+      rotation: {x: 0.002284938, y: 0.000035760277, z: -0.0017999576, w: 0.99999577}
+      scale: {x: 1, y: 1.0000001, z: 1.0000001}
+    - name: RMiddleNub
+      parentName: RMiddleFinger3
+      position: {x: 2.1907454e-10, y: 0.026399305, z: -2.5337954e-10}
+      rotation: {x: -0.0060110763, y: -0.0000751124, z: 0.004123047, w: 0.9999734}
+      scale: {x: 1, y: 1.0000001, z: 1}
+    - name: RIndexFinger1
+      parentName: RHand 1
+      position: {x: 0.031258322, y: 0.12521929, z: -0.0037548484}
+      rotation: {x: 0.003963142, y: 0.00049387716, z: -0.08572116, w: 0.9963112}
+      scale: {x: 1, y: 1.0000004, z: 1.0000001}
+    - name: RIndexFinger2
+      parentName: RIndexFinger1
+      position: {x: -0.0000000017467983, y: 0.043675978, z: -3.3742253e-10}
+      rotation: {x: -0.033629224, y: -0.0029778064, z: 0.013112313, w: 0.999344}
+      scale: {x: 1, y: 1.0000001, z: 1.0000001}
+    - name: RIndexFinger3
+      parentName: RIndexFinger2
+      position: {x: -5.0386006e-10, y: 0.027745077, z: -2.0372681e-10}
+      rotation: {x: -0.0029274893, y: -0.00033475828, z: 0.0032649639, w: 0.9999904}
+      scale: {x: 0.99999994, y: 1.0000005, z: 1.0000002}
+    - name: RndexNub
+      parentName: RIndexFinger3
+      position: {x: 4.8657967e-10, y: 0.02134636, z: 7.858034e-10}
+      rotation: {x: 0.09809157, y: 0.0080772275, z: -0.027891506, w: 0.9947537}
+      scale: {x: 1, y: 0.99999994, z: 1.0000002}
+    - name: RRingFinger1
+      parentName: RHand 1
+      position: {x: -0.019194484, y: 0.11851998, z: -0.0075068655}
+      rotation: {x: -0.18149398, y: -0.015250313, z: 0.6561512, w: 0.7323203}
+      scale: {x: 0.99999994, y: 1.0000002, z: 1.0000002}
+    - name: RRingFinger2
+      parentName: RRingFinger1
+      position: {x: 0.0000000037211976, y: 0.04265571, z: 2.0372681e-10}
+      rotation: {x: -0.039098367, y: 0.008583434, z: 0.09464975, w: 0.99470556}
+      scale: {x: 0.99999994, y: 1.0000007, z: 1.0000008}
+    - name: RRingFinger3
+      parentName: RRingFinger2
+      position: {x: -0.0000000053933036, y: 0.027702337, z: -2.910383e-10}
+      rotation: {x: -0.00078071083, y: -0.0011606951, z: 0.024538677, w: 0.999698}
+      scale: {x: 0.99999994, y: 1.0000002, z: 1.0000001}
+    - name: RRingNub
+      parentName: RRingFinger3
+      position: {x: -0.0000000022628228, y: 0.02684795, z: -3.4924597e-10}
+      rotation: {x: -0.01507727, y: 0.0018002004, z: 0.0011810345, w: 0.999884}
+      scale: {x: 0.9999999, y: 1.0000004, z: 1.0000001}
+    - name: RPinkyFinger1
+      parentName: RHand 1
+      position: {x: -0.035965063, y: 0.1098181, z: -0.011605551}
+      rotation: {x: -0.056802385, y: -0.0016741756, z: 0.27658463, w: 0.9593079}
+      scale: {x: 1, y: 1.0000001, z: 1.0000002}
+    - name: RPinkyFinger2
+      parentName: RPinkyFinger1
+      position: {x: 0.0000000026630005, y: 0.0324798, z: 5.820766e-10}
+      rotation: {x: -0.04027854, y: 0.012646571, z: -0.017096778, w: 0.9989622}
+      scale: {x: 1, y: 0.99999994, z: 1}
+    - name: RPinkyFinger3
+      parentName: RPinkyFinger2
+      position: {x: -0.000000006344635, y: 0.021650521, z: -9.313226e-10}
+      rotation: {x: 0.016194208, y: -0.006041089, z: 0.015682844, w: 0.9997276}
+      scale: {x: 1, y: 1.0000004, z: 1.0000002}
+    - name: RPinkyNub
+      parentName: RPinkyFinger3
+      position: {x: 5.820766e-10, y: 0.026269807, z: -4.802132e-10}
+      rotation: {x: -0.11807877, y: 0.03305028, z: 0.006527503, w: 0.99243265}
+      scale: {x: 1, y: 0.99999994, z: 1}
+    - name: RThumb1
+      parentName: RHand 1
+      position: {x: 0.032594725, y: 0.0518627, z: -0.008608547}
+      rotation: {x: 0.04935878, y: -0.0367581, z: -0.5178497, w: 0.85325515}
+      scale: {x: 1, y: 1, z: 1.0000001}
+    - name: RThumb2
+      parentName: RThumb1
+      position: {x: -0.0000000067393557, y: 0.045742188, z: -1.1641532e-10}
+      rotation: {x: 0.05927797, y: -0.023381194, z: -0.11040032, w: 0.9918423}
+      scale: {x: 1.0000001, y: 1.0000006, z: 1.0000002}
+    - name: RThumb3
+      parentName: RThumb2
+      position: {x: 0.000000008061761, y: 0.02740013, z: -8.1490725e-10}
+      rotation: {x: 0.026015293, y: 0.014239773, z: -0.020607969, w: 0.9993476}
+      scale: {x: 1.0000001, y: 1, z: 1.0000001}
+    - name: RThumbNUb
+      parentName: RThumb3
+      position: {x: 0.0000000030559022, y: 0.028912129, z: 3.1650416e-10}
+      rotation: {x: 0.082212515, y: 0.040526673, z: 0.014592204, w: 0.9956836}
+      scale: {x: 1, y: 1, z: 1.0000005}
     armTwist: 0.5
     foreArmTwist: 0.5
     upperLegTwist: 0.5
@@ -84,13 +212,15 @@ ModelImporter:
     globalScale: 1
     rootMotionBoneName: 
     hasTranslationDoF: 0
-    hasExtraRoot: 0
+    hasExtraRoot: 1
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 2
   humanoidOversampling: 1
-  avatarSetup: 0
+  avatarSetup: 1
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 0
+  remapMaterialsIfMaterialImportModeIsNone: 1
   additionalBone: 0
   userData: 
   assetBundleName: 

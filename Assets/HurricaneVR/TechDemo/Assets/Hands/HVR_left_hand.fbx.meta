@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: 1c2ef2080896bd44ca2e1d1c8ef6f901
 ModelImporter:
-  serializedVersion: 19301
+  serializedVersion: 21300
   internalIDToNameTable: []
   externalObjects: {}
   materials:
@@ -14,8 +14,10 @@ ModelImporter:
     bakeSimulation: 0
     resampleCurves: 1
     optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
     motionNodeName: 
-    rigImportErrors: 
+    rigImportErrors: "Invalid Avatar Rig Configuration. Missing or invalid transform:\n\tRequired
+      human bone 'LeftUpperLeg' not found\n"
     rigImportWarnings: 
     animationImportErrors: 
     animationImportWarnings: 
@@ -23,7 +25,7 @@ ModelImporter:
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
     importConstraints: 0
-    animationCompression: 1
+    animationCompression: 3
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
@@ -43,21 +45,27 @@ ModelImporter:
     importBlendShapes: 1
     importCameras: 1
     importLights: 1
+    nodeNameCollisionStrategy: 0
     fileIdsGeneration: 2
     swapUVChannels: 0
     generateSecondaryUV: 1
     useFileUnits: 1
     keepQuads: 0
     weldVertices: 1
+    bakeAxisConversion: 0
     preserveHierarchy: 0
     skinWeightsMode: 0
     maxBonesPerVertex: 4
     minBoneWeight: 0.001
+    optimizeBones: 1
     meshOptimizationFlags: -1
     indexFormat: 0
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
     secondaryUVPackMargin: 4
     useFileScale: 1
   tangentSpace:
@@ -73,7 +81,127 @@ ModelImporter:
   humanDescription:
     serializedVersion: 3
     human: []
-    skeleton: []
+    skeleton:
+    - name: HVR_left_hand(Clone)
+      parentName: 
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: LeftHand
+      parentName: HVR_left_hand(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.000000037748947, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: LHand
+      parentName: HVR_left_hand(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.00000008146034, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: LHand 1
+      parentName: LHand
+      position: {x: 0.00362975, y: 0.0111962585, z: 0.11570544}
+      rotation: {x: -0.18930605, y: -0.12715772, z: 0.12782605, w: 0.9652226}
+      scale: {x: 1, y: 1, z: 0.99999994}
+    - name: LMiddleFinger1
+      parentName: LHand 1
+      position: {x: -0.006011055, y: 0.12648933, z: -0.002649093}
+      rotation: {x: 0.0039979895, y: 0.000076467004, z: -0.014760572, w: 0.9998831}
+      scale: {x: 1, y: 1, z: 0.99999994}
+    - name: LMiddleFinger2
+      parentName: LMiddleFinger1
+      position: {x: 3.041123e-11, y: 0.043860327, z: 5.854872e-11}
+      rotation: {x: -0.03156232, y: -0.00041207045, z: 0.0023755028, w: 0.9994989}
+      scale: {x: 1, y: 0.99999994, z: 1}
+    - name: LMiddleFinger3
+      parentName: LMiddleFinger2
+      position: {x: 9.913492e-11, y: 0.029505944, z: 2.323759e-10}
+      rotation: {x: 0.0022848647, y: -0.0000357608, z: 0.0017999576, w: 0.99999577}
+      scale: {x: 1, y: 1, z: 1}
+    - name: LMiddleNub
+      parentName: LMiddleFinger3
+      position: {x: 1.22781785e-11, y: 0.026399313, z: 6.767493e-10}
+      rotation: {x: -0.006010967, y: 0.00007511445, z: -0.004123047, w: 0.9999735}
+      scale: {x: 1, y: 1, z: 0.99999994}
+    - name: LIndexFinger1
+      parentName: LHand 1
+      position: {x: -0.031258326, y: 0.12521929, z: -0.003754848}
+      rotation: {x: 0.0039632325, y: -0.0004938909, z: 0.08572117, w: 0.9963112}
+      scale: {x: 1, y: 1, z: 0.99999994}
+    - name: LIndexFinger2
+      parentName: LIndexFinger1
+      position: {x: 0.0000000015825208, y: 0.043675978, z: -5.2750693e-11}
+      rotation: {x: -0.033629216, y: 0.0029777968, z: -0.013112332, w: 0.99934393}
+      scale: {x: 1, y: 1, z: 1}
+    - name: LIndexFinger3
+      parentName: LIndexFinger2
+      position: {x: -0.0000000032305252, y: 0.027745081, z: 2.910383e-11}
+      rotation: {x: -0.0029274963, y: 0.00033476396, z: -0.0032649613, w: 0.99999034}
+      scale: {x: 1, y: 0.99999994, z: 0.99999994}
+    - name: LndexNub
+      parentName: LIndexFinger3
+      position: {x: 0.0000000014088073, y: 0.021346355, z: 2.6193447e-10}
+      rotation: {x: 0.09809156, y: -0.008077238, z: 0.027891492, w: 0.99475366}
+      scale: {x: 1, y: 0.99999994, z: 0.99999994}
+    - name: LRingFinger1
+      parentName: LHand 1
+      position: {x: 0.019194486, y: 0.11851998, z: -0.0075068665}
+      rotation: {x: -0.18149406, y: 0.01525049, z: -0.6561512, w: 0.7323203}
+      scale: {x: 1, y: 0.99999994, z: 0.99999994}
+    - name: LRingFinger2
+      parentName: LRingFinger1
+      position: {x: -0.000000002794195, y: 0.042655714, z: 3.2014214e-10}
+      rotation: {x: -0.039098438, y: -0.008583415, z: -0.09465031, w: 0.9947055}
+      scale: {x: 1, y: 1.0000001, z: 1}
+    - name: LRingFinger3
+      parentName: LRingFinger2
+      position: {x: -0.000000002240995, y: 0.027702337, z: 4.0745363e-10}
+      rotation: {x: -0.0007806813, y: 0.0011606986, z: -0.024538694, w: 0.9996979}
+      scale: {x: 1, y: 1, z: 1}
+    - name: LRingNub
+      parentName: LRingFinger3
+      position: {x: -0.000000001880835, y: 0.026847953, z: 0}
+      rotation: {x: -0.015077319, y: -0.0018001931, z: -0.0011812049, w: 0.999884}
+      scale: {x: 1, y: 1.0000001, z: 0.99999994}
+    - name: LPinkyFinger1
+      parentName: LHand 1
+      position: {x: 0.035965066, y: 0.1098181, z: -0.011605551}
+      rotation: {x: -0.05680233, y: 0.001674231, z: -0.27658466, w: 0.9593079}
+      scale: {x: 1, y: 1, z: 0.99999994}
+    - name: LPinkyFinger2
+      parentName: LPinkyFinger1
+      position: {x: -0.0000000013096724, y: 0.032479797, z: 3.4924597e-10}
+      rotation: {x: -0.040278457, y: -0.01264654, z: 0.017096704, w: 0.99896216}
+      scale: {x: 0.99999994, y: 0.9999999, z: 0.9999999}
+    - name: LPinkyFinger3
+      parentName: LPinkyFinger2
+      position: {x: 0.0000000054133125, y: 0.02165052, z: 6.9849193e-10}
+      rotation: {x: 0.016194187, y: 0.0060410583, z: -0.015682725, w: 0.99972767}
+      scale: {x: 1, y: 1, z: 1}
+    - name: LPinkyNub
+      parentName: LPinkyFinger3
+      position: {x: 0.0000000013387762, y: 0.0262698, z: 6.8394e-10}
+      rotation: {x: -0.11807875, y: -0.033050295, z: -0.0065274592, w: 0.9924326}
+      scale: {x: 0.99999994, y: 1, z: 1}
+    - name: LThumb1
+      parentName: LHand 1
+      position: {x: -0.03259473, y: 0.0518627, z: -0.008608547}
+      rotation: {x: 0.049358927, y: 0.03675808, z: 0.5178496, w: 0.85325515}
+      scale: {x: 1, y: 0.99999994, z: 1}
+    - name: LThumb2
+      parentName: LThumb1
+      position: {x: 0.0000000011204975, y: 0.045742195, z: 3.4924597e-10}
+      rotation: {x: 0.059277937, y: 0.023381189, z: 0.1104004, w: 0.9918423}
+      scale: {x: 0.99999994, y: 0.9999998, z: 0.9999999}
+    - name: LThumb3
+      parentName: LThumb2
+      position: {x: 0.0000000044237822, y: 0.027400132, z: 4.656613e-10}
+      rotation: {x: 0.026015349, y: -0.014239782, z: 0.020608047, w: 0.9993477}
+      scale: {x: 0.9999999, y: 1, z: 0.99999994}
+    - name: LThumbNUb
+      parentName: LThumb3
+      position: {x: -0.0000000048603397, y: 0.028912144, z: 1.5279511e-10}
+      rotation: {x: 0.08221245, y: -0.040526673, z: -0.014592213, w: 0.99568355}
+      scale: {x: 1, y: 0.9999999, z: 0.99999994}
     armTwist: 0.5
     foreArmTwist: 0.5
     upperLegTwist: 0.5
@@ -84,13 +212,15 @@ ModelImporter:
     globalScale: 1
     rootMotionBoneName: 
     hasTranslationDoF: 0
-    hasExtraRoot: 0
+    hasExtraRoot: 1
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 2
   humanoidOversampling: 1
-  avatarSetup: 0
+  avatarSetup: 1
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 0
+  remapMaterialsIfMaterialImportModeIsNone: 1
   additionalBone: 0
   userData: 
   assetBundleName: 
