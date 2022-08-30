@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Beautify.Universal;
 
+// ReSharper disable once CheckNamespace
 namespace Beautify.Demos {
 
     public class Demo : MonoBehaviour {
@@ -43,14 +44,9 @@ namespace Beautify.Demos {
 
         }
 
-        void UpdateText() {
-
-            if (BeautifySettings.settings.disabled.value) {
-                GameObject.Find("Beautify").GetComponent<Text>().text = "Beautify OFF";
-            } else {
-                GameObject.Find("Beautify").GetComponent<Text>().text = "Beautify ON";
-            }
-
+        void UpdateText()
+        {
+            GameObject.Find("Beautify").GetComponent<Text>().text = BeautifySettings.settings.disabled.value ? "Beautify OFF" : "Beautify ON";
         }
 
 

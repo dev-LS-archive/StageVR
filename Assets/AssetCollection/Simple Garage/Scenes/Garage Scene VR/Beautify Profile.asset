@@ -173,16 +173,17 @@ MonoBehaviour:
     m_Value: 0.3
   lut:
     m_OverrideState: 0
-    m_Value: 1
-  lutIntensity:
-    m_OverrideState: 0
     m_Value: 0
+  lutIntensity:
+    m_OverrideState: 1
+    m_Value: 1
   lutTexture:
-    m_OverrideState: 0
-    m_Value: {fileID: 2800000, guid: bc8c8c1f44dbe4dd1b38f60b970820cd, type: 3}
+    m_OverrideState: 1
+    m_Value: {fileID: 2800000, guid: 6c252844013904c62a3709b7c4c58077, type: 3}
+    dimension: 1
   bloomIntensity:
     m_OverrideState: 1
-    m_Value: 0.08
+    m_Value: 0
   bloomThreshold:
     m_OverrideState: 0
     m_Value: 0.75
@@ -207,8 +208,8 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: -0.0001
   bloomAntiflicker:
-    m_OverrideState: 0
-    m_Value: 0
+    m_OverrideState: 1
+    m_Value: 1
   bloomResolution:
     m_OverrideState: 0
     m_Value: 1
@@ -397,12 +398,13 @@ MonoBehaviour:
   lensDirtTexture:
     m_OverrideState: 0
     m_Value: {fileID: 0}
+    dimension: 1
   lensDirtSpread:
     m_OverrideState: 0
     m_Value: 3
   chromaticAberrationIntensity:
     m_OverrideState: 0
-    m_Value: 0
+    m_Value: 0.05
   chromaticAberrationSmoothing:
     m_OverrideState: 0
     m_Value: 0
@@ -518,7 +520,7 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: 0
   eyeAdaptationMinExposure:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 0.2
   eyeAdaptationMaxExposure:
     m_OverrideState: 0
@@ -568,6 +570,7 @@ MonoBehaviour:
   vignettingMask:
     m_OverrideState: 0
     m_Value: {fileID: 0}
+    dimension: 1
   outline:
     m_OverrideState: 0
     m_Value: 0
@@ -613,12 +616,14 @@ MonoBehaviour:
   frameMask:
     m_OverrideState: 0
     m_Value: {fileID: 0}
+    dimension: 1
   blurIntensity:
     m_OverrideState: 0
     m_Value: 0
   blurMask:
     m_OverrideState: 0
     m_Value: {fileID: 0}
+    dimension: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
