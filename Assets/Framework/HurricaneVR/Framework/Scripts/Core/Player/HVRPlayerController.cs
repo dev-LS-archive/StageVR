@@ -188,6 +188,8 @@ namespace HurricaneVR.Framework.Core.Player
                     ScreenFader = finder.gameObject.GetComponent<HVRScreenFade>();
                 }
             }
+
+            PreviousPosition = transform.position;
         }
 
 
@@ -307,6 +309,7 @@ namespace HurricaneVR.Framework.Core.Player
             delta.y = 0f;
             CameraRig.transform.position -= delta;
             _waitingForCameraMovement = false;
+            PreviousPosition = transform.position;
         }
 
         protected virtual void CheckGrounded()
@@ -558,8 +561,18 @@ namespace HurricaneVR.Framework.Core.Player
             LeftJointHand.RigidBody.AddForce(acceler * LeftJointHand.RigidBody.mass, ForceMode.Force);
             RightJointHand.RigidBody.AddForce(acceler * RightJointHand.RigidBody.mass, ForceMode.Force);
 
-            var leftRB = LeftHand.GrabbedTarget?.Rigidbody;
-            var rightRb = RightHand.GrabbedTarget?.Rigidbody;
+            Rigidbody leftRB = null;
+            Rigidbody rightRb = null;
+
+            if (LeftHand.GrabbedTarget && LeftHand.GrabbedTarget.Rigidbody)
+            {
+                leftRB = LeftHand.GrabbedTarget.Rigidbody;
+            }
+
+            if (RightHand.GrabbedTarget && RightHand.GrabbedTarget.Rigidbody)
+            {
+                rightRb = RightHand.GrabbedTarget.Rigidbody;
+            }
 
             if (leftRB && rightRb && leftRB == rightRb)
             {

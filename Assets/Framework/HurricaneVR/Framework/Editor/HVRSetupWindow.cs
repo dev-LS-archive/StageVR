@@ -29,7 +29,8 @@ namespace HurricaneVR.Editor
         private const string URLHandGrabber = "https://cloudwalker2020.github.io/HurricaneVR-Docs/manual/hands.html";
         private const string URLSockets = "https://cloudwalker2020.github.io/HurricaneVR-Docs/manual/sockets.html";
         private const string URLSetup = "https://cloudwalker2020.github.io/HurricaneVR-Docs/manual/setup.html";
-
+        private const string URLCustomHand = "https://cloudwalker2020.github.io/HurricaneVR-Docs/manual/hand_setup.html";
+        private const string URLDoor = "https://cloudwalker2020.github.io/HurricaneVR-Docs/manual/components/door.html";
         private const string URLDiscord = "https://discord.com/invite/7QUXEcuwKY";
 
         private const string DEFINESteamVR = "HVR_STEAMVR";
@@ -116,6 +117,8 @@ namespace HurricaneVR.Editor
             SetupUrl("btnHandGrabber", URLHandGrabber);
             SetupUrl("btnDiscord", URLDiscord);
             SetupUrl("btnSetup", URLSetup);
+            SetupUrl("btnCustomHand", URLCustomHand);
+            SetupUrl("btnDoorSetup", URLDoor);
             //SetupUrl("BtnPatreon", URLPatreon);
 
             UpdatePanel(notesPanel);

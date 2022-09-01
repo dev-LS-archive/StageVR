@@ -11,11 +11,8 @@ namespace HurricaneVR.Framework.Core.HandPoser
     {
         [FormerlySerializedAs("PosePosAndRot")]
         [Header("Settings")]
-        [Tooltip("True for floaty hands, false for FinalIK hands")]
-        public bool PoseHand = true;
-
-        [Tooltip("If true the default poser will pause the hand")]
-        public bool DefaultPoseHand = true;
+        [Tooltip("If true the default poser will pose the hand's local position and rotation")]
+        public bool DefaultPoseHand = true; //fyi - false is best, only left true for older users and their projects
 
         [Tooltip("Finger bend speed when dynamic pose is active")]
         public float DynamicPoseSpeed = 16f;
@@ -24,10 +21,15 @@ namespace HurricaneVR.Framework.Core.HandPoser
         public HVRPhysicsPoser PhysicsPoser;
         public HVRPosableHand Hand;
         public HVRHandPoser DefaultPoser;
+        
+        [Tooltip("Used if the HVRPosableHand component is not on the transform that needs to be posed. IKTarget for VRIK is one example.")]
+        public Transform HandOverride;
 
 
         [Header("Debug View")]
         public HVRHandPoser CurrentPoser;
+
+        public HVRHandPoser OverridePoser;
 
         /// <summary>
         /// Current hand pose, moves towards BlendedPose based on the speed defined on the Primary Pose
@@ -74,7 +76,13 @@ namespace HurricaneVR.Framework.Core.HandPoser
 
         public bool DynamicPose { get; set; }
 
+        /// <summary>
+        /// Returns true if the CurrentPoser is a pose from a held object
+        /// </summary>
+        public bool HandHeldPose { get; internal set; }
+
         private bool _poseHand = true;
+        private bool _poseHandOverride;
         private float[] _fingerCurls;
 
         protected virtual void Start()
@@ -170,31 +178,53 @@ namespace HurricaneVR.Framework.Core.HandPoser
                 return;
             }
 
-            if (CurrentPoser == null)
+            var poseHand = _poseHand;
+            var poser = CurrentPoser;
+            if (OverridePoser && !HandHeldPose)
             {
-                return;
+                poser = OverridePoser;
+                poseHand = _poseHandOverride;
             }
 
-            UpdateBlends();
-            ApplyBlending();
-            Hand.Pose(CurrentPose, _poseHand);
+            if (!poser)
+                return;
+
+            UpdateBlends(poser);
+            ApplyBlending(poser);
+            
+            if (poseHand)
+            {
+                if (HandOverride)
+                {
+                    HandOverride.localPosition = CurrentPose.Position;
+                    HandOverride.localRotation = CurrentPose.Rotation;
+                }
+                else
+                {
+                    Hand.Pose(CurrentPose, true);
+                }
+            }
+            else
+            {
+                Hand.Pose(CurrentPose, false);
+            }
         }
 
-        private void UpdateBlends()
+        private void UpdateBlends(HVRHandPoser poser)
         {
             if (!IsMine)
                 return;
 
-            UpdateBlendValue(CurrentPoser.PrimaryPose);
+            UpdateBlendValue(poser.PrimaryPose);
 
-            if (CurrentPoser.Blends == null)
+            if (poser.Blends == null)
             {
                 return;
             }
 
-            for (int i = 0; i < CurrentPoser.Blends.Count; i++)
+            for (int i = 0; i < poser.Blends.Count; i++)
             {
-                UpdateBlendValue(CurrentPoser.Blends[i]);
+                UpdateBlendValue(poser.Blends[i]);
             }
         }
 
@@ -242,16 +272,16 @@ namespace HurricaneVR.Framework.Core.HandPoser
         }
 
 
-        private void ApplyBlending()
+        private void ApplyBlending(HVRHandPoser poser)
         {
             PrimaryPose.CopyTo(BlendedPose);
-            ApplyFingerCurls(DefaultPose, PrimaryPose, BlendedPose, CurrentPoser.PrimaryPose);
+            ApplyFingerCurls(DefaultPose, PrimaryPose, BlendedPose, poser.PrimaryPose);
 
-            if (CurrentPoser.Blends != null)
+            if (poser.Blends != null)
             {
-                for (int i = 0; i < CurrentPoser.Blends.Count; i++)
+                for (int i = 0; i < poser.Blends.Count; i++)
                 {
-                    var blend = CurrentPoser.Blends[i];
+                    var blend = poser.Blends[i];
 
                     if (blend.Disabled || !blend.Pose)
                     {
@@ -275,7 +305,7 @@ namespace HurricaneVR.Framework.Core.HandPoser
                 }
             }
 
-            ApplyBlend(CurrentPose, BlendedPose, CurrentPoser.PrimaryPose, CurrentPoser.PrimaryPose.Speed);
+            ApplyBlend(CurrentPose, BlendedPose, poser.PrimaryPose, poser.PrimaryPose.Speed);
         }
 
         /// <summary>
@@ -432,24 +462,18 @@ namespace HurricaneVR.Framework.Core.HandPoser
             }
         }
 
-
-
-        public void ResetIfNotDefault()
-        {
-            if (CurrentPoser != DefaultPoser)
-                ResetToDefault();
-        }
-
         public void ResetToDefault()
         {
             DynamicPose = false;
-            if (DefaultPoser != null)
+            _poseHand = DefaultPoseHand;
+            CurrentPoser = DefaultPoser;
+            if (HandHeldPose || !OverridePoser)
             {
-                SetCurrentPoser(DefaultPoser, DefaultPoseHand);
+                SetupPoser(CurrentPoser);
             }
-            else
+            else if (OverridePoser)
             {
-                Debug.Log("Default poser not set.");
+                SetupPoser(OverridePoser);
             }
         }
 
@@ -460,17 +484,61 @@ namespace HurricaneVR.Framework.Core.HandPoser
             PrimaryPose = pose;
             _poseHand = false;
         }
-        public void SetCurrentPoser(HVRHandPoser poser, bool poseHand = true)
+
+        /// <summary>
+        /// Sets or reset (pass null) a poser that will take precedence over framework hover posers, but won't take precedence over held object poses.
+        /// </summary>
+        public virtual void SetOverridePoser(HVRHandPoser poser, bool poseHand = false)
+        {
+            _poseHandOverride = poseHand;
+            OverridePoser = poser;
+
+            if (!poser)
+            {
+                SetupPoser(CurrentPoser);
+            }
+            else if (!HandHeldPose)
+            {
+                SetupPoser(poser);
+            }
+        }
+
+        public void SetHeldPoser(HVRHandPoser poser, bool poseHand = false)
+        {
+            HandHeldPose = true;
+            _poseHand = poseHand;
+            CurrentPoser = poser;
+            SetupPoser(poser);
+        }
+
+        public void OnHeldObjectReleased()
+        {
+            HandHeldPose = false;
+            DynamicPose = false;
+            CurrentPoser = DefaultPoser;
+            _poseHand = DefaultPoseHand;
+            if (OverridePoser)
+            {
+                SetupPoser(OverridePoser);
+            }
+            else
+            {
+                SetupPoser(CurrentPoser);
+            }
+        }
+
+
+        public virtual void SetCurrentPoser(HVRHandPoser poser, bool poseHand = false)
         {
             _poseHand = poseHand;
-            if (!PoseHand)
-            {
-                //hand grabber handles posing the IKTarget since the posable hand component is placed on the avatar itself
-                _poseHand = false;
-            }
-
             CurrentPoser = poser;
-            if (poser == null || poser.PrimaryPose == null) return;
+            if (!OverridePoser || HandHeldPose)
+                SetupPoser(poser);
+        }
+
+        protected virtual void SetupPoser(HVRHandPoser poser)
+        {
+            if (!poser || poser.PrimaryPose == null) return;
 
             PrimaryPose = poser.PrimaryPose.Pose.GetPose(Hand.IsLeft);
 
@@ -487,10 +555,10 @@ namespace HurricaneVR.Framework.Core.HandPoser
                 }
             }
 
-           
+
             for (var i = 0; i < poser.Blends.Count; i++)
             {
-                poser.Blends[i].Value = 0f;  //reset blend weight
+                poser.Blends[i].Value = 0f; //reset blend weight
                 PrimaryPose.CopyTo(Blends[i]); //copy primary pose to the blend pose as a base
             }
         }

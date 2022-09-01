@@ -5,6 +5,10 @@ using UnityEngine;
 
 namespace HurricaneVR.Framework.Components
 {
+    /// <summary>
+    /// Handles offsettings the physics hand target based on the connected device. Also offsets the target based on grab point settings if desired.
+    /// To manage custom offsets please use the SetMiscPositionOffset(Vector3 position, Vector3 rotation) and ResetGrabPointOffsets() functions.
+    /// </summary>
     public class HVRControllerOffset : MonoBehaviour
     {
         /// <summary>
@@ -30,16 +34,20 @@ namespace HurricaneVR.Framework.Components
         public Vector3 ControllerRotationOffset => _offsets != null ? _offsets.Rotation : Vector3.zero;
 
         [Header("Debugging")]
-        public Vector3 TargetGrabPointPositionOffset;
-        public Vector3 TargetGrabPointRotationOffset;
 
-        public Vector3 GrabPointPositionOffset;
-        public Vector3 GrabPointRotationOffset;
-
-        public Vector3 MiscPositionOffset;
-        public Vector3 MiscRotationOffset;
-
+        [Tooltip("Enable to test live updating of the Misc offset fields.")]
         public bool LiveUpdateOffsets;
+
+        [SerializeField] private Vector3 TargetGrabPointPositionOffset;
+        [SerializeField] private Vector3 TargetGrabPointRotationOffset;
+
+        [SerializeField] private Vector3 GrabPointPositionOffset;
+        [SerializeField] private Vector3 GrabPointRotationOffset;
+
+        [SerializeField] private Vector3 MiscPositionOffset;
+        [SerializeField] private Vector3 MiscRotationOffset;
+
+        
         private Quaternion _teleportStartRotation;
 
         public bool _updatingRotation;

@@ -40,6 +40,7 @@ namespace HurricaneVR.Framework.Core.Grabbers
             }
         }
 
+        public HVRGrabbable HeldObject => GrabbedTarget;
 
         public HVRGrabbable GrabbedTarget
         {
@@ -588,7 +589,8 @@ namespace HurricaneVR.Framework.Core.Grabbers
                 if (!grabbableCollider)
                     continue;
 
-                if (!useClosestPoint || grabbable.HasConcaveColliders && grabbableCollider is MeshCollider meshCollider && !meshCollider.convex)
+                if (!useClosestPoint || grabbable.HasConcaveColliders && grabbableCollider is MeshCollider meshCollider && !meshCollider.convex ||
+                    grabbable.HasWheelCollider && grabbableCollider is WheelCollider)
                 {
                     _lineOfSightRay.direction = grabbableCollider.bounds.center - _lineOfSightRay.origin;
                 }

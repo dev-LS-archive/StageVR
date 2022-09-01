@@ -513,6 +513,7 @@ namespace HurricaneVR.Framework.Core.Grabbers
                 rb.velocity = Vector3.ClampMagnitude(rb.velocity, settings.MaxMissSpeed);
                 rb.angularVelocity = Vector3.ClampMagnitude(rb.angularVelocity, settings.MaxMissAngularSpeed);
                 rb.centerOfMass = com;
+                grabbable.IsBeingForcedGrabbed = false;
 
                 if (IsGrabbing)
                 {
@@ -529,8 +530,11 @@ namespace HurricaneVR.Framework.Core.Grabbers
                             ForceRelease();
                         }
                     }
-
-                    grabbable.IsBeingForcedGrabbed = false;
+                    else
+                    {
+                        HandGrabber.EnableHandCollision(grabbable);
+                        ForceRelease();
+                    }
                 }
             }
         }
@@ -761,7 +765,7 @@ namespace HurricaneVR.Framework.Core.Grabbers
 
         private void UpdateGrabIndicator()
         {
-            if (!IsHovering || !_grabIndicator)
+            if (!IsHovering || !_grabIndicator || !HoverTarget.ShowForceGrabIndicator)
                 return;
 
             if (_grabIndicator.LookAtCamera && HVRManager.Instance.Camera)

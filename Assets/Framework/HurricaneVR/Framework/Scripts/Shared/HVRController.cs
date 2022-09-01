@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using HurricaneVR.Framework.ControllerInput;
 using HurricaneVR.Framework.Core;
 using HurricaneVR.Framework.Shared.Utilities;
 using UnityEngine;
@@ -199,7 +200,8 @@ namespace HurricaneVR.Framework.Shared
                     SecondaryTouchButtonState.Active,
                     TrackPadTouchState.Active,
                     JoystickTouchState.Active,
-                    Knuckles);
+                    Knuckles,
+                    HVRInputManager.Instance.IsOpenXR);
             }
         }
 

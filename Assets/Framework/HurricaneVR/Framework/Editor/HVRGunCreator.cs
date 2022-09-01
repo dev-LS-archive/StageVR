@@ -49,7 +49,7 @@ namespace HurricaneVR.Editor
         private float _gunMass = 1.5f;
         private float _bulletSpeed = 80f;
         private int _rpm = 900;
-        private FireType _firingType;
+        private GunFireType _firingType;
 
         private HVRHandPose _gripPose;
         private HVRHandPose _stabilizerPose;
@@ -128,7 +128,7 @@ namespace HurricaneVR.Editor
 
             HVREditorExtensions.IntField("Rounds Per Minute", ref _rpm);
             HVREditorExtensions.FloatField("Bullet Speed", ref _bulletSpeed);
-            _firingType = (FireType)EditorGUILayout.EnumPopup("Firing Mode", _firingType);
+            _firingType = (GunFireType)EditorGUILayout.EnumPopup("Firing Mode", _firingType);
             var currentType = _gunType;
             _gunType = (HVRGunType)EditorGUILayout.EnumPopup("Type", _gunType);
             _hitLayerMask = LayerMaskDrawer.LayerMaskField("Hit Layer Mask", _hitLayerMask);

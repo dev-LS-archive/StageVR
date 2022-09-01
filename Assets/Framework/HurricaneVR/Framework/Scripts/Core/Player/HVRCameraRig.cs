@@ -16,8 +16,7 @@ namespace HurricaneVR.Framework.Core.Player
         /// <summary>
         /// HMD transform used to detect HMD movement at start
         /// </summary>
-        [Header("Required Transforms")]
-        public Transform Camera;
+        [Header("Required Transforms")] public Transform Camera;
 
         /// <summary>
         /// Camera rig child used to offset the Y height of the HMD.
@@ -32,15 +31,13 @@ namespace HurricaneVR.Framework.Core.Player
         /// <summary>
         /// Manually setting this will raise / lower the HMD
         /// </summary>
-        [Header("Manual Camera Offsetting")]
-        [Tooltip("Manually modify the camera height if needed")]
+        [Header("Manual Camera Offsetting")] [Tooltip("Manually modify the camera height if needed")]
         public float CameraYOffset;
 
         /// <summary>
         /// Used with height calibration to define the virtual player's HMD sight line.
         /// </summary>
-        [FormerlySerializedAs("PlayerHeight")]
-        [Tooltip("Height of the virtual player")]
+        [FormerlySerializedAs("PlayerHeight")] [Tooltip("Height of the virtual player")]
         public float EyeHeight = 1.66f;
 
         /// <summary>
@@ -48,19 +45,14 @@ namespace HurricaneVR.Framework.Core.Player
         /// Standing - CameraScale is scaled based on the ratio of EyeHeight / HMD height.
         /// PlayerHeight - No offsetting or scaling performed.
         /// </summary>
-        [Tooltip("Sitting or standing mode")]
-        public HVRSitStand SitStanding = HVRSitStand.PlayerHeight;
+        [Tooltip("Sitting or standing mode")] public HVRSitStand SitStanding = HVRSitStand.PlayerHeight;
 
-        [Header("Debug Height Offsets")]
-
-        [Tooltip("If true, use up and down arrow to change YOffset to help with testing.")]
+        [Header("Debug Height Offsets")] [Tooltip("If true, use up and down arrow to change YOffset to help with testing.")]
         public bool DebugKeyboardOffset;
+
         public float DebugKeyboardIncrement = .25f;
 
         [Header("Debug Height Calibration")]
-
-      
-
         /// <summary>
         /// Calibration height is saved to player prefs when height is calibrated.
         /// </summary>
@@ -90,7 +82,6 @@ namespace HurricaneVR.Framework.Core.Player
         public KeyCode RecalibrateKey = KeyCode.R;
 
 #elif ENABLE_INPUT_SYSTEM
-
         public Key HeightCalibrateKey = Key.R;
 
 #endif
@@ -98,8 +89,7 @@ namespace HurricaneVR.Framework.Core.Player
         /// <summary>
         /// Set by the player controller to raise / lower the camera rig when performing a input driven crouch.
         /// </summary>
-        [Header("For Debugging Display only")]
-        public float PlayerControllerYOffset = 0f;
+        [Header("For Debugging Display only")] public float PlayerControllerYOffset = 0f;
 
         /// <summary>
         /// Floor offset height adjusted by the Standing camera scale (if any).
@@ -202,16 +192,18 @@ namespace HurricaneVR.Framework.Core.Player
         {
             if (IsMine)
             {
+                if (DebugKeyboardOffset)
+                {
 #if ENABLE_LEGACY_INPUT_MANAGER
 
-                if (DebugKeyboardOffset && UnityEngine.Input.GetKeyDown(KeyCode.DownArrow))
-                {
-                    CameraYOffset += -DebugKeyboardIncrement;
-                }
-                else if (DebugKeyboardOffset && UnityEngine.Input.GetKeyDown(KeyCode.UpArrow))
-                {
-                    CameraYOffset += DebugKeyboardIncrement;
-                }
+                    if (UnityEngine.Input.GetKeyDown(KeyCode.DownArrow))
+                    {
+                        CameraYOffset += -DebugKeyboardIncrement;
+                    }
+                    else if (UnityEngine.Input.GetKeyDown(KeyCode.UpArrow))
+                    {
+                        CameraYOffset += DebugKeyboardIncrement;
+                    }
 #elif ENABLE_INPUT_SYSTEM
                 if (Keyboard.current[Key.UpArrow].wasPressedThisFrame)
                 {
@@ -222,6 +214,7 @@ namespace HurricaneVR.Framework.Core.Player
                     CameraYOffset += -DebugKeyboardIncrement;
                 }
 #endif
+                }
 
                 if (DebugKeyboardRecalibrate)
                 {
@@ -314,6 +307,8 @@ namespace HurricaneVR.Framework.Core.Player
 
     public enum HVRDebugCalibrate
     {
-        None, HMDMoved, Immediately
+        None,
+        HMDMoved,
+        Immediately
     }
 }

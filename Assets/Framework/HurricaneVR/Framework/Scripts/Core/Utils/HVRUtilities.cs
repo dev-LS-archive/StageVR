@@ -142,11 +142,16 @@ namespace HurricaneVR.Framework.Core.Utils
         public static Bounds GetColliderBounds(this Collider[] colliders)
         {
             var bounds = new Bounds();
+            var first = true;
             for (var i = 0; i < colliders.Length; i++)
             {
                 var collider = colliders[i];
-                if (i == 0)
+
+                if (!collider.enabled) continue;
+
+                if (first)
                 {
+                    first = false;
                     bounds = collider.bounds;
                 }
                 else
@@ -256,11 +261,12 @@ namespace HurricaneVR.Framework.Core.Utils
 
         public static T EnsureComponent<T>(this GameObject obj) where T : UnityEngine.Component
         {
-            var temp = obj.GetComponent<T>();
-            if (temp)
-                return temp;
+            if (!obj.TryGetComponent(out T component))
+            {
+                component = obj.AddComponent<T>();
+            }
 
-            return obj.AddComponent<T>();
+            return component;
         }
 
         public static T EnsureComponent<T>(this Transform t) where T : UnityEngine.Component

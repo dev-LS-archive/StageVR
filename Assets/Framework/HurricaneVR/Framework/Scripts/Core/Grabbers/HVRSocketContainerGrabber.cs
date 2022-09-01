@@ -6,6 +6,10 @@ using UnityEngine;
 
 namespace HurricaneVR.Framework.Core.Grabbers
 {
+
+    /// <summary>
+    /// Grabber that uses a HVRSocketContainer as a target of the grab. Main uses are over the shoulder or chest collection type inventories
+    /// </summary>
     public class HVRSocketContainerGrabber : HVRGrabberBase
     {
         public HVRSocketContainer SocketContainer;

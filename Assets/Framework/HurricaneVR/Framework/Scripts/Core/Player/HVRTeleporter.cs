@@ -214,7 +214,7 @@ namespace HurricaneVR.Framework.Core.Player
         /// </summary>
         public int LastIndex { get; protected set; }
 
-        public Transform TeleportLineSource => TeleportHand == HVRHandSide.Left ? TeleportLineSourceLeft : TeleportLineSourceRight;
+        public virtual Transform TeleportLineSource => TeleportHand == HVRHandSide.Left ? TeleportLineSourceLeft : TeleportLineSourceRight;
 
         /// <summary>
         /// Did the forward raycast find a valid teleportable location
@@ -409,7 +409,7 @@ namespace HurricaneVR.Framework.Core.Player
                 return;
             }
 
-            if (IsTeleportActivated())
+            if (!IsAiming && IsTeleportActivated())
             {
                 OnTeleportActivated();
             }

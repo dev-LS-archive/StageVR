@@ -8,6 +8,9 @@ using UnityEngine.Serialization;
 
 namespace HurricaneVR.Framework.Components
 {
+    /// <summary>
+    /// Simple component to help setup a joint constrained on one axis. With bonus rotation friction option when held.
+    /// </summary>
     [RequireComponent(typeof(Rigidbody))]
     public class HVRPhysicsDial : MonoBehaviour
     {
@@ -21,6 +24,7 @@ namespace HurricaneVR.Framework.Components
         [Tooltip("If true the angular velocity will be zero'd out on release.")]
         public bool StopOnRelease = true;
 
+        [Tooltip("Defaults to true to prevent rotation when not held")]
         public bool DisableGravity = true;
 
         [Header("Joint Limits")]
@@ -39,6 +43,7 @@ namespace HurricaneVR.Framework.Components
         [Tooltip("Angular Damper when the dial is not grabbed")]
         public float Damper = 3;
 
+        [Tooltip("Optional spring value of the joint to return to starting rotation if desired")]
         public float Spring;
 
         [Header("Editor")]
@@ -67,18 +72,7 @@ namespace HurricaneVR.Framework.Components
                 Grabbable.HandReleased.AddListener(OnDialReleased);
             }
 
-            if (MinAngle > 0)
-            {
-                MinAngle *= -1;
-            }
-
-            if (MaxAngle < 0)
-            {
-                MaxAngle *= -1;
-            }
-
-            MinAngle = Mathf.Clamp(MinAngle, MinAngle, 0);
-            MaxAngle = Mathf.Clamp(MaxAngle, 0, MaxAngle);
+            FixAngle(ref MinAngle, ref MaxAngle);
 
             SetupJoint();
             AfterJointCreated(Joint);
@@ -94,7 +88,7 @@ namespace HurricaneVR.Framework.Components
             if (TargetAngularVelocity > 0f || TargetAngularVelocity < 0f) Joint.targetAngularVelocity = new Vector3(TargetAngularVelocity, 0f, 0f);
         }
 
-        private void OnDialReleased(HVRHandGrabber arg0, HVRGrabbable arg1)
+        protected virtual void OnDialReleased(HVRHandGrabber arg0, HVRGrabbable arg1)
         {
             Joint.SetAngularXDrive(Spring, Damper, 10000f);
             if (StopOnRelease)
@@ -103,7 +97,7 @@ namespace HurricaneVR.Framework.Components
             }
         }
 
-        private void OnDialGrabbed(HVRHandGrabber arg0, HVRGrabbable arg1)
+        protected virtual void OnDialGrabbed(HVRHandGrabber arg0, HVRGrabbable arg1)
         {
             Joint.SetAngularXDrive(0f, GrabbedDamper, 10000f);
         }
@@ -142,18 +136,53 @@ namespace HurricaneVR.Framework.Components
 
         }
 
+        /// <summary>
+        /// Sets the rotation limits on the Joint's main rotation axis
+        /// </summary>
         public void SetLimits(float minAngle, float maxAngle)
         {
+            FixAngle(ref minAngle, ref maxAngle);
+
             Joint.LimitAngularXMotion();
             Joint.SetAngularXHighLimit(minAngle);
             Joint.SetAngularXLowLimit(maxAngle);
         }
 
+        /// <summary>
+        /// Resets the limit's to the -MinAngle and MaxAngle values of this component.
+        /// </summary>
         public void ResetLimits()
         {
             Joint.LimitAngularXMotion();
             Joint.SetAngularXHighLimit(-MinAngle);
             Joint.SetAngularXLowLimit(-MaxAngle);
+        }
+
+        /// <summary>
+        /// Frees the axis of rotation
+        /// </summary>
+        public void RemoveLimits()
+        {
+            Joint.angularXMotion = ConfigurableJointMotion.Free;
+        }
+
+        /// <summary>
+        /// Sanity check on the angles for the joint high and low settings
+        /// </summary>
+        private void FixAngle(ref float min, ref float max)
+        {
+            if (min > 0)
+            {
+                min *= -1;
+            }
+
+            if (max < 0)
+            {
+                max *= -1;
+            }
+
+            min = Mathf.Clamp(min, min, 0);
+            max = Mathf.Clamp(max, 0, max);
         }
     }
 }

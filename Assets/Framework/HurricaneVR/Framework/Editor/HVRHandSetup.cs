@@ -207,8 +207,8 @@ namespace HurricaneVR
                 Left.localPosition = Vector3.zero;
                 Right.localPosition = Vector3.zero;
 
-                var leftPrefab = PrefabUtility.SaveAsPrefabAssetAndConnect(Left.gameObject, "Assets/LeftHandPrefab.prefab", InteractionMode.UserAction);
-                var rightPrefab = PrefabUtility.SaveAsPrefabAssetAndConnect(Right.gameObject, "Assets/RightHandPrefab.prefab", InteractionMode.UserAction);
+                var leftPrefab = PrefabUtility.SaveAsPrefabAssetAndConnect(Left.gameObject, $"Assets/{Left.name}.prefab", InteractionMode.UserAction);
+                var rightPrefab = PrefabUtility.SaveAsPrefabAssetAndConnect(Right.gameObject, $"Assets/{Right.name}.prefab", InteractionMode.UserAction);
 
                 var so = new SerializedObject(HVRSettings.Instance);
                 var left = so.FindProperty("LeftHand");
@@ -248,6 +248,35 @@ namespace HurricaneVR
                 SetupFallback(rightHand);
 
                 PosesAssigned = true;
+
+                EditorApplication.delayCall += () =>
+                {
+                    var leftPath = PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(LeftPhysics.gameObject);
+                    var rightPath = PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(RightPhysics.gameObject);
+                    Debug.Log($"Applying pose overrides to {leftPath} and {rightPath}.");
+                    PrefabUtility.ApplyObjectOverride(LeftPhysics, leftPath, InteractionMode.AutomatedAction);
+                    PrefabUtility.ApplyObjectOverride(RightPhysics, rightPath, InteractionMode.AutomatedAction);
+                    PrefabUtility.ApplyObjectOverride(LeftPoser, leftPath, InteractionMode.AutomatedAction);
+                    PrefabUtility.ApplyObjectOverride(RightPoser, rightPath, InteractionMode.AutomatedAction);
+
+                    //if (leftHand.FallbackPoser)
+                    //{
+                    //    var so = new SerializedObject(leftHand.FallbackPoser);
+                    //    var blend = so.FindProperty("PrimaryPose");
+                    //    var pose = blend.FindPropertyRelative("Pose");
+
+                    //    PrefabUtility.ApplyPropertyOverride(pose, leftPath, InteractionMode.AutomatedAction);
+                    //}
+
+                    //if (rightHand.FallbackPoser)
+                    //{
+                    //    var so = new SerializedObject(rightHand.FallbackPoser);
+                    //    var blend = so.FindProperty("PrimaryPose");
+                    //    var pose = blend.FindPropertyRelative("Pose");
+
+                    //    PrefabUtility.ApplyPropertyOverride(pose, rightPath, InteractionMode.AutomatedAction);
+                    //}
+                };
             }
 
 
@@ -454,8 +483,8 @@ namespace HurricaneVR
 
             if (GUILayout.Button("Detect Mirror"))
             {
-                LeftHand.DetectBoneAxes(RightHand, LeftHand.transform.parent.forward, LeftHand.transform.parent.up);
-                RightHand.DetectBoneAxes(LeftHand, LeftHand.transform.parent.forward, LeftHand.transform.parent.up);
+                DetectBoneAxes(LeftHand, RightHand, LeftHand.transform.parent.forward, LeftHand.transform.parent.up);
+                DetectBoneAxes(RightHand, LeftHand, LeftHand.transform.parent.forward, LeftHand.transform.parent.up);
 
                 _badMirrorText = "";
                 _badMirror = false;
@@ -475,6 +504,40 @@ namespace HurricaneVR
                                          $"Bend the offending fingers so that each bone's forward and up axes align more closely with the parent object's forward and up axes.\r\n\r\n" +
                                          $"{_badMirrorText}", helpBoxStyle);
             }
+        }
+
+        public void DetectBoneAxes(HVRPosableHand hand, HVRPosableHand otherHand, Vector3 forward, Vector3 up)
+        {
+            var so = new SerializedObject(hand);
+            var fingers = so.FindProperty("_fingers");
+
+            for (var i = 0; i < fingers.arraySize; i++)
+            {
+                var spFinger = fingers.GetArrayElementAtIndex(i);
+                var spBones = spFinger.FindPropertyRelative("Bones");
+
+                for (var j = 0; j < spBones.arraySize; j++)
+                {
+                    var spBone = spBones.GetArrayElementAtIndex(j);
+                    var bone = hand.Fingers[i].Bones[j];
+                    var targetBone = otherHand.Fingers[i].Bones[j];
+
+                    // Get local orthogonal axes of the right hand pointing forward and up
+                    var axis1 = HVRPosableHand.GetSignedAxisVectorToDirection(bone.Transform.rotation, forward);
+                    var axis2 = HVRPosableHand.GetSignedAxisVectorToDirection(bone.Transform.rotation, up);
+
+                    var targetAxis1 = HVRPosableHand.GetSignedAxisVectorToDirection(targetBone.Transform.rotation, forward);
+                    var targetAxis2 = HVRPosableHand.GetSignedAxisVectorToDirection(targetBone.Transform.rotation, up);
+
+                    spBone.FindPropertyRelative(nameof(HVRPosableBone.Forward)).vector3Value = axis1;
+                    spBone.FindPropertyRelative(nameof(HVRPosableBone.Up)).vector3Value = axis2;
+                    spBone.FindPropertyRelative(nameof(HVRPosableBone.OtherForward)).vector3Value = targetAxis1;
+                    spBone.FindPropertyRelative(nameof(HVRPosableBone.OtherUp)).vector3Value = targetAxis2;
+
+                }
+            }
+
+            so.ApplyModifiedProperties();
         }
 
         private void ValidateMirrorSettings(HVRPosableHand hand)
@@ -514,9 +577,8 @@ namespace HurricaneVR
                 " The default order matches most hand rigs. If your hand has less than 5 fingers, set those slots to 'None'\r\n" +
                 "\r\n3. Update the bone count for each finger.\r\n" +
                 "\r\n4. Some hand rigs may have an uneven hierarchy, update the Root Offset field with the # of bones between the parent and first bone.\r\n" +
-                "\r\n5. If the finger has Tip / End transforms already, enable 'Has Tip', otherwise they will be auto generated on the last bone.\r\n" +
-                "\r\n6. Press Setup and verify each HVRPosableHand fingers have the proper Root, Tip, and Bone counts assigned. Move the tip transforms to the center of the finger pad.\r\n" +
-                "\r\n7. Move the 'Palm' transforms that were added to the hands to the center of the palm (barely touching the surface) with the forward (blue) axis facing out of the palm.", helpBoxStyle);
+                "\r\n5. Press Setup and verify each HVRPosableHand fingers have the proper Root, Tip, and Bone counts assigned. Move the tip transforms to the center of the finger pad.\r\n" +
+                "\r\n6. Move the 'Palm' transforms that were added to the hands to the center of the palm (barely touching the surface) with the forward (blue) axis facing out of the palm.", helpBoxStyle);
 
             //int i = 0;
             //bool up = false;
@@ -532,7 +594,6 @@ namespace HurricaneVR
                 HVREditorExtensions.EnumField("Finger", ref s.Finger);
                 HVREditorExtensions.IntField("Bones", ref s.BoneCount);
                 HVREditorExtensions.IntField("Root Offset", ref s.BoneOffset);
-                HVREditorExtensions.Toggle("Has Tip", ref s.HasTip);
 
                 //if (GUILayout.Button("^"))
                 //{
@@ -673,7 +734,6 @@ namespace HurricaneVR
 
 
             animator.DefaultPoseHand = false;
-            animator.PoseHand = true;
             animator.PhysicsPoser = physicsPoser;
             animator.Hand = hand;
             animator.DefaultPoser = poser;
@@ -725,34 +785,24 @@ namespace HurricaneVR
 
                 if (finger.Bones.Count > 0)
                 {
-                    if (!s.HasTip)
+                    var last = finger.Bones.Last();
+                    var tipName = s.Finger.ToString() + " Tip";
+                    var existing = last.Transform.Find(tipName);
+
+                    if (!existing)
                     {
-                        var last = finger.Bones.Last();
-                        var tipName = s.Finger.ToString() + " Tip";
-                        var existing = last.Transform.Find(tipName);
+                        var tip = new GameObject(tipName);
+                        tip.transform.parent = last.Transform;
+                        tip.transform.ResetLocalProps();
+                        finger.Tip = tip.transform;
 
-                        if (!existing)
-                        {
-                            var tip = new GameObject(tipName);
-                            tip.transform.parent = last.Transform;
-                            tip.transform.ResetLocalProps();
-                            finger.Tip = tip.transform;
-
-                            Undo.RegisterCreatedObjectUndo(tip, $"Add {tipName} to {last.Transform.name}");
-                        }
-                        else
-                        {
-                            finger.Tip = existing;
-                        }
+                        Undo.RegisterCreatedObjectUndo(tip, $"Add {tipName} to {last.Transform.name}");
                     }
                     else
                     {
-                        var last = finger.Bones.Last();
-                        if (s.HasTip && last.Transform.childCount > 0)
-                        {
-                            finger.Tip = last.Transform.GetChild(0);
-                        }
+                        finger.Tip = existing;
                     }
+
 
                     finger.Root = finger.Bones[0].Transform;
                 }
@@ -825,7 +875,6 @@ namespace HurricaneVR
         public Finger Finger;
         public int BoneCount = 3;
         public int BoneOffset = 0;
-        public bool HasTip = false;
         public int Index;
     }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using HurricaneVR.Framework.ControllerInput;
 using UnityEngine;
 
 namespace HurricaneVR.Framework.Shared
@@ -59,7 +60,7 @@ namespace HurricaneVR.Framework.Shared
         public float PinkyTotal => JoystickTouchWeight.Pinky + TrackpadTouchWeight.Pinky + PrimaryTouchWeight.Pinky + SecondaryTouchWeight.Pinky +
                                    TriggerTouchWeight.Pinky + GripWeight.Pinky + TriggerWeight.Pinky;
 
-        public void Evaluate(float[] curls, float grip, float trigger, bool triggerTouch, bool primaryTouch, bool secondaryTouch, bool trackpadTouch, bool joystickTouch, bool knuckles)
+        public void Evaluate(float[] curls, float grip, float trigger, bool triggerTouch, bool primaryTouch, bool secondaryTouch, bool trackpadTouch, bool joystickTouch, bool knuckles, bool isOpenXR)
         {
             var joystick = joystickTouch ? 1f : 0f;
             var trackPad = trackpadTouch ? 1f : 0f;
@@ -83,7 +84,8 @@ namespace HurricaneVR.Framework.Shared
                           GripWeight.Index * grip +
                           TriggerWeight.Index * trigger;
 
-            if (!knuckles || KnucklesOverrideGripFingers)
+            //until openxr has index finger curls supplied (if ever..)
+            if (!knuckles || (KnucklesOverrideGripFingers || isOpenXR))
             {
                 curls[2] = JoystickTouchWeight.Middle * joystick +
                            TrackpadTouchWeight.Middle * trackPad +

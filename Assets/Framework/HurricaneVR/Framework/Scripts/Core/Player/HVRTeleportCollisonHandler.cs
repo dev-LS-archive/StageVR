@@ -382,7 +382,7 @@ namespace HurricaneVR.Framework.Core.Player
 
             hand.Rigidbody.position = origin.position;
 
-            var bounds = hand.Rigidbody.GetColliderBounds();
+            var bounds = hand.HandPhysics.HandColliders.GetColliderBounds();
             var maxSide = Mathf.Max(bounds.size.x, bounds.size.y, bounds.size.z);
             var start = bounds.center;
             var length = Vector3.Distance(target, start);
@@ -437,7 +437,7 @@ namespace HurricaneVR.Framework.Core.Player
                 hand.transform.position = hand.Rigidbody.position = target;
             }
 
-            bounds = hand.Rigidbody.GetColliderBounds();
+            bounds = hand.HandPhysics.HandColliders.GetColliderBounds();
 
             if (VerboseDebug) DrawSweepLines(hand, start, direction, length);
             if (VerboseDebug) CastEnd(hand, bounds, start, direction, length);
@@ -676,7 +676,7 @@ namespace HurricaneVR.Framework.Core.Player
 
         private void Backout(HVRHandGrabber hand, HVRGrabbable g, Vector3 direction, HVRTeleportOptions options)
         {
-            var bounds = hand.Rigidbody.GetColliderBounds();
+            var bounds = hand.HandPhysics.HandColliders.GetColliderBounds();
 
             if (options && options.CustomBoundingBox)
             {
@@ -709,7 +709,7 @@ namespace HurricaneVR.Framework.Core.Player
 
             if (VerboseDebug)
             {
-                bounds = hand.Rigidbody.GetColliderBounds();
+                bounds = hand.HandPhysics.HandColliders.GetColliderBounds();
 
                 if (options && options.CustomBoundingBox)
                 {
@@ -757,7 +757,7 @@ namespace HurricaneVR.Framework.Core.Player
         }
 
         #endregion
-      
+
 
         #region Debugging
 
