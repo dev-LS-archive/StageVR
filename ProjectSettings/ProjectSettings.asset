@@ -88,7 +88,7 @@ PlayerSettings:
   bakeCollisionMeshes: 0
   forceSingleInstance: 0
   useFlipModelSwapchain: 1
-  resizableWindow: 0
+  resizableWindow: 1
   useMacAppStoreValidation: 0
   macAppStoreCategory: public.app-category.games
   gpuSkinning: 1
@@ -147,8 +147,18 @@ PlayerSettings:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 5092653998284208858, guid: 465df5ed5ec3d3f4abf47a306196f71a, type: 2}
-  - {fileID: 1199786010737972748, guid: 9c587fdd78edb214d8ebaa6bbe6b270f, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   - {fileID: 0}
   metroInputSource: 0
   wsaTransparentSwapchain: 0
@@ -440,13 +450,13 @@ PlayerSettings:
     m_Automatic: 0
   - m_BuildTarget: MacStandaloneSupport
     m_APIs: 10000000
-    m_Automatic: 1
+    m_Automatic: 0
   - m_BuildTarget: WindowsStandaloneSupport
-    m_APIs: 02000000
+    m_APIs: 020000000b000000
     m_Automatic: 1
   - m_BuildTarget: LinuxStandaloneSupport
     m_APIs: 1100000015000000
-    m_Automatic: 1
+    m_Automatic: 0
   m_BuildTargetVRSettings: []
   openGLRequireES31: 0
   openGLRequireES31AEP: 0
@@ -744,7 +754,8 @@ PlayerSettings:
   scriptingBackend:
     Standalone: 1
   il2cppCompilerConfiguration: {}
-  managedStrippingLevel: {}
+  managedStrippingLevel:
+    Standalone: 3
   incrementalIl2cppBuild: {}
   suppressCommonWarnings: 1
   allowUnsafeCode: 0
