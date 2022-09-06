@@ -86,7 +86,6 @@ namespace HurricaneVR.Framework.ControllerInput
                 SetBool(out TrackPadTouch, InputActions.LeftHand.Secondary2DAxisTouch);
 
                 SetBool(out TriggerTouch, InputActions.LeftHand.TriggerTouch);
-
                 SetBool(out MenuButton, InputActions.LeftHand.Menu);
 
                 SetBool(out GripButton, InputActions.LeftHand.GripPress);

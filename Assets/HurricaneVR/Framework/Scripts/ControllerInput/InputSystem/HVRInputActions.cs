@@ -277,6 +277,17 @@ public partial class @HVRInputActions : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""8c7a9d5e-0264-426c-ad96-fa7e8b53cef5"",
+                    ""path"": ""<OculusTouchController>/menu"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Menu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""54ac7ab0-8ca9-4cbc-a6d1-da5ee0b055cb"",
                     ""path"": ""<XRController>{LeftHand}/{primary2DAxis}"",
                     ""interactions"": """",
