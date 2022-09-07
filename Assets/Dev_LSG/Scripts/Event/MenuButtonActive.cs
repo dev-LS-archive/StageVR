@@ -1,35 +1,41 @@
 using HurricaneVR.Framework.ControllerInput;
+using HurricaneVR.TechDemo.Scripts;
 using UnityEngine;
 
 namespace Dev_LSG.Scripts.Event
 {
-    [RequireComponent(typeof(HVRControllerEvents))]
-    public class ButtonActive : MonoBehaviour
+    [RequireComponent(typeof(DemoCodeGrabbing))]
+    public class MenuButtonActive : MonoBehaviour
     {
         public GameObject menu;
         public Transform uiPos;
-        private HVRControllerEvents events;
+        private DemoCodeGrabbing _grabbing;
 
         private void Awake()
         {
-            if (events == null)
-                events = GetComponent<HVRControllerEvents>();
+            if (_grabbing == null)
+                _grabbing = GetComponent<DemoCodeGrabbing>();
         }
 
         private void OnEnable()
         {
-            events.LeftMenuActivated.AddListener(MenuAct);
+            HVRControllerEvents.Instance.LeftMenuActivated.AddListener(MenuAct);
         }
 
         private void OnDisable()
         {
-            events.LeftMenuActivated.RemoveListener(MenuAct);
+            HVRControllerEvents.Instance.LeftMenuActivated.RemoveListener(MenuAct);
         }
 
         void MenuAct()
         {
             menu.transform.position = uiPos.position;
             menu.transform.rotation = uiPos.rotation;
+
+            if (menu.activeSelf)
+            {
+                _grabbing.Grab();
+            }
             
             menu.gameObject.SetActive(menu.activeSelf != true);
         }
