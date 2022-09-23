@@ -1,17 +1,59 @@
 Beautify for Universal Rendering Pipeline!
 
 Requirements:
-- Unity 2019.3 or later
-- Universal RP 7.2.0 or later (install it from Package Manager)
+- Unity 2020.3.16 or later
+- Universal RP 10.5.1 or later (install it from Package Manager)
 
-Read the PDF quick start guide for details or check this video: https://youtu.be/6fpeiysj6KM
-
+Please check the Documentation folder for detailed setup instructions and more details.
 To use Beautify, add Beautify override to a Post Processing Volume and customize!
+Setup video: https://youtu.be/6fpeiysj6KM
 
 
-Change log:
+Change Log
+----------
 
 Current version
+- Added "Downscale Mode" option
+
+Version 10.2
+- Edge Antialias: added "Max Spread" option
+
+Version 10.1
+- Added "Motion Restore Speed". Improved accuracy of motion sensibility.
+- Edge Antialias: added "Depth Attenuation". Reduces antialias effect on distance
+
+Version 10.0
+- Added "Edge Antialiasing" option
+- Frame: added "Cinematic Bands" style
+- Bloom: added "Bloom Spread" option
+- Bloom: added "Quicker Blur" option
+- Bloom: uncapped "Depth Attenuation" limit
+- Anamorphic Flares: added "Quicker Blur" option
+- Anamorphic Flares: uncapped "Depth Attenuation" limit
+- Outline: added "Outline Depth Fade" option (requires "Outline Customize" to be enabled)
+- Chromatic Aberration: added "Hue Shift" parameter
+- Chromatic Aberration: added CHROMATIC_ABERRATION_ALT shader option (see documentation)
+- Depth of field: improved foreground blur effect
+- Depth of field: improved bokeh effect in Single Pass Instanced mode
+- Added "Camera Layer Mask" to the render feature. This option let you specify which cameras can render Beautify effects
+- Volume inspector GUI performance optimizations
+- [Fix] Fixed bloom & anamorphic flares not showing in secondary camera on VR setups
+- [Fix] Fixes for Unity 2022.2 beta
+
+Version 9.0.1
+- Direct Write to Camera option works again (requires Unity 2021.3.3 or later)
+
+Version 9.0
+- Added "Ignore Post Processing Option" in Beautify Render Feature so no need to enable Post Processing option in cameras
+- Added "Flip Vertically" option to compensate vertical flip in 2D renderer with camera stacking
+- [Fix] Sun flares now use the direction set by the assigned Sun transform and not the main directional light
+- [Fix] Fixed flipped input image with 2D renderer and camera stacking
+
+Version 8.9
+- Added new options to compare mode
+- Added LUT 3D texture support and option to import CUBE LUT format
+
+Version 8.8.1
 - Change: adjusted opacity of vignette mask plus vignette color alpha now controls overall opacity as well
 
 Version 8.8

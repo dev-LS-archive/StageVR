@@ -67,14 +67,11 @@ namespace Beautify.Universal {
                     _instance = FindObjectOfType<BeautifySettings>();
                     if (_instance == null) {
                         // Check if there's a single volume component, then add BeautifySettings singleton to that gameobject
-                        // otherwise create a new dedicated gameobject
                         _beautifyVolume = FindBeautifyVolume();
-                        GameObject go;
                         if (_beautifyVolume == null) {
                             return null;
                         }
-
-                        go = _beautifyVolume.gameObject;
+                        GameObject go = _beautifyVolume.gameObject;
                         _instance = go.GetComponent<BeautifySettings>();
                         if (_instance == null) {
                             _instance = go.AddComponent<BeautifySettings>();
@@ -232,6 +229,7 @@ namespace Beautify.Universal {
                 beautify.stripBeautifyDoFTransparentSupport.value = false;
                 beautify.stripBeautifyLensDirt.value = false;
                 beautify.stripBeautifyLUT.value = false;
+                beautify.stripBeautifyLUT3D.value = false;
                 beautify.stripBeautifyOutline.value = false;
                 beautify.stripBeautifyNightVision.value = false;
                 beautify.stripBeautifyColorTweaks.value = false;
@@ -241,6 +239,9 @@ namespace Beautify.Universal {
                 beautify.stripBeautifySharpen.value = false;
                 beautify.stripBeautifyEyeAdaptation.value = false;
                 beautify.stripBeautifyVignetting.value = false;
+            }
+            if (beautify.stripBeautifyEdgeAA.value || (auto && beautify.antialiasStrength.value <= 0)) {
+                sb.Append(BeautifyRendererFeature.SKW_EDGE_ANTIALIASING);
             }
             if (beautify.stripBeautifyBloom.value || (auto && beautify.bloomIntensity.value <= 0)) {
                 sb.Append(BeautifyRendererFeature.SKW_BLOOM);
@@ -256,6 +257,10 @@ namespace Beautify.Universal {
                 sb.Append(BeautifyRendererFeature.SKW_DIRT);
             }
             bool usesLUT = beautify.lut.value && beautify.lutTexture.value != null;
+            bool usesLUT3D = usesLUT && beautify.lutTexture.value is Texture3D;
+            if (beautify.stripBeautifyLUT3D.value || (auto && !usesLUT3D)) {
+                sb.Append(BeautifyRendererFeature.SKW_LUT3D);
+            }
             if (beautify.stripBeautifyLUT.value || (auto && !usesLUT)) {
                 sb.Append(BeautifyRendererFeature.SKW_LUT);
             }
@@ -309,8 +314,14 @@ namespace Beautify.Universal {
             if (beautify.stripUnityFilmGrain.value || stripUnityPPS) {
                 sb.Append("_FILM_GRAIN");
             }
+            if (beautify.stripUnityDithering.value || stripUnityPPS) {
+                sb.Append("_DITHERING");
+            }
             if (beautify.stripUnityTonemapping.value || stripUnityPPS) {
-                sb.Append("_TONEMAP_ACES");
+                sb.Append("_TONEMAP_ACES _TONEMAP_NEUTRAL");
+            }
+            if (beautify.stripUnityDebugVariants.value || stripUnityPPS) {
+                sb.Append("DEBUG_DISPLAY");
             }
             PlayerPrefs.SetString(PLAYER_PREF_KEYNAME, sb.ToString());
         }

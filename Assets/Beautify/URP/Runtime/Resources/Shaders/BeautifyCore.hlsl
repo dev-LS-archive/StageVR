@@ -19,6 +19,7 @@
     TEXTURE2D_X(_ScreenLum);
     TEXTURE2D(_OverlayTex);
     TEXTURE2D(_LUTTex);
+    TEXTURE3D(_LUT3DTex);
     TEXTURE2D_X(_EAHist);
     TEXTURE2D_X(_EALumSrc);
     TEXTURE2D(_BlueNoise);
@@ -41,6 +42,7 @@
     float3 _ColorTemp;
     float4 _NightVision;
     float4 _LUTTex_TexelSize;
+    float2 _LUT3DParams;
 
     #if BEAUTIFY_VIGNETTING || BEAUTIFY_VIGNETTING_MASK
         float4 _Vignetting;
@@ -56,6 +58,7 @@
     #if BEAUTIFY_FRAME || BEAUTIFY_FRAME_MASK
         TEXTURE2D_X(_FrameMask);
         float4 _Frame;
+        float4 _FrameData;
     #endif
 
     #if BEAUTIFY_DOF_TRANSPARENT || BEAUTIFY_DEPTH_OF_FIELD
@@ -67,6 +70,16 @@
         //TEXTURE2D_X(_DofExclusionTexture;
     #endif
 
+	#if defined(BEAUTIFY_EDGE_AA)
+		float4 _AntialiasData;
+		#define ANTIALIAS_STRENGTH _AntialiasData.x
+		#define ANTIALIAS_THRESHOLD _AntialiasData.y
+		#define ANTIALIAS_DEPTH_ATTEN _AntialiasData.z
+		#define ANTIALIAS_CLAMP _AntialiasData.w
+	#endif
+
+
+
  	struct VaryingsBeautify {
     	float4 positionCS : SV_POSITION;
     	float2 uv  : TEXCOORD0;
@@ -75,12 +88,12 @@
 	};
 
 
-	VaryingsBeautify VertBeautify(Attributes input) {
+	VaryingsBeautify VertBeautify(AttributesSimple input) {
 	    VaryingsBeautify output;
         UNITY_SETUP_INSTANCE_ID(input);
         UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(output);
         output.positionCS = input.positionOS;
-        output.positionCS.y *= _ProjectionParams.x;
+        output.positionCS.y *= _ProjectionParams.x * _FlipY;
         output.uv = input.uv.xy;
         BEAUTIFY_VERTEX_OUTPUT_CROSS_UV(output)
     	return output;
@@ -116,18 +129,8 @@
 		float  depthW     = BEAUTIFY_GET_SCENE_DEPTH_01(uvW);
 		float  depthE     = BEAUTIFY_GET_SCENE_DEPTH_01(uvE);		
 		float  depthN     = BEAUTIFY_GET_SCENE_DEPTH_01(uvN);
-		float  lumaM      = getLuma(rgbM);
 
-		// daltonize
-        #if BEAUTIFY_COLOR_TWEAKS
-		float3 rgb0       = 1.0.xxx - saturate(rgbM.rgb);
-		       rgbM.r    *= 1.0 + rgbM.r * rgb0.g * rgb0.b * _Params.y;
-			   rgbM.g    *= 1.0 + rgbM.g * rgb0.r * rgb0.b * _Params.y;
-			   rgbM.b    *= 1.0 + rgbM.b * rgb0.r * rgb0.g * _Params.y;	
-			   rgbM      *= lumaM / (getLuma(rgbM) + 0.0001);
-        #endif
-
-		// sharpen
+		// neighbour depth analysis
 		float  maxDepth   = max(depthN, depthS);
 		       maxDepth   = max(maxDepth, depthW);
 		       maxDepth   = max(maxDepth, depthE);
@@ -136,12 +139,7 @@
 		       minDepth   = min(minDepth, depthE);
 		float  dDepth     = maxDepth - minDepth + 0.000001;
 
-#if BEAUTIFY_TURBO
-        const float  lumaDepth  = 1.0;
-#else
-		float  lumaDepth  = saturate( _Sharpen.y / dDepth);
-#endif
-
+        // luma analysis
 		float3 rgbS       = SAMPLE_TEXTURE2D_X(_MainTex, sampler_LinearClamp, uvS).rgb;
 	    float3 rgbW       = SAMPLE_TEXTURE2D_X(_MainTex, sampler_LinearClamp, uvW).rgb;
 	    float3 rgbE       = SAMPLE_TEXTURE2D_X(_MainTex, sampler_LinearClamp, uvE).rgb;
@@ -163,6 +161,40 @@
 	           minLuma    = min(minLuma, lumaE);
 #endif
                minLuma   -= 0.000001;
+
+#if BEAUTIFY_EDGE_AA
+   if (dDepth > ANTIALIAS_THRESHOLD) {
+	        float2 n = float2(lumaN - lumaS, lumaW - lumaE);
+			n *= ANTIALIAS_STRENGTH;
+			n = clamp(n, -ANTIALIAS_CLAMP, ANTIALIAS_CLAMP);
+			float antialiasDepthAtten = 1.0 - saturate(depthN * ANTIALIAS_DEPTH_ATTEN);
+            n *= _MainTex_TexelSize.xy * antialiasDepthAtten;
+            float3 rgbA = SAMPLE_TEXTURE2D_X(_MainTex, sampler_LinearClamp, uv + n * (1.0 / 3.0 - 0.5)).rgb + SAMPLE_TEXTURE2D_X(_MainTex, sampler_LinearClamp, uv + n * (2.0 / 3.0 - 0.5)).rgb;
+            float3 rgbB = 0.25 * (rgbA + SAMPLE_TEXTURE2D_X(_MainTex, sampler_LinearClamp, uv + n * (0.0 / 3.0 - 0.5)).rgb + SAMPLE_TEXTURE2D_X(_MainTex, sampler_LinearClamp, uv + n * (3.0 / 3.0 - 0.5)).rgb);
+            float lumaB = getLuma(rgbB);
+	        if (lumaB < minLuma || lumaB > maxLuma) rgbB = rgbA * 0.5;
+            rgbM = rgbB;
+   }
+#endif
+
+		float  lumaM      = getLuma(rgbM);
+
+		// daltonize
+        #if BEAUTIFY_COLOR_TWEAKS
+		float3 rgb0       = 1.0.xxx - saturate(rgbM.rgb);
+		       rgbM.r    *= 1.0 + rgbM.r * rgb0.g * rgb0.b * _Params.y;
+			   rgbM.g    *= 1.0 + rgbM.g * rgb0.r * rgb0.b * _Params.y;
+			   rgbM.b    *= 1.0 + rgbM.b * rgb0.r * rgb0.g * _Params.y;	
+			   rgbM      *= lumaM / (getLuma(rgbM) + 0.0001);
+        #endif
+
+        // sharpen
+#if BEAUTIFY_TURBO
+        const float  lumaDepth  = 1.0;
+#else
+		float  lumaDepth  = saturate( _Sharpen.y / dDepth);
+#endif
+
 	    float  lumaPower  = 2.0 * lumaM - minLuma - maxLuma;
 		float  lumaAtten  = saturate(_Sharpen.w / (maxLuma - minLuma));
 #if BEAUTIFY_TURBO
@@ -176,7 +208,7 @@
 #endif
 
         #if BEAUTIFY_DEPTH_OF_FIELD || BEAUTIFY_DOF_TRANSPARENT
-            float4 dofPix     = SAMPLE_TEXTURE2D_X(_DoFTex, sampler_LinearClamp, uv);
+            float4 dofPix     = SAMPLE_TEXTURE2D_X(_DoFTex, sampler_LinearClamp, i.uv);
             #if UNITY_COLORSPACE_GAMMA
                dofPix.rgb = LINEAR_TO_GAMMA(dofPix.rgb);
             #endif
@@ -226,11 +258,11 @@
 		#endif
 
 		#if BEAUTIFY_BLOOM
-    		rgbM += SAMPLE_TEXTURE2D_X(_BloomTex, sampler_LinearClamp, uv).rgb * _Bloom.xxx;
+    		rgbM += SAMPLE_TEXTURE2D_X(_BloomTex, sampler_LinearClamp, i.uv).rgb * _Bloom.xxx;
 		#endif
 
         #if BEAUTIFY_DIRT
-            float3 scrLum = SAMPLE_TEXTURE2D_X(_ScreenLum, sampler_LinearClamp, uv).rgb;
+            float3 scrLum = SAMPLE_TEXTURE2D_X(_ScreenLum, sampler_LinearClamp, i.uv).rgb;
             #if BEAUTIFY_BLOOM
                 scrLum *= _Dirt.www;
             #endif
@@ -261,8 +293,26 @@
 
         #if BEAUTIFY_EYE_ADAPTATION
             float srcLum  = SAMPLE_TEXTURE2D_X(_EALumSrc, sampler_LinearClamp, 0.5.xx).r;
-            float  diff   = srcLum / (avgLum.r + 0.0001);
-            float pixLum  = max(0,log(1.0 + getLuma(rgbM)));
+            float  diff   = srcLum / (avgLum.r + 0.0001); // diff > 1 scene becomes brighter
+            // uncomment to debug
+/*
+            if (i.uv.y< 0.1 && i.uv.y>0.05) {
+                rgbM = i.uv.x * 2.0 < avgLum.r ? 1: 0;
+                if (avgLum.r > 1) {
+                    rgbM.gb = 0;
+                }
+                return;
+            }
+            if (i.uv.y< 0.05) {
+                rgbM = i.uv.x * 2.0 < srcLum ? 1: 0;
+                if (srcLum > 1) {
+                    rgbM.gb = 0;
+                }
+                return;
+            }
+*/
+            float eaLuma = getLuma(rgbM);
+            float pixLum  = max(0,log(1.0 + eaLuma));
             diff   = pow(pixLum / (avgLum.r + 0.0001), abs(diff-1.0));
             diff   = clamp(diff, _EyeAdaptation.x, _EyeAdaptation.y);
             rgbM   = rgbM * diff;
@@ -278,20 +328,24 @@
     		rgbM    = LINEAR_TO_GAMMA(rgbM);
 		#endif
 
-        #if BEAUTIFY_LUT
+        #if BEAUTIFY_LUT || BEAUTIFY_LUT3D
             #if !UNITY_COLORSPACE_GAMMA
             rgbM = LINEAR_TO_GAMMA(rgbM);
             #endif
-        
-//            const float3 lutST = float3(1.0/1024, 1.0/32, 32-1);
-	    float3 lutST = float3(_LUTTex_TexelSize.x, _LUTTex_TexelSize.y, _LUTTex_TexelSize.w - 1);
+            #if BEAUTIFY_LUT3D
+				float3 xyz = rgbM * _LUT3DParams.yyy * _LUT3DParams.xxx + _LUT3DParams.xxx * 0.5;
+				float3 lut = SAMPLE_TEXTURE3D(_LUT3DTex, sampler_LinearClamp, xyz).rgb;
+            #else
+    //          const float3 lutST = float3(1.0/1024, 1.0/32, 32-1);
+	            float3 lutST = float3(_LUTTex_TexelSize.x, _LUTTex_TexelSize.y, _LUTTex_TexelSize.w - 1);
 
-            float3 lookUp = saturate(rgbM) * lutST.zzz;
-            lookUp.xy = lutST.xy * (lookUp.xy + 0.5);
-            float slice = floor(lookUp.z);
-            lookUp.x += slice * lutST.y;
-            float2 lookUpNextSlice = float2(lookUp.x + lutST.y, lookUp.y);
-            float3 lut = lerp(SAMPLE_TEXTURE2D(_LUTTex, sampler_LinearClamp, lookUp.xy).rgb, SAMPLE_TEXTURE2D(_LUTTex, sampler_LinearClamp, lookUpNextSlice).rgb, lookUp.z - slice);
+                float3 lookUp = saturate(rgbM) * lutST.zzz;
+                lookUp.xy = lutST.xy * (lookUp.xy + 0.5);
+                float slice = floor(lookUp.z);
+                lookUp.x += slice * lutST.y;
+                float2 lookUpNextSlice = float2(lookUp.x + lutST.y, lookUp.y);
+                float3 lut = lerp(SAMPLE_TEXTURE2D(_LUTTex, sampler_LinearClamp, lookUp.xy).rgb, SAMPLE_TEXTURE2D(_LUTTex, sampler_LinearClamp, lookUpNextSlice).rgb, lookUp.z - slice);
+            #endif
             rgbM = lerp(rgbM, lut, _FXColor.a);
             
             #if !UNITY_COLORSPACE_GAMMA
@@ -343,7 +397,8 @@
 #endif
 
   		#if BEAUTIFY_FRAME
-			rgbM       = lerp(rgbM, _Frame.rgb, saturate( (max(abs(uv.x - 0.5), abs(uv.y - 0.5)) - _Frame.a) * 50.0));
+			float2 frameIntensity = saturate( (abs(i.uv.xy - 0.5) - _FrameData.xz) * _FrameData.yw);
+			rgbM       = lerp(rgbM, _Frame.rgb, max(frameIntensity.x, frameIntensity.y));
 	    #elif BEAUTIFY_FRAME_MASK
 			float4 frameMask  = SAMPLE_TEXTURE2D_X(_FrameMask, sampler_LinearClamp, uv);
 			rgbM = lerp(rgbM, frameMask.rgb * _Frame.rgb, frameMask.a * _Frame.a);
@@ -379,7 +434,7 @@
 	}
 
 
-    float4 FragCompare (Varyings i) : SV_Target {
+    float4 FragCompare (VaryingsSimple i) : SV_Target {
         UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
         i.uv     = UnityStereoTransformScreenSpaceTex(i.uv);
 
@@ -389,17 +444,21 @@
         float  dist   = distance( _CompareParams.xy * co, dd );
         float4 aa     = saturate( (_CompareParams.w - dist) / abs(_MainTex_TexelSize.y) );
 
-        float4 pixel  = SAMPLE_TEXTURE2D_X(_MainTex, sampler_MainTex, i.uv);
-        float4 pixelNice = SAMPLE_TEXTURE2D_X(_CompareTex, sampler_MainTex, i.uv);
+        float  sameSide = (_CompareParams.z > -5);
+        float2 pixelUV = lerp(i.uv, float2(i.uv.x + _CompareParams.z, i.uv.y), sameSide);
+        float2 pixelNiceUV = lerp(i.uv, float2(i.uv.x - 0.5 + _CompareParams.z, i.uv.y), sameSide);
+        float4 pixel  = SAMPLE_TEXTURE2D_X(_MainTex, sampler_MainTex, pixelUV);
+        float4 pixelNice = SAMPLE_TEXTURE2D_X(_CompareTex, sampler_MainTex, pixelNiceUV);
         
         // are we on the beautified side?
-        float t       = dot(dd, _CompareParams.yz) > 0;
+        float2 cp     = float2(_CompareParams.y, -_CompareParams.x);
+        float t       = dot(dd, cp) > 0;
         pixel         = lerp(pixel, pixelNice, t);
         return pixel + aa;
     }
 
 
-	half4 FragCopy (Varyings i) : SV_Target {
+	half4 FragCopy (VaryingsSimple i) : SV_Target {
         UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
         float2 uv     = UnityStereoTransformScreenSpaceTex(i.uv);
         #if defined(USE_BILINEAR)
@@ -410,7 +469,7 @@
 	}
 
 
-	half4 FragCopyWithMask (Varyings i) : SV_Target {
+	half4 FragCopyWithMask (VaryingsSimple i) : SV_Target {
         UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
         float2 uv       = UnityStereoTransformScreenSpaceTex(i.uv);
         half4 mask      = SAMPLE_TEXTURE2D(_BlurMask, sampler_LinearClamp, uv);

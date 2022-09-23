@@ -2,7 +2,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using Beautify.Universal;
 
-// ReSharper disable once CheckNamespace
 namespace Beautify.Demos {
 
     public class Demo : MonoBehaviour {
@@ -42,11 +41,28 @@ namespace Beautify.Demos {
                 BeautifySettings.settings.brightness.overrideState = false;
             }
 
+            if (Input.GetKeyDown(KeyCode.Alpha4)) {
+                // enables outline
+                BeautifySettings.settings.outline.Override(true);
+                BeautifySettings.settings.outlineColor.Override(Color.cyan);
+                BeautifySettings.settings.outlineCustomize.Override(true);
+                BeautifySettings.settings.outlineSpread.Override(1.5f);
+            }
+
+            if (Input.GetKeyDown(KeyCode.Alpha5)) {
+                // disables outline
+                BeautifySettings.settings.outline.overrideState = false;
+            }
         }
 
-        void UpdateText()
-        {
-            GameObject.Find("Beautify").GetComponent<Text>().text = BeautifySettings.settings.disabled.value ? "Beautify OFF" : "Beautify ON";
+        void UpdateText() {
+
+            if (BeautifySettings.settings.disabled.value) {
+                GameObject.Find("Beautify").GetComponent<Text>().text = "Beautify OFF";
+            } else {
+                GameObject.Find("Beautify").GetComponent<Text>().text = "Beautify ON";
+            }
+
         }
 
 

@@ -11,6 +11,7 @@
 	float4 _Outline;
 	half   _BlurScale;
 	half   _OutlineIntensityMultiplier;
+	float  _OutlineDistanceFade;
 
    
 	struct VaryingsOutline {
@@ -27,12 +28,12 @@
 	};
 
 
-	VaryingsOutline VertOutline(Attributes input) {
+	VaryingsOutline VertOutline(AttributesSimple input) {
 	    VaryingsOutline output;
         UNITY_SETUP_INSTANCE_ID(input);
         UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(output);
         output.positionCS = input.positionOS;
-		output.positionCS.y *= _ProjectionParams.x;
+		output.positionCS.y *= _ProjectionParams.x * _FlipY;
         output.uv = input.uv;
         return output;
 	}
@@ -41,8 +42,12 @@
 
 		float3 uvInc      = float3(_MainTex_TexelSize.x, _MainTex_TexelSize.y, 0);
 
-		#if !BEAUTIFY_OUTLINE_SOBEL
+		#if BEAUTIFY_DEPTH_FADE || !BEAUTIFY_OUTLINE_SOBEL
 	        float  depth      = BEAUTIFY_GET_SCENE_DEPTH_01(i.uv);
+		#endif
+
+		float outline = 0;
+		#if !BEAUTIFY_OUTLINE_SOBEL
 			float  depthS     = BEAUTIFY_GET_SCENE_DEPTH_01(i.uv - uvInc.zy);
 			float  depthW     = BEAUTIFY_GET_SCENE_DEPTH_01(i.uv - uvInc.xz);
 			float  depthE     = BEAUTIFY_GET_SCENE_DEPTH_01(i.uv + uvInc.xz);		
@@ -50,7 +55,7 @@
    			float3 normalNW   = getNormal(depth, depthN, depthW, uvInc.zy, float2(-uvInc.x, -uvInc.z));
    			float3 normalSE   = getNormal(depth, depthS, depthE, -uvInc.zy,  uvInc.xz);
 			float  dnorm      = dot(normalNW, normalSE);
-   			return (float)(dnorm  < _Outline.a);
+   			outline = (float)(dnorm  < _Outline.a);
    		#else
 			float3 rgbS   = SAMPLE_TEXTURE2D_X(_MainTex, sampler_LinearClamp, i.uv - uvInc.zy).rgb;
 	   		float3 rgbN   = SAMPLE_TEXTURE2D_X(_MainTex, sampler_LinearClamp, i.uv + uvInc.zy).rgb;
@@ -72,9 +77,15 @@
 			       gy += rgbNW *  1.0;
 			       gy += rgbN  *  2.0;
 			       gy += rgbNE *  1.0;
-			float olColor = (length(gx * gx + gy * gy) - _Outline.a) > 0.0;
-			return olColor; 
+			outline = (length(gx * gx + gy * gy) - _Outline.a) > 0.0;
    		#endif
+
+		#if BEAUTIFY_DEPTH_FADE
+			float factor = max(0, (_OutlineDistanceFade - depth) / _OutlineDistanceFade);
+			outline *= factor;
+		#endif
+
+		return outline;
 	}
 	
 	float4 fragOutline (VaryingsOutline i) : SV_Target {
@@ -85,13 +96,13 @@
 	}
 
 
-	VaryingsCross VertBlur(Attributes v) {
+	VaryingsCross VertBlur(AttributesSimple v) {
     	VaryingsCross o;
         UNITY_SETUP_INSTANCE_ID(v);
         UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
 		o.positionCS = v.positionOS;
-		o.positionCS.y *= _ProjectionParams.x;
+		o.positionCS.y *= _ProjectionParams.x * _FlipY;
     	o.uv = v.uv;
         BEAUTIFY_VERTEX_OUTPUT_GAUSSIAN_UV(o)
 
@@ -109,7 +120,7 @@
    		return pixel;
 	}	
 
-	half4 FragCopy (Varyings i): SV_Target {
+	half4 FragCopy (VaryingsSimple i): SV_Target {
         UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
         i.uv = UnityStereoTransformScreenSpaceTex(i.uv);
 		half outline = SAMPLE_TEXTURE2D_X(_MainTex, sampler_LinearClamp, i.uv).r;

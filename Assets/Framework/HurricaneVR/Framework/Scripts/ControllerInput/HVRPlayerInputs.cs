@@ -170,12 +170,23 @@ namespace HurricaneVR.Framework.ControllerInput
 
         protected virtual bool GetIsJumpActivated()
         {
+            // if (RightController.ControllerType == HVRControllerType.Vive)
+            // {
+            //     return false;//todo
+            // }
+            //
+            // return false;
             if (RightController.ControllerType == HVRControllerType.Vive)
             {
-                return false;//todo
+                return RightController.TrackPadDown.JustActivated;
             }
 
-            return false;
+            if (RightController.ControllerType == HVRControllerType.WMR)
+            {
+                return RightController.TrackPadUp.JustActivated;
+            }
+
+            return RightController.PrimaryButtonState.JustActivated;
         }
 
         protected virtual void GetForceGrabActivated(out bool left, out bool right)

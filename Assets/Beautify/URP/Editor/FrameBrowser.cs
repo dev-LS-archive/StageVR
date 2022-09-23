@@ -27,7 +27,7 @@ namespace Beautify.Universal {
         FrameGroup[] groups;
 
 
-        [MenuItem("Window/Frame Browser")]
+        [MenuItem("Window/Beautify/Frame Browser")]
         public static void ShowBrowser() {
             GetWindow<FrameBrowser>("Frame Browser");
         }

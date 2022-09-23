@@ -23,7 +23,7 @@
     };
 
     
-    float getCoc(Varyings i) {
+    float getCoc(VaryingsSimple i) {
         #if BEAUTIFY_DOF_TRANSPARENT
             float depthTex = BEAUTIFY_GET_CUSTOM_DEPTH_01(_DoFTransparentDepth, i.uv);
             //float exclusionDepth = DecodeFloatRGBA(SAMPLE_TEXTURE2D_LOD(_DofExclusionTexture, sampler_PointClamp, i.uvNonStereo, 0));
@@ -39,7 +39,7 @@
         return 0.5 * _BokehData.y * xd/depth;    // radius of CoC
     }
                 
-    float4 FragCoC (Varyings i) : SV_Target {
+    float4 FragCoC (VaryingsSimple i) : SV_Target {
         UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
         i.uv = UnityStereoTransformScreenSpaceTex(i.uv);
 
@@ -52,7 +52,7 @@
         return float4(pixel.rgb, coc);
     }    
     
-    float4 FragCoCDebug (Varyings i) : SV_Target {
+    float4 FragCoCDebug (VaryingsSimple i) : SV_Target {
         UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
         i.uv = UnityStereoTransformScreenSpaceTex(i.uv);
 
@@ -61,7 +61,7 @@
         return float4(CoC.xxx, 1.0);
     }
     
-    float4 FragDoFDebugTransparent (Varyings i) : SV_Target {
+    float4 FragDoFDebugTransparent (VaryingsSimple i) : SV_Target {
         UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
         i.uv = UnityStereoTransformScreenSpaceTex(i.uv);
 
@@ -69,7 +69,7 @@
         return float4(depthTex.xxx, 1.0);
     }
 
-    float4 FragBlur (Varyings i): SV_Target {
+    float4 FragBlur (VaryingsSimple i): SV_Target {
         UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
         i.uv = UnityStereoTransformScreenSpaceTex(i.uv);
 
@@ -78,6 +78,10 @@
 
         float4 dir     = float4(_BokehData.zw * _MainTex_TexelSize.xy, 0, 0);
                dir    *= max(1.0, samples / _BokehData2.y);
+#if defined(UNITY_STEREO_INSTANCING_ENABLED) || defined(UNITY_STEREO_MULTIVIEW_ENABLED) || defined(SINGLE_PASS_STEREO)
+               dir.x *= 2.0;
+#endif
+
         float  jitter  = dot(float2(2.4084507, 3.2535211), i.uv * _MainTex_TexelSize.zw);
         float2 disp0   = dir.xy * (frac(jitter) + 0.5);
         float4 disp1   = float4(i.uv + disp0, 0, 0);
@@ -107,7 +111,7 @@
         return sum / w;
     }
 
-    float4 FragBlurNoBokeh (Varyings i): SV_Target {
+    float4 FragBlurNoBokeh (VaryingsSimple i): SV_Target {
         UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
         i.uv = UnityStereoTransformScreenSpaceTex(i.uv);
 
@@ -115,6 +119,10 @@
         float samples  = ceil(sum.a * COC_BASE);
         float4 dir     = float4(_BokehData.zw * _MainTex_TexelSize.xy, 0, 0);
                dir    *= max(1.0, samples / _BokehData2.y);
+#if defined(UNITY_STEREO_INSTANCING_ENABLED) || defined(UNITY_STEREO_MULTIVIEW_ENABLED) || defined(SINGLE_PASS_STEREO)
+               dir.x *= 2.0;
+#endif
+
         float  jitter  = dot(float2(2.4084507, 3.2535211), i.uv * _MainTex_TexelSize.zw);
         float2 disp0   = dir.xy * (frac(jitter) + 0.5);
         float4 disp1   = float4(i.uv + disp0, 0, 0);
@@ -140,13 +148,13 @@
         return sum / w;
     }
 
-    VaryingsDoFCross VertBlur(Attributes input) {
+    VaryingsDoFCross VertBlur(AttributesSimple input) {
         VaryingsDoFCross output;
         UNITY_SETUP_INSTANCE_ID(input);
         UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(output);
 
         output.positionCS = input.positionOS;
-        output.positionCS.y *= _ProjectionParams.x;
+        output.positionCS.y *= _ProjectionParams.x * _FlipY;
         output.uv = input.uv;
 
         BEAUTIFY_VERTEX_OUTPUT_GAUSSIAN_UV(output);
@@ -179,15 +187,15 @@
 
         float w0      = 0.2270270270;
 
-        half4 pixel = SAMPLE_TEXTURE2D_X(_MainTex, sampler_LinearClamp, i.uv);
+        float4 pixel = SAMPLE_TEXTURE2D_X(_MainTex, sampler_LinearClamp, i.uv);
 
         float coc     = (pixel.a * w0 + coc1 * w1 + coc2 * w2 + coc3 * w3 + coc4 * w4) / (w0 + w1 + w2 + w3 + w4);
-        pixel.a = coc;
+        pixel.a = max(pixel.a, coc);
         return pixel;
     }   
 
                
-    float4 FragThreshold (Varyings input) : SV_Target {
+    float4 FragThreshold (VaryingsSimple input) : SV_Target {
         UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
         input.uv = UnityStereoTransformScreenSpaceTex(input.uv);
         float2 uv = input.uv;
@@ -201,7 +209,7 @@
         return float4(pixel.rgb, coc);
     }    
 
-    float4 FragCopyBokeh(Varyings input) : SV_Target
+    float4 FragCopyBokeh(VaryingsSimple input) : SV_Target
     {
         UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
         input.uv = UnityStereoTransformScreenSpaceTex(input.uv);
@@ -209,7 +217,7 @@
         return bokeh;
     }
 
-  float4 FragBlurSeparateBokeh (Varyings input): SV_Target {
+  float4 FragBlurSeparateBokeh (VaryingsSimple input): SV_Target {
 
         UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
         input.uv = UnityStereoTransformScreenSpaceTex(input.uv);

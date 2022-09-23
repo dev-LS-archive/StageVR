@@ -10,7 +10,7 @@
 
 	#include "BeautifyDistortion.hlsl"
 	
-	float4 fragChromaticAberration (Varyings i) : SV_Target {
+	float4 fragChromaticAberration (VaryingsSimple i) : SV_Target {
 	    UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
         i.uv         = UnityStereoTransformScreenSpaceTex(i.uv);
         float4 pixel = GetDistortedColor(i.uv);

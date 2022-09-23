@@ -18,6 +18,7 @@
 	float4 	  _BloomWeights;
 	float4 	  _BloomWeights2;
 	float4    _BloomTint;
+	float     _BloomSpread;
     float4 	  _AFTint;
 	float     _BlurScale;
     float3    _AFData;
@@ -56,13 +57,13 @@
 	};
 
 
-	VaryingsLum VertLum(Attributes input) {
+	VaryingsLum VertLum(AttributesSimple input) {
 
 	    VaryingsLum output;
         UNITY_SETUP_INSTANCE_ID(input);
         UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(output);
         output.positionCS = input.positionOS;
-		output.positionCS.y *= _ProjectionParams.x;
+		output.positionCS.y *= _ProjectionParams.x * _FlipY;
         output.uv = input.uv;
 
         return output;
@@ -88,13 +89,13 @@
 		#endif
 
 		#if BEAUTIFY_BLOOM_USE_DEPTH
-		    c.rgb *= 1.0 - depth01 * _BloomDepthThreshold;
-			c.rgb *= min(1.0, depth01 /  (_BloomNearThreshold / _ProjectionParams.z));
+		    c.rgb *= max(0, 1.0 - depth01 * _BloomDepthThreshold);
+			c.rgb *= min(1.0, depth01 / _BloomNearThreshold);
         #endif
 
 		#if BEAUTIFY_ANAMORPHIC_FLARES_USE_DEPTH
-            c.rgb *= 1.0 - depth01 * _AFDepthThreshold;
-			c.rgb *= min(1.0, depth01 /  (_AFNearThreshold / _ProjectionParams.z));
+            c.rgb *= max(0, 1.0 - depth01 * _AFDepthThreshold);
+			c.rgb *= min(1.0, depth01 / _AFNearThreshold);
 		#endif
         
 		#if BEAUTIFY_BLOOM_USE_LAYER
@@ -112,26 +113,26 @@
    		return c;
    	}
 
-   	VaryingsCross VertCross(Attributes v) {
+   	VaryingsCross VertCross(AttributesSimple v) {
     	VaryingsCross o;
         UNITY_SETUP_INSTANCE_ID(v);
         UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
 		o.positionCS = v.positionOS;
-		o.positionCS.y *= _ProjectionParams.x;
+		o.positionCS.y *= _ProjectionParams.x * _FlipY;
         o.uv = v.uv;
         BEAUTIFY_VERTEX_OUTPUT_CROSS_UV(o)
 
 		return o;
 	}
 
-	VaryingsCrossLum VertCrossLum(Attributes v) {
+	VaryingsCrossLum VertCrossLum(AttributesSimple v) {
 		VaryingsCrossLum o;
         UNITY_SETUP_INSTANCE_ID(v);
         UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
-	o.positionCS = v.positionOS;
-		o.positionCS.y *= _ProjectionParams.x;
+		o.positionCS = v.positionOS;
+		o.positionCS.y *= _ProjectionParams.x * _FlipY;
         o.uv = v.uv;
         BEAUTIFY_VERTEX_OUTPUT_CROSS_UV(o)
 
@@ -158,12 +159,12 @@
 		#endif
         
 		#if BEAUTIFY_BLOOM_USE_DEPTH
-            float depthAtten = 1.0 - depth01 * _BloomDepthThreshold;
+            float depthAtten = max(0, 1.0 - depth01 * _BloomDepthThreshold);
 		    c1.rgb *= depthAtten;
 		    c2.rgb *= depthAtten;
 		    c3.rgb *= depthAtten;
 		    c4.rgb *= depthAtten;
-			float nearAtten = min(1.0, depth01 /  (_BloomNearThreshold / _ProjectionParams.z));
+			float nearAtten = min(1.0, depth01 /  _BloomNearThreshold);
 			c1.rgb *= nearAtten;
 			c2.rgb *= nearAtten;
 			c3.rgb *= nearAtten;
@@ -171,12 +172,12 @@
         #endif
 
 		#if BEAUTIFY_ANAMORPHIC_FLARES_USE_DEPTH
-            float depthAtten = 1.0 - depth01 * _AFDepthThreshold;
+            float depthAtten = max(0, 1.0 - depth01 * _AFDepthThreshold);
             c1.rgb *= depthAtten;
             c2.rgb *= depthAtten;
             c3.rgb *= depthAtten;
             c4.rgb *= depthAtten;
-			float nearAtten = min(1.0, depth01 /  (_AFNearThreshold / _ProjectionParams.z));
+			float nearAtten = min(1.0, depth01 / _AFNearThreshold);
 			c1.rgb *= nearAtten;
 			c2.rgb *= nearAtten;
 			c3.rgb *= nearAtten;
@@ -219,7 +220,7 @@
    		return c1;
 	}
 
-	float4 FragBloomCompose (Varyings i) : SV_Target {
+	float4 FragBloomCompose (VaryingsSimple i) : SV_Target {
         UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
         i.uv = UnityStereoTransformScreenSpaceTex(i.uv);
 
@@ -233,6 +234,14 @@
 		pixel.rgb = lerp(pixel.rgb, Brightness(pixel.rgb) * _BloomTint.rgb, _BloomTint.a);
 		return pixel;
 	}
+
+    inline float4 Lerp3(float4 a, float4 b, float4 c, float t) {
+        if (t <= 0.5) {
+            return lerp(a, b, t * 2.0);
+        } else {
+            return lerp(b, c, t * 2.0 - 1.0);
+        }
+    }
 
 	float4 FragResample(VaryingsCross i) : SV_Target {
         UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
@@ -253,7 +262,7 @@
 	    float4 v = (c1 * w1 + c2 * w2 + c3 * w3 + c4 * w4) * dd;
         #if defined(COMBINE_BLOOM)
             float4 o = SAMPLE_TEXTURE2D_X(_BloomTex, sampler_LinearClamp, i.uv);
-            v += o;
+            v = Lerp3(o, o+v, v, _BloomSpread);
         #endif
         return v;
 	}
@@ -287,7 +296,7 @@
 	}
 
 	
-    float4 FragCombine(Varyings i) : SV_Target {
+    float4 FragCombine(VaryingsSimple i) : SV_Target {
         UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
         i.uv = UnityStereoTransformScreenSpaceTex(i.uv);
 
@@ -297,7 +306,7 @@
     }
     
     
-	float4 FragDebugBloom (Varyings i) : SV_Target {
+	float4 FragDebugBloom (VaryingsSimple i) : SV_Target {
         UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
         i.uv = UnityStereoTransformScreenSpaceTex(i.uv);
 
@@ -305,7 +314,7 @@
 	}
 	
     
-	float4 FragDebugBloomExclusionLayer (Varyings i) : SV_Target {
+	float4 FragDebugBloomExclusionLayer (VaryingsSimple i) : SV_Target {
         UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
         i.uv = UnityStereoTransformScreenSpaceTex(i.uv);
 
@@ -313,7 +322,7 @@
 		return float4(depth.xxx, 1.0);
 	}
 
-	float4 FragResampleFastAF(Varyings i) : SV_Target {
+	float4 FragResampleFastAF(VaryingsSimple i) : SV_Target {
         UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
         i.uv = UnityStereoTransformScreenSpaceTex(i.uv);
 
@@ -323,13 +332,13 @@
 	    return c;
 	}
 	
-	VaryingsCross VertBlur(Attributes v) {
+	VaryingsCross VertBlur(AttributesSimple v) {
     	VaryingsCross o;
         UNITY_SETUP_INSTANCE_ID(v);
         UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
 		o.positionCS = v.positionOS;
-		o.positionCS.y *= _ProjectionParams.x;
+		o.positionCS.y *= _ProjectionParams.x * _FlipY;
     	o.uv = v.uv;
         BEAUTIFY_VERTEX_OUTPUT_GAUSSIAN_UV(o)
 

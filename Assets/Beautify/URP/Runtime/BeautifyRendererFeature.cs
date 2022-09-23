@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
+using static Beautify.Universal.Beautify;
 
 namespace Beautify.Universal {
     public class BeautifyRendererFeature : ScriptableRendererFeature {
@@ -9,6 +10,7 @@ namespace Beautify.Universal {
         public const string SKW_SHARPEN = "BEAUTIFY_SHARPEN";
         public const string SKW_TONEMAP_ACES = "BEAUTIFY_TONEMAP_ACES";
         public const string SKW_LUT = "BEAUTIFY_LUT";
+        public const string SKW_LUT3D = "BEAUTIFY_LUT3D";
         public const string SKW_BLOOM = "BEAUTIFY_BLOOM";
         public const string SKW_BLOOM_USE_DEPTH = "BEAUTIFY_BLOOM_USE_DEPTH";
         public const string SKW_BLOOM_USE_LAYER = "BEAUTIFY_BLOOM_USE_LAYER";
@@ -21,6 +23,7 @@ namespace Beautify.Universal {
         public const string SKW_PURKINJE = "BEAUTIFY_PURKINJE";
         public const string SKW_EYE_ADAPTATION = "BEAUTIFY_EYE_ADAPTATION";
         public const string SKW_OUTLINE = "BEAUTIFY_OUTLINE";
+        public const string SKW_OUTLINE_DEPTH_FADE = "BEAUTIFY_DEPTH_FADE";
         public const string SKW_TURBO = "BEAUTIFY_TURBO";
         public const string SKW_COLOR_TWEAKS = "BEAUTIFY_COLOR_TWEAKS";
         public const string SKW_NIGHT_VISION = "BEAUTIFY_NIGHT_VISION";
@@ -31,6 +34,7 @@ namespace Beautify.Universal {
         public const string SKW_SUN_FLARES_USE_DEPTH = "BEAUTIFY_SF_USE_DEPTH";
         public const string SKW_SUN_FLARES_USE_GHOSTS = "BEAUTIFY_SF_USE_GHOSTS";
         public const string SKW_CUSTOM_DEPTH_ALPHA_TEST = "DEPTH_PREPASS_ALPHA_TEST";
+        public const string SKW_EDGE_ANTIALIASING = "BEAUTIFY_EDGE_AA";
 
         static class ShaderParams {
             public static int mainTex = Shader.PropertyToID("_MainTex");
@@ -43,7 +47,10 @@ namespace Beautify.Universal {
             public static int compareParams = Shader.PropertyToID("_CompareParams");
             public static int fxColor = Shader.PropertyToID("_FXColor");
             public static int lutTex = Shader.PropertyToID("_LUTTex");
+            public static int lut3DTexture = Shader.PropertyToID("_LUT3DTex");
+            public static int lut3DParams = Shader.PropertyToID("_LUT3DParams");
             public static int colorTemp = Shader.PropertyToID("_ColorTemp");
+            public static int flipY = Shader.PropertyToID("_FlipY");
 
             public static int blurScale = Shader.PropertyToID("_BlurScale");
             public static int tempBlurRT = Shader.PropertyToID("_BeautifyTempBlurRT");
@@ -63,6 +70,7 @@ namespace Beautify.Universal {
             public static int bloomTex3 = Shader.PropertyToID("_BloomTex3");
             public static int bloomTex4 = Shader.PropertyToID("_BloomTex4");
             public static int bloomTint = Shader.PropertyToID("_BloomTint");
+            public static int bloomSpread = Shader.PropertyToID("_BloomSpread");
             public static int bloomExclusionZBias = Shader.PropertyToID("_BloomLayerZBias");
 
             public static int dirt = Shader.PropertyToID("_Dirt");
@@ -77,7 +85,7 @@ namespace Beautify.Universal {
 
             public static int sfSunData = Shader.PropertyToID("_SunData");
             public static int sfSunPos = Shader.PropertyToID("_SunPos");
-            public static int sfSunPosRightEye = Shader.PropertyToID("_SunPosRightEye");
+            public static int sfSunDir = Shader.PropertyToID("_SunDir");
             public static int sfSunTintColor = Shader.PropertyToID("_SunTint");
             public static int sfCoronaRays1 = Shader.PropertyToID("_SunCoronaRays1");
             public static int sfCoronaRays2 = Shader.PropertyToID("_SunCoronaRays2");
@@ -111,6 +119,7 @@ namespace Beautify.Universal {
 
             public static int outline = Shader.PropertyToID("_Outline");
             public static int outlineIntensityMultiplier = Shader.PropertyToID("_OutlineIntensityMultiplier");
+            public static int outlineDistanceFade = Shader.PropertyToID("_OutlineDistanceFade");
             public static int outlineRT = Shader.PropertyToID("_OutlineRT");
 
             public static int blurRT = Shader.PropertyToID("_BlurTex");
@@ -126,9 +135,12 @@ namespace Beautify.Universal {
 
             public static int frameColor = Shader.PropertyToID("_Frame");
             public static int frameMask = Shader.PropertyToID("_FrameMask");
+            public static int frameData = Shader.PropertyToID("_FrameData");
 
             public static int CustomDepthAlphaCutoff = Shader.PropertyToID("_Cutoff");
             public static int CustomDepthBaseMap = Shader.PropertyToID("_BaseMap");
+
+            public static int edgeAntialiasing = Shader.PropertyToID("_AntialiasData");
         }
 
         class BeautifyRenderPass : ScriptableRenderPass {
@@ -188,7 +200,11 @@ namespace Beautify.Universal {
 
             Material bMat;
             ScriptableRenderer renderer;
+#if UNITY_2022_2_OR_NEWER
+            RTHandle source;
+#else
             RenderTargetIdentifier source;
+#endif
             CameraData cameraData;
             RenderTextureDescriptor sourceDesc, sourceDescHP;
             bool supportsFPTextures;
@@ -208,21 +224,33 @@ namespace Beautify.Universal {
             string[] keywordsArray;
             bool setup;
             static Matrix4x4 matrix4x4identity = Matrix4x4.identity;
-            bool supportsRFloatFormat;
+            bool supportsR8Format, supportsRGHalfFormat;
             RenderTexture rtCapture;
 
-            public void Setup(Shader shader, ScriptableRenderer renderer, RenderingData renderingData, RenderPassEvent renderingPassEvent) {
+            public bool Setup(Shader shader, ScriptableRenderer renderer, RenderingData renderingData, RenderPassEvent renderingPassEvent, bool ignorePostProcessingOption) {
 
                 // Configures where the render pass should be injected.
-                FindVolumeComponent();
-                if (beautify != null && beautify.directWrite.value) {
-                    renderPassEvent = RenderPassEvent.AfterRenderingPostProcessing;
-                } else {
-                    renderPassEvent = renderingPassEvent;
+                beautify = VolumeManager.instance.stack.GetComponent<Beautify>();
+                bool isActive = true;
+                if (beautify != null) {
+                    isActive = beautify.IsActive();
+                    if (beautify.directWrite.value) {
+                        renderingPassEvent = RenderPassEvent.AfterRenderingPostProcessing;
+#if UNITY_2022_1_OR_NEWER
+                        renderingPassEvent++;
+#endif
+#if UNITY_2020_3_OR_NEWER
+                        if (ignorePostProcessingOption) {
+                            renderingPassEvent = RenderPassEvent.AfterRendering + 3; // queue after FinalBlit is present
+                        }
+#endif
+                    }
                 }
 
+                renderPassEvent = renderingPassEvent;
+
                 cameraData = renderingData.cameraData;
-                if (setup && cameraData.camera != null) return;
+                if (setup && cameraData.camera != null) return isActive;
                 setup = true;
 
                 CheckSceneSettings();
@@ -230,7 +258,8 @@ namespace Beautify.Universal {
 
                 this.renderer = renderer;
                 supportsFPTextures = SystemInfo.SupportsRenderTextureFormat(RenderTextureFormat.ARGBHalf);
-                supportsRFloatFormat = SystemInfo.SupportsRenderTextureFormat(RenderTextureFormat.R8);
+                supportsR8Format = SystemInfo.SupportsRenderTextureFormat(RenderTextureFormat.R8);
+                supportsRGHalfFormat = SystemInfo.SupportsRenderTextureFormat(RenderTextureFormat.RGHalf);
 
                 if (bMat == null) {
                     if (shader == null) {
@@ -265,31 +294,68 @@ namespace Beautify.Universal {
                 for (int k = 0; k < rtEA.Length; k++) {
                     rtEA[k] = Shader.PropertyToID("_BeautifyEAMip" + k);
                 }
-
+                return isActive;
             }
 
             public override void Configure(CommandBuffer cmd, RenderTextureDescriptor cameraTextureDescriptor) {
 
                 if (bMat == null) return;
 
-                FindVolumeComponent();
-
+                if (beautify == null) {
+                    beautify = VolumeManager.instance.stack.GetComponent<Beautify>();
+                }
                 if (beautify == null || !beautify.IsActive()) return;
 
                 sourceDesc = cameraTextureDescriptor;
                 sourceDesc.msaaSamples = 1;
                 sourceDesc.depthBufferBits = 0;
-                if (beautify.downsampling.value && beautify.downsamplingMultiplier.value > 1f) {
-                    sourceDesc.width = (int)(sourceDesc.width / beautify.downsamplingMultiplier.value);
-                    sourceDesc.height = (int)(sourceDesc.height / beautify.downsamplingMultiplier.value);
+
+                if (beautify.downsampling.value) {
+                    UniversalRenderPipelineAsset pipe = (UniversalRenderPipelineAsset)GraphicsSettings.currentRenderPipeline;
+                    float downsamplingMultiplier = 1f / beautify.downsamplingMultiplier.value;
+                    if (downsamplingMultiplier < 1f) {
+                        DownsamplingMode mode = beautify.downsamplingMode.value;
+                        if (mode == DownsamplingMode.BeautifyEffectsOnly) {
+                            sourceDesc.width = (int)(sourceDesc.width * downsamplingMultiplier);
+                            sourceDesc.height = (int)(sourceDesc.height * downsamplingMultiplier);
+                            if (pipe.renderScale != 1f) {
+                                pipe.renderScale = 1f;
+                            }
+                        } else {
+                            if (pipe.renderScale != downsamplingMultiplier) {
+                                pipe.renderScale = downsamplingMultiplier;
+                                beautify.downsamplingMultiplier.value = 1f / pipe.renderScale;
+                            }
+                        }
+                    } else {
+                        if (pipe.renderScale != 1f) {
+                            pipe.renderScale = 1f;
+                        }
+                    }
                 }
+
                 sourceDescHP = sourceDesc;
                 if (supportsFPTextures) {
                     sourceDescHP.colorFormat = RenderTextureFormat.ARGBHalf;
                 }
                 UpdateMaterialProperties();
 
+#if UNITY_2021_3_OR_NEWER
+                ConfigureInput(ScriptableRenderPassInput.Depth);
+#endif
+
             }
+
+#if UNITY_2021_3_OR_NEWER
+            public override void OnCameraSetup(CommandBuffer cmd, ref RenderingData renderingData) {
+                base.OnCameraSetup(cmd, ref renderingData);
+                #if UNITY_2022_2_OR_NEWER
+                    source = renderer.cameraColorTargetHandle;
+                #else
+                    source = renderer.cameraColorTarget;
+                #endif
+            }
+#endif
 
             public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData) {
                 if (bMat == null) {
@@ -300,7 +366,18 @@ namespace Beautify.Universal {
                 Camera cam = cameraData.camera;
                 if (beautify == null || cam == null || !beautify.IsActive()) return;
 
+#if UNITY_2021_3_OR_NEWER
+                if (!beautify.directWrite.value) {
+                    #if UNITY_2022_2_OR_NEWER
+                        source = renderer.cameraColorTargetHandle;
+                    #else
+                        source = renderer.cameraColorTarget;
+                    #endif
+                }
+#else
                 source = renderer.cameraColorTarget;
+#endif
+
                 var cmd = CommandBufferPool.Get("Beautify");
 
 #if UNITY_EDITOR
@@ -321,6 +398,8 @@ namespace Beautify.Universal {
 
 
                 RestoreRTBufferIds();
+
+                bMat.SetFloat(ShaderParams.flipY, beautify.flipY.value ? -1 : 1); // workaround for 2D renderer bug with camera stacking
 
                 if (usesSeparateOutline && beautify.outlineStageParameter.value == Beautify.OutlineStage.BeforeBloom) {
                     DoSeparateOutline(cmd);
@@ -485,12 +564,41 @@ namespace Beautify.Universal {
 
             }
 
+            static Mesh _fullScreenMesh;
+
+            Mesh fullscreenMesh {
+                get {
+                    if (_fullScreenMesh != null) {
+                        return _fullScreenMesh;
+                    }
+                    float num = 1f;
+                    float num2 = 0f;
+                    Mesh val = new Mesh();
+                    _fullScreenMesh = val;
+                    _fullScreenMesh.SetVertices(new List<Vector3> {
+            new Vector3 (-1f, -1f, 0f),
+            new Vector3 (-1f, 1f, 0f),
+            new Vector3 (1f, -1f, 0f),
+            new Vector3 (1f, 1f, 0f)
+        });
+                    _fullScreenMesh.SetUVs(0, new List<Vector2> {
+            new Vector2 (0f, num2),
+            new Vector2 (0f, num),
+            new Vector2 (1f, num2),
+            new Vector2 (1f, num)
+        });
+                    _fullScreenMesh.SetIndices(new int[6] { 0, 1, 2, 2, 1, 3 }, (MeshTopology)0, 0, false);
+                    _fullScreenMesh.UploadMeshData(true);
+                    return _fullScreenMesh;
+                }
+            }
+
 
             void FullScreenBlit(CommandBuffer cmd, RenderTargetIdentifier source, RenderTargetIdentifier destination, Material material, int passIndex) {
                 destination = new RenderTargetIdentifier(destination, 0, CubemapFace.Unknown, -1);
                 cmd.SetRenderTarget(destination);
                 cmd.SetGlobalTexture(ShaderParams.mainTex, source);
-                cmd.DrawMesh(RenderingUtils.fullscreenMesh, matrix4x4identity, material, 0, passIndex);
+                cmd.DrawMesh(fullscreenMesh, matrix4x4identity, material, 0, passIndex);
             }
 
             /// Cleanup any allocated resources that were created during the execution of this render pass.
@@ -498,18 +606,18 @@ namespace Beautify.Universal {
             }
 
             public void Cleanup() {
+
+                UniversalRenderPipelineAsset pipe = (UniversalRenderPipelineAsset)GraphicsSettings.currentRenderPipeline;
+                if (beautify != null && pipe != null && beautify.downsampling.value) { 
+                    pipe.renderScale = 1f;
+                }
+
                 CoreUtils.Destroy(bMat);
 #if UNITY_EDITOR
                 if (rtCapture != null) {
                     rtCapture.Release();
                 }
 #endif
-            }
-
-            void FindVolumeComponent() {
-                if (beautify == null) {
-                    beautify = VolumeManager.instance.stack.GetComponent<Beautify>();
-                }
             }
 
 
@@ -588,8 +696,6 @@ namespace Beautify.Universal {
 
                     if (beautify.bloomIntensity.value > 0 || (beautify.lensDirtIntensity.value > 0 && beautify.anamorphicFlaresIntensity.value <= 0)) {
 
-                        BeautifySettings.bloomExcludeMask = beautify.bloomExcludeLayers.value ? (int)beautify.bloomExclusionLayerMask.value : 0;
-
                         int size = (int)(Mathf.Lerp(512, sourceDesc.width, beautify.bloomResolution.value / 10f) / 4f) * 4;
                         RenderTextureDescriptor bloomDesc = sourceDescHP;
                         for (int k = 0; k <= mipCount; k++) {
@@ -597,7 +703,9 @@ namespace Beautify.Universal {
                             rt[k].height = Mathf.Max(1, (int)(size * aspectRatio));
                             bloomDesc.width = rt[k].width;
                             bloomDesc.height = rt[k].height;
+                            cmd.ReleaseTemporaryRT(rt[k].rtDown);
                             cmd.GetTemporaryRT(rt[k].rtDown, bloomDesc, FilterMode.Bilinear);
+                            cmd.ReleaseTemporaryRT(rt[k].rtUp);
                             cmd.GetTemporaryRT(rt[k].rtUp, bloomDesc, FilterMode.Bilinear);
                             size /= downsamping;
                         }
@@ -610,10 +718,16 @@ namespace Beautify.Universal {
                         }
 
                         // Blitting down...
-                        for (int k = 0; k < mipCount; k++) {
-                            FullScreenBlit(cmd, rt[k].rtDown, rt[k + 1].rtDown, bMat, (int)Pass.BloomResample);
-                            BlurThis(cmd, bloomDesc, rt[k + 1].rtDown, rt[k + 1].width, rt[k + 1].height, bMat);
-                        }
+                        if (beautify.bloomQuickerBlur.value) {
+                            for (int k = 0; k < mipCount; k++) {
+                                BlurThisDownsampling(cmd, bloomDesc, rt[k].rtDown, rt[k + 1].rtDown, rt[k + 1].width, rt[k + 1].height, bMat);
+                            }
+                        } else {
+                            for (int k = 0; k < mipCount; k++) {
+                                FullScreenBlit(cmd, rt[k].rtDown, rt[k + 1].rtDown, bMat, (int)Pass.BloomResample);
+                                BlurThis(cmd, bloomDesc, rt[k + 1].rtDown, rt[k + 1].width, rt[k + 1].height, bMat);
+                            }
+                        }   
                         if (beautify.bloomIntensity.value > 0 || beautify.lensDirtIntensity.value > 0) {
                             // Blitting up...
                             rtBloom = rt[mipCount].rtDown;
@@ -623,7 +737,7 @@ namespace Beautify.Universal {
                                 rtBloom = rt[k - 1].rtUp;
                             }
                             if (beautify.bloomCustomize.value) {
-                                cmd.SetGlobalTexture(ShaderParams.bloomTex4, rt[4].rtUp);
+                                cmd.SetGlobalTexture(ShaderParams.bloomTex4, mipCount < 4 ? rt[3].rtUp: rt[4].rtUp);
                                 cmd.SetGlobalTexture(ShaderParams.bloomTex3, rt[3].rtUp);
                                 cmd.SetGlobalTexture(ShaderParams.bloomTex2, rt[2].rtUp);
                                 cmd.SetGlobalTexture(ShaderParams.bloomTex1, rt[1].rtUp);
@@ -655,7 +769,9 @@ namespace Beautify.Universal {
                             }
                             afDesc.width = rtAF[k].width;
                             afDesc.height = rtAF[k].height;
+                            cmd.ReleaseTemporaryRT(rtAF[k].rtDown);
                             cmd.GetTemporaryRT(rtAF[k].rtDown, afDesc, FilterMode.Bilinear);
+                            cmd.ReleaseTemporaryRT(rtAF[k].rtUp);
                             cmd.GetTemporaryRT(rtAF[k].rtUp, afDesc, FilterMode.Bilinear);
                             sizeAF /= downsamping;
                         }
@@ -668,9 +784,15 @@ namespace Beautify.Universal {
 
                         BlurThisOneDirection(cmd, afDesc, ref rtAF[0].rtDown, rtAF[0].width, rtAF[0].height, beautify.anamorphicFlaresVertical.value);
 
-                        for (int k = 0; k < mipCount; k++) {
-                            FullScreenBlit(cmd, rtAF[k].rtDown, rtAF[k + 1].rtDown, bMat, (int)Pass.BloomResample);
-                            BlurThisOneDirection(cmd, afDesc, ref rtAF[k + 1].rtDown, rtAF[k + 1].width, rtAF[k + 1].height, beautify.anamorphicFlaresVertical.value);
+                        if (beautify.anamorphicFlaresQuickerBlur.value) {
+                            for (int k = 0; k < mipCount; k++) {
+                                BlurThisOneDirectionDownscaling(cmd, afDesc, rtAF[k].rtDown, rtAF[k + 1].rtDown, rtAF[k + 1].width, rtAF[k + 1].height, beautify.anamorphicFlaresVertical.value);
+                            }
+                        } else {
+                            for (int k = 0; k < mipCount; k++) {
+                                FullScreenBlit(cmd, rtAF[k].rtDown, rtAF[k + 1].rtDown, bMat, (int)Pass.BloomResample);
+                                BlurThisOneDirection(cmd, afDesc, ref rtAF[k + 1].rtDown, rtAF[k + 1].width, rtAF[k + 1].height, beautify.anamorphicFlaresVertical.value);
+                            }
                         }
 
                         int last = rtAF[mipCount].rtDown;
@@ -732,7 +854,7 @@ namespace Beautify.Universal {
                             sunLastScrPos.w = sunLastRot;
                             sunFlareTime += Time.unscaledDeltaTime;
                             bMat.SetVector(ShaderParams.sfSunPos, sunLastScrPos);
-
+                            bMat.SetVector(ShaderParams.sfSunDir, sunDirection);
                             RenderTextureDescriptor sfDesc = sourceDesc;
                             sfDesc.width /= beautify.sunFlaresDownsampling.value;
                             sfDesc.height /= beautify.sunFlaresDownsampling.value;
@@ -783,15 +905,32 @@ namespace Beautify.Universal {
                 cmd.ReleaseTemporaryRT(ShaderParams.tempBlurRT);
             }
 
+            void BlurThisDownsampling(CommandBuffer cmd, RenderTextureDescriptor desc, int rtSource, int rt, int width, int height, Material blurMat, float blurScale = 1f) {
+                desc.width = width;
+                desc.height = height;
+                cmd.GetTemporaryRT(ShaderParams.tempBlurRT, desc, FilterMode.Bilinear);
+                cmd.SetGlobalFloat(ShaderParams.blurScale, blurScale * 4f);
+                FullScreenBlit(cmd, rtSource, ShaderParams.tempBlurRT, blurMat, (int)Pass.BlurHoriz);
+                cmd.SetGlobalFloat(ShaderParams.blurScale, blurScale);
+                FullScreenBlit(cmd, ShaderParams.tempBlurRT, rt, blurMat, (int)Pass.BlurVert);
+                cmd.ReleaseTemporaryRT(ShaderParams.tempBlurRT);
+            }
+
             void BlurThisOneDirection(CommandBuffer cmd, RenderTextureDescriptor desc, ref int rt, int width, int height, bool vertical, float blurScale = 1f) {
                 desc.width = width;
                 desc.height = height;
+                cmd.ReleaseTemporaryRT(ShaderParams.tempBlurOneDirRT);
                 cmd.GetTemporaryRT(ShaderParams.tempBlurOneDirRT, desc, FilterMode.Bilinear);
                 cmd.SetGlobalFloat(ShaderParams.blurScale, blurScale);
                 FullScreenBlit(cmd, rt, ShaderParams.tempBlurOneDirRT, bMat, vertical ? (int)Pass.BlurVert : (int)Pass.BlurHoriz);
                 int aux = rt;
                 rt = ShaderParams.tempBlurOneDirRT;
                 ShaderParams.tempBlurOneDirRT = aux;
+            }
+
+            void BlurThisOneDirectionDownscaling(CommandBuffer cmd, RenderTextureDescriptor desc, int rtSource, int rt, int width, int height, bool vertical, float blurScale = 1f) {
+                cmd.SetGlobalFloat(ShaderParams.blurScale, blurScale * 2f);
+                FullScreenBlit(cmd, rtSource, rt, bMat, vertical ? (int)Pass.BlurVert : (int)Pass.BlurHoriz);
             }
 
             void DoDoF(CommandBuffer cmd) {
@@ -898,6 +1037,9 @@ namespace Beautify.Universal {
                 int sizeEA = (int)Mathf.Pow(2, rtEA.Length);
 
                 RenderTextureDescriptor eaDesc = sourceDescHP;
+                if (supportsRGHalfFormat) {
+                    eaDesc.colorFormat = RenderTextureFormat.RGHalf;
+                }
                 for (int k = 0; k < rtEA.Length; k++) {
                     eaDesc.width = eaDesc.height = sizeEA;
                     cmd.GetTemporaryRT(rtEA[k], eaDesc, FilterMode.Bilinear);
@@ -914,6 +1056,7 @@ namespace Beautify.Universal {
                 if (rtEAacum == null) {
                     RenderTextureDescriptor rtEASmallDesc = sourceDescHP;
                     rtEASmallDesc.width = rtEASmallDesc.height = 2;
+                    rtEASmallDesc.colorFormat = RenderTextureFormat.ARGBFloat;
                     rtEAacum = new RenderTexture(rtEASmallDesc);
                     rtEAacum.Create();
                     FullScreenBlit(cmd, rtEA[lumRT], rtEAacum, bMat, (int)Pass.CopyExact);
@@ -930,7 +1073,7 @@ namespace Beautify.Universal {
 
             void DoSeparateOutline(CommandBuffer cmd) {
                 RenderTextureDescriptor rtOutlineDescriptor = sourceDesc;
-                rtOutlineDescriptor.colorFormat = supportsRFloatFormat ? RenderTextureFormat.R8 : sourceDesc.colorFormat;
+                rtOutlineDescriptor.colorFormat = supportsR8Format ? RenderTextureFormat.R8 : sourceDesc.colorFormat;
                 cmd.GetTemporaryRT(ShaderParams.outlineRT, rtOutlineDescriptor);
                 FullScreenBlit(cmd, source, ShaderParams.outlineRT, bMat, (int)Pass.OutlineDetect);
                 int passCount = beautify.outlineBlurPassCount.value;
@@ -955,7 +1098,8 @@ namespace Beautify.Universal {
                 cmd.ReleaseTemporaryRT(ShaderParams.tempBlurRT);
             }
 
-            Vector3 camPrevForward, camPrevPos;
+            Vector3 camPrevPos;
+            Quaternion camPrevRotation;
             float currSens;
 
             void UpdateMaterialProperties() {
@@ -975,25 +1119,22 @@ namespace Beautify.Universal {
                     float tempSharpen = sharpenIntensity;
                     float sensibility = beautify.sharpenMotionSensibility.value;
                     if (sensibility > 0) {
-                        Vector3 camCurForward = cam.transform.forward;
-                        Vector3 camCurPos = cam.transform.position;
-                        float angleDiff = Vector3.Angle(camPrevForward, camCurForward) * sensibility;
-                        float posDiff = (camCurPos - camPrevPos).sqrMagnitude * 10f * sensibility;
-                        float diff = angleDiff + posDiff;
-                        if (diff > 0.1f) {
-                            camPrevForward = camCurForward;
-                            camPrevPos = camCurPos;
-                            if (diff > sensibility) {
-                                diff = sensibility;
-                            }
-                            currSens += diff;
-                            float min = sharpenIntensity * sensibility * 0.75f;
-                            float max = sharpenIntensity * (1f + sensibility) * 0.5f;
-                            currSens = Mathf.Clamp(currSens, min, max);
+
+                        // Motion sensibility v2
+                        Vector3 pos = cam.transform.position;
+                        Quaternion q = cam.transform.rotation;
+
+                        float dt = Time.deltaTime;
+                        if (pos != camPrevPos || q.x != camPrevRotation.x || q.y != camPrevRotation.y || q.z != camPrevRotation.z || q.w != camPrevRotation.w) {
+                            currSens = Mathf.Lerp(currSens, sharpenIntensity * sensibility, 30f * sensibility * dt);
+                            camPrevPos = pos;
+                            camPrevRotation = q;
                         } else {
-                            currSens *= 0.75f;
+                            currSens -= 30f * beautify.sharpenMotionRestoreSpeed.value * dt;
                         }
-                        tempSharpen = Mathf.Clamp(sharpenIntensity - currSens, 0, sharpenIntensity);
+
+                        currSens = Mathf.Clamp(currSens, 0, sharpenIntensity);
+                        tempSharpen = sharpenIntensity - currSens;
                     }
 
                     bMat.SetVector(ShaderParams.sharpen, new Vector4(tempSharpen, beautify.sharpenDepthThreshold.value + 0.000001f, beautify.sharpenClamp.value, beautify.sharpenRelaxation.value));
@@ -1010,8 +1151,18 @@ namespace Beautify.Universal {
 
                 bMat.SetVector(ShaderParams.colorTemp, new Vector3(beautify.colorTemp.value, beautify.colorTempBlend.value));
 
-                bMat.SetVector(ShaderParams.compareParams, new Vector4(Mathf.Cos(beautify.compareLineAngle.value), Mathf.Sin(beautify.compareLineAngle.value), -Mathf.Cos(beautify.compareLineAngle.value), beautify.compareLineWidth.value));
+                float angle = beautify.compareSameSide.value ? Mathf.PI * 0.5f : beautify.compareLineAngle.value;
+                bMat.SetVector(ShaderParams.compareParams, new Vector4(Mathf.Cos(angle), Mathf.Sin(angle), beautify.compareSameSide.value ? beautify.comparePanning.value : -10, beautify.compareLineWidth.value));
                 bMat.SetColor(ShaderParams.fxColor, new Color(beautify.tonemapExposurePre.value, beautify.tonemapBrightnessPost.value, 0, beautify.lutIntensity.value));
+
+                // edge AA related
+                if (beautify.optimizeBuildBeautifyAuto.value || !beautify.stripBeautifyEdgeAA.value) {
+                    float aaStrength = beautify.antialiasStrength.value;
+                    if (aaStrength > 0) {
+                        bMat.SetVector(ShaderParams.edgeAntialiasing, new Vector4(aaStrength, beautify.antialiasDepthThreshold.value, beautify.antialiasDepthAttenuation.value * 10f, beautify.antialiasSpread.value));
+                        keywords.Add(SKW_EDGE_ANTIALIASING);
+                    }
+                }
 
                 // bloom related
                 usesBloomAndFlares = false;
@@ -1025,9 +1176,14 @@ namespace Beautify.Universal {
 
                     if (beautify.lensDirtIntensity.value > 0 || beautify.bloomIntensity.value > 0 || beautify.anamorphicFlaresIntensity.value > 0 || sunFlareEnabled) {
 
+                        BeautifySettings.bloomExcludeMask = beautify.bloomExcludeLayers.value ? (int)beautify.bloomExclusionLayerMask.value : 0;
+
                         float bloomWeightsSum = 0.00001f + beautify.bloomWeight0.value + beautify.bloomWeight1.value + beautify.bloomWeight2.value + beautify.bloomWeight3.value + beautify.bloomWeight4.value + beautify.bloomWeight5.value;
                         bMat.SetVector(ShaderParams.bloomWeights2, new Vector4(beautify.bloomWeight4.value / bloomWeightsSum + beautify.bloomBoost4.value, beautify.bloomWeight5.value / bloomWeightsSum + beautify.bloomBoost5.value, beautify.bloomMaxBrightness.value, bloomWeightsSum));
                         bMat.SetColor(ShaderParams.bloomTint, beautify.bloomTint.value);
+
+                        float spread = Mathf.Lerp(0.05f, 0.95f, beautify.bloomSpread.value);
+                        bMat.SetFloat(ShaderParams.bloomSpread, spread);
 
                         UpdateMaterialBloomIntensityAndThreshold();
                         if (beautify.bloomIntensity.value > 0 || (beautify.lensDirtIntensity.value > 0 && beautify.anamorphicFlaresIntensity.value <= 0)) {
@@ -1035,7 +1191,7 @@ namespace Beautify.Universal {
                             if (beautify.bloomDepthAtten.value > 0 || beautify.bloomNearAtten.value > 0) {
                                 keywords.Add(SKW_BLOOM_USE_DEPTH);
                                 bMat.SetFloat(ShaderParams.bloomDepthThreshold, beautify.bloomDepthAtten.value);
-                                bMat.SetFloat(ShaderParams.bloomNearThreshold, beautify.bloomNearAtten.value + 0.00001f);
+                                bMat.SetFloat(ShaderParams.bloomNearThreshold, (beautify.bloomNearAtten.value / cam.farClipPlane) + 0.00001f);
                             }
                             if (beautify.bloomExcludeLayers.value && beautify.bloomExclusionLayerMask.value > 0) {
                                 keywords.Add(SKW_BLOOM_USE_LAYER);
@@ -1068,7 +1224,7 @@ namespace Beautify.Universal {
                         if (beautify.anamorphicFlaresDepthAtten.value > 0 || beautify.anamorphicFlaresNearAtten.value > 0) {
                             keywords.Add(SKW_ANAMORPHIC_FLARES_USE_DEPTH);
                             bMat.SetFloat(ShaderParams.afDepthThreshold, beautify.anamorphicFlaresDepthAtten.value);
-                            bMat.SetFloat(ShaderParams.afNearThreshold, beautify.anamorphicFlaresNearAtten.value + 0.00001f);
+                            bMat.SetFloat(ShaderParams.afNearThreshold, (beautify.anamorphicFlaresNearAtten.value / cam.farClipPlane) + 0.00001f);
                         }
 
                         bMat.SetColor(ShaderParams.afTintColor, beautify.anamorphicFlaresTint.value);
@@ -1080,8 +1236,13 @@ namespace Beautify.Universal {
                         bMat.SetVector(ShaderParams.sfSunData, new Vector4(beautify.sunFlaresSunIntensity.value, beautify.sunFlaresSunDiskSize.value, beautify.sunFlaresSunRayDiffractionIntensity.value, beautify.sunFlaresSunRayDiffractionThreshold.value));
                         bMat.SetVector(ShaderParams.sfCoronaRays1, new Vector4(beautify.sunFlaresCoronaRays1Length.value, Mathf.Max(beautify.sunFlaresCoronaRays1Streaks.value / 2f, 1), Mathf.Max(beautify.sunFlaresCoronaRays1Spread.value, 0.0001f), beautify.sunFlaresCoronaRays1AngleOffset.value));
                         bMat.SetVector(ShaderParams.sfCoronaRays2, new Vector4(beautify.sunFlaresCoronaRays2Length.value, Mathf.Max(beautify.sunFlaresCoronaRays2Streaks.value / 2f, 1), Mathf.Max(beautify.sunFlaresCoronaRays2Spread.value, 0.0001f), beautify.sunFlaresCoronaRays2AngleOffset.value));
+
 #if UNITY_2020_3_OR_NEWER
-                        if (!cameraData.xrRendering) {
+
+#if ENABLE_VR && ENABLE_XR_MODULE
+                        if (!cameraData.xrRendering) 
+#endif
+                        {
                             keywords.Add(SKW_SUN_FLARES_USE_GHOSTS);
                             bMat.SetVector(ShaderParams.sfGhosts1, new Vector4(0, beautify.sunFlaresGhosts1Size.value, beautify.sunFlaresGhosts1Offset.value, beautify.sunFlaresGhosts1Brightness.value));
                             bMat.SetVector(ShaderParams.sfGhosts2, new Vector4(0, beautify.sunFlaresGhosts2Size.value, beautify.sunFlaresGhosts2Offset.value, beautify.sunFlaresGhosts2Brightness.value));
@@ -1153,14 +1314,22 @@ namespace Beautify.Universal {
                 if (beautify.optimizeBuildBeautifyAuto.value || !beautify.stripBeautifyFrame.value) {
                     if (beautify.frame.value) {
                         Vector4 frameColorAdjusted = beautify.frameColor.value;
+                        float fparam;
                         if (beautify.frameMask.value != null) {
                             bMat.SetTexture(ShaderParams.frameMask, beautify.frameMask.value);
                             keywords.Add(SKW_FRAME_MASK);
+                            fparam = frameColorAdjusted.w;
                         } else {
-                            frameColorAdjusted.w = (1.00001f - frameColorAdjusted.w) * 0.5f;
+                            fparam = (1.00001f - frameColorAdjusted.w) * 0.5f;
                             keywords.Add(SKW_FRAME);
                         }
-                        bMat.SetVector(ShaderParams.frameColor, frameColorAdjusted);
+                        if (beautify.frameStyle.value == Beautify.FrameStyle.Border) {
+                            bMat.SetVector(ShaderParams.frameColor, frameColorAdjusted);
+                            bMat.SetVector(ShaderParams.frameData, new Vector4(fparam, 50, fparam, 50));
+                        } else {
+                            bMat.SetVector(ShaderParams.frameColor, Color.black);
+                            bMat.SetVector(ShaderParams.frameData, new Vector4(0.5f - beautify.frameBandHorizontalSize.value, 1f / (0.0001f + beautify.frameBandHorizontalSmoothness.value), 0.5f - beautify.frameBandVerticalSize.value, 1f / (0.0001f + beautify.frameBandVerticalSmoothness.value)));
+                        }
                     }
                 }
 
@@ -1193,6 +1362,11 @@ namespace Beautify.Universal {
                     usesSeparateOutline = beautify.outlineCustomize.value;
                     if (usesSeparateOutline) {
                         bMat.SetFloat(ShaderParams.outlineIntensityMultiplier, beautify.outlineIntensityMultiplier.value);
+                        float outlineDistanceFade = beautify.outlineDistanceFade.value / cam.farClipPlane;
+                        bMat.SetFloat(ShaderParams.outlineDistanceFade, outlineDistanceFade);
+                        if (outlineDistanceFade > 0) {
+                            keywords.Add(SKW_OUTLINE_DEPTH_FADE);
+                        }
                     } else {
                         keywords.Add(SKW_OUTLINE);
                     }
@@ -1214,9 +1388,24 @@ namespace Beautify.Universal {
                 }
 
                 // LUT or Nightvision
-                if (beautify.lut.value && beautify.lutTexture.value != null && (beautify.optimizeBuildBeautifyAuto.value || !beautify.stripBeautifyLUT.value)) {
-                    bMat.SetTexture(ShaderParams.lutTex, beautify.lutTexture.value);
-                    keywords.Add(SKW_LUT);
+                Texture lutTex = beautify.lutTexture.value;
+                bool hasLut = beautify.lut.value && beautify.lutIntensity.value > 0 && lutTex != null;
+                bool hasLut3D = hasLut && lutTex is Texture3D;
+
+                if (hasLut3D) {
+                    hasLut3D = beautify.optimizeBuildBeautifyAuto.value || !beautify.stripBeautifyLUT3D.value;
+                } else if (hasLut) {
+                    hasLut = beautify.optimizeBuildBeautifyAuto.value || !beautify.stripBeautifyLUT.value;
+                }
+                if (hasLut || hasLut3D) {
+                    if (hasLut3D) {
+                        bMat.SetTexture(ShaderParams.lut3DTexture, lutTex);
+                        bMat.SetVector(ShaderParams.lut3DParams, new Vector4(1f / lutTex.width, lutTex.width - 1f, 0, 0));
+                        keywords.Add(SKW_LUT3D);
+                    } else {
+                        bMat.SetTexture(ShaderParams.lutTex, beautify.lutTexture.value);
+                        keywords.Add(SKW_LUT);
+                    }
                 } else if (beautify.nightVision.value && (beautify.optimizeBuildBeautifyAuto.value || !beautify.stripBeautifyNightVision.value)) {
                     keywords.Add(SKW_NIGHT_VISION);
                     Color nightVisionAdjusted = beautify.nightVisionColor.value;
@@ -1243,7 +1432,7 @@ namespace Beautify.Universal {
 
                 // Chromatic Aberration
                 if (beautify.chromaticAberrationIntensity.value > 0f && (beautify.optimizeBuildBeautifyAuto.value || !beautify.stripBeautifyChromaticAberration.value)) {
-                    bMat.SetVector(ShaderParams.chromaticAberrationData, new Vector4(beautify.chromaticAberrationIntensity.value, beautify.chromaticAberrationSmoothing.value, 0, 0));
+                    bMat.SetVector(ShaderParams.chromaticAberrationData, new Vector4(beautify.chromaticAberrationIntensity.value, beautify.chromaticAberrationSmoothing.value, beautify.chromaticAberrationShift.value, 0));
                     if (!beautify.depthOfField.value) {
                         keywords.Add(SKW_CHROMATIC_ABERRATION);
                     }
@@ -1386,11 +1575,13 @@ namespace Beautify.Universal {
             readonly List<ShaderTagId> m_ShaderTagIdList = new List<ShaderTagId>();
 
             const string bloomSourceDepthRT = "_BloomSourceDepth";
-            RenderTargetHandle m_Depth;
+            static int bloomSourceDepthId = Shader.PropertyToID(bloomSourceDepthRT);
+            RTHandle m_Depth;
             Material depthOnlyMaterial = null;
 
             public BeautifyBloomMaskPass() {
-                m_Depth.Init(bloomSourceDepthRT);
+                //m_Depth.Init(bloomSourceDepthRT);
+                m_Depth = RTHandles.Alloc(bloomSourceDepthRT, name: bloomSourceDepthRT);
                 renderPassEvent = RenderPassEvent.AfterRenderingOpaques;
                 m_ShaderTagIdList.Add(new ShaderTagId("SRPDefaultUnlit"));
                 m_ShaderTagIdList.Add(new ShaderTagId("UniversalForward"));
@@ -1406,9 +1597,9 @@ namespace Beautify.Universal {
                 depthDesc.colorFormat = RenderTextureFormat.Depth;
                 depthDesc.depthBufferBits = 24;
                 depthDesc.msaaSamples = 1;
-                cmd.GetTemporaryRT(m_Depth.id, depthDesc, FilterMode.Point);
-                cmd.SetGlobalTexture(bloomSourceDepthRT, m_Depth.Identifier());
-                ConfigureTarget(m_Depth.Identifier());
+                cmd.GetTemporaryRT(bloomSourceDepthId, depthDesc, FilterMode.Point);
+                cmd.SetGlobalTexture(bloomSourceDepthRT, bloomSourceDepthId); 
+                ConfigureTarget(m_Depth); //.Identifier());
                 ConfigureClear(ClearFlag.All, Color.black);
             }
 
@@ -1425,7 +1616,7 @@ namespace Beautify.Universal {
 
             public override void FrameCleanup(CommandBuffer cmd) {
                 if (cmd == null) return;
-                cmd.ReleaseTemporaryRT(m_Depth.id);
+                cmd.ReleaseTemporaryRT(bloomSourceDepthId);
             }
         }
 
@@ -1435,18 +1626,20 @@ namespace Beautify.Universal {
             readonly List<ShaderTagId> m_ShaderTagIdList = new List<ShaderTagId>();
             static readonly List<Renderer> cutOutRenderers = new List<Renderer>();
 
-            const string DOF_TRANSPARENT_DEPTH_RT = "_DoFTransparentDepth";
+            const string dofTransparentDepthRT = "_DoFTransparentDepth";
+            static int dofTransparentDepthId = Shader.PropertyToID(dofTransparentDepthRT);
             static int m_CullPropertyId = Shader.PropertyToID("_Cull");
             const string m_ProfilerTag = "CustomDepthPrePass";
             const string m_DepthOnlyShader = "Hidden/Beautify2/DepthOnly";
 
-            RenderTargetHandle m_Depth;
+            RTHandle m_Depth;
+
             Material depthOnlyMaterial, depthOnlyMaterialCutOff;
             int currentAlphaCutoutLayerMask = -999;
             Material[] depthOverrideMaterials;
 
             public BeautifyDoFTransparentMaskPass() {
-                m_Depth.Init(DOF_TRANSPARENT_DEPTH_RT);
+                m_Depth = RTHandles.Alloc(dofTransparentDepthRT, name: dofTransparentDepthRT);
                 renderPassEvent = RenderPassEvent.AfterRenderingOpaques;
                 m_ShaderTagIdList.Add(new ShaderTagId("SRPDefaultUnlit"));
                 m_ShaderTagIdList.Add(new ShaderTagId("UniversalForward"));
@@ -1470,9 +1663,9 @@ namespace Beautify.Universal {
                 depthDesc.colorFormat = RenderTextureFormat.Depth;
                 depthDesc.depthBufferBits = 24;
                 depthDesc.msaaSamples = 1;
-                cmd.GetTemporaryRT(m_Depth.id, depthDesc, FilterMode.Point);
-                cmd.SetGlobalTexture(DOF_TRANSPARENT_DEPTH_RT, m_Depth.Identifier());
-                ConfigureTarget(m_Depth.Identifier());
+                cmd.GetTemporaryRT(dofTransparentDepthId, depthDesc, FilterMode.Point);
+                cmd.SetGlobalTexture(dofTransparentDepthRT, dofTransparentDepthId);
+                ConfigureTarget(m_Depth); //.Identifier());
                 ConfigureClear(ClearFlag.All, Color.black);
             }
 
@@ -1546,7 +1739,7 @@ namespace Beautify.Universal {
 
             public override void FrameCleanup(CommandBuffer cmd) {
                 if (cmd == null) return;
-                cmd.ReleaseTemporaryRT(m_Depth.id);
+                cmd.ReleaseTemporaryRT(dofTransparentDepthId);
             }
         }
 
@@ -1559,7 +1752,14 @@ namespace Beautify.Universal {
         [Tooltip("Note: this option is ignored if Direct Write To Camera option in Beautify volume inspector is enabled.")]
         public RenderPassEvent renderPassEvent = RenderPassEvent.AfterRenderingTransparents;
 
+        [Tooltip("Allows Beautify to be executed even if camera has Post Processing option disabled.")]
+        public bool ignorePostProcessingOption;
+
+        [Tooltip("Specify which cameras can render Beautify effects")]
+        public LayerMask cameraLayerMask = -1;
+
         public static bool installed;
+        public static bool ignoringPostProcessingOption;
 
 #if UNITY_EDITOR
         public static CameraType captureCameraType = CameraType.SceneView;
@@ -1586,16 +1786,19 @@ namespace Beautify.Universal {
         // This method is called when setting up the renderer once per-camera.
         public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData) {
             installed = true;
+            ignoringPostProcessingOption = ignorePostProcessingOption;
 
-            if (renderingData.cameraData.postProcessEnabled) {
-                if (BeautifySettings.bloomExcludeMask > 0) {
-                    renderer.EnqueuePass(m_BeautifyBloomMaskPass);
+            if (ignorePostProcessingOption || renderingData.cameraData.postProcessEnabled) {
+                if ((cameraLayerMask & (1 << renderingData.cameraData.camera.gameObject.layer)) == 0) return;
+                if (m_BeautifyRenderPass.Setup(shader, renderer, renderingData, renderPassEvent, ignorePostProcessingOption)) {
+                    if (BeautifySettings.bloomExcludeMask > 0) {
+                        renderer.EnqueuePass(m_BeautifyBloomMaskPass);
+                    }
+                    if (BeautifySettings.dofTransparentSupport || BeautifySettings.dofAlphaTestSupport) {
+                        renderer.EnqueuePass(m_BeautifyDoFTransparentMaskPass);
+                    }
+                    renderer.EnqueuePass(m_BeautifyRenderPass);
                 }
-                if (BeautifySettings.dofTransparentSupport || BeautifySettings.dofAlphaTestSupport) {
-                    renderer.EnqueuePass(m_BeautifyDoFTransparentMaskPass);
-                }
-                m_BeautifyRenderPass.Setup(shader, renderer, renderingData, renderPassEvent);
-                renderer.EnqueuePass(m_BeautifyRenderPass);
             }
         }
     }

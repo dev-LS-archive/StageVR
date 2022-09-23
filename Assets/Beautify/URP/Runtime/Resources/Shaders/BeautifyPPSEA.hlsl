@@ -18,20 +18,20 @@
         UNITY_VERTEX_OUTPUT_STEREO
 	};
 
-   	VaryingsCross VertCross(Attributes v) {
+   	VaryingsCross VertCross(AttributesSimple v) {
     	VaryingsCross o;
         UNITY_SETUP_INSTANCE_ID(v);
         UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
 	o.positionCS = v.positionOS;
-        o.positionCS.y *= _ProjectionParams.x;
+        o.positionCS.y *= _ProjectionParams.x * _FlipY;
         o.uv = v.uv;
 
         BEAUTIFY_VERTEX_OUTPUT_CROSS_UV(o)
 		return o;
 	}
 
-    float4 FragScreenLum (Varyings i) : SV_Target {
+    float4 FragScreenLum (VaryingsSimple i) : SV_Target {
         UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
         i.uv = UnityStereoTransformScreenSpaceTex(i.uv);
 
@@ -57,7 +57,7 @@
         return c1;
     }       
 
-    float4 FragBlendScreenLum (Varyings i) : SV_Target {
+    float4 FragBlendScreenLum (VaryingsSimple i) : SV_Target {
         UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
         float2 uv = UnityStereoTransformScreenSpaceTex(float2(0.5, 0.5));
 
@@ -68,7 +68,7 @@
         return c;
     }  
     
-    float4 FragBlend (Varyings i) : SV_Target {
+    float4 FragBlend (VaryingsSimple i) : SV_Target {
         UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
         i.uv = UnityStereoTransformScreenSpaceTex(i.uv);
 

@@ -7,6 +7,9 @@
 // Set to 1 to enable Sobel outline
 #define BEAUTIFY_OUTLINE_SOBEL 0
 
+// Set to 1 to enable alternate chromatic aberration method
+#define BEAUTIFY_CHROMATIC_ABERRATION_ALT 0
+
 
 TEXTURE2D_X_FLOAT(_CameraDepthTexture);
 SAMPLER(sampler_CameraDepthTexture);
@@ -97,13 +100,30 @@ float HighPrecisionSampleSceneDepth(float2 uvStereo)
 
 // Common functions
 
-Varyings VertOS(Attributes input) {
-    Varyings output;
+float _FlipY;
+
+struct AttributesSimple
+{
+    float4 positionOS : POSITION;
+    float2 uv : TEXCOORD0;
+    UNITY_VERTEX_INPUT_INSTANCE_ID
+};
+
+
+struct VaryingsSimple
+{
+    float4 positionCS : SV_POSITION;
+    float2 uv : TEXCOORD0;
+    UNITY_VERTEX_OUTPUT_STEREO
+};
+
+VaryingsSimple VertOS(AttributesSimple input) {
+    VaryingsSimple output;
     UNITY_SETUP_INSTANCE_ID(input);
     UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(output);
     output.positionCS = input.positionOS;
-    output.positionCS.y *= _ProjectionParams.x;
-    output.uv = input.uv.xy;
+    output.positionCS.y *= _ProjectionParams.x * _FlipY;
+    output.uv = input.uv;
     return output;
 }
 

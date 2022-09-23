@@ -7,6 +7,7 @@ Properties {
     _BokehData2("", Vector) = (1,1,1,1)
     _BokehData3("", Vector) = (1,1,1,1)
     _BlurMask("Blur Mask", 2D) = "white" {}
+    _FlipY("Flip Y", Float) = 1
 }
 
 HLSLINCLUDE
@@ -31,7 +32,8 @@ Subshader {
     #include "Packages/com.unity.render-pipelines.universal/Shaders/PostProcessing/Common.hlsl"
     ENDHLSL
 
-  Pass { // 0 Raw Copy (Point Filtering)
+  Pass { // 0 
+      Name "Raw Copy (Point Filtering)"
       HLSLPROGRAM
       #pragma vertex VertOS
       #pragma fragment FragCopy
@@ -39,7 +41,8 @@ Subshader {
       ENDHLSL
   }
 
-  Pass { // 1 Compare View
+  Pass { // 1 
+      Name "Compare View"
       HLSLPROGRAM
       #pragma vertex VertOS
       #pragma fragment FragCompare
@@ -47,12 +50,13 @@ Subshader {
       ENDHLSL
   }
 
-  Pass { // 2  Main Beautify Pass (core)
+  Pass { // 2  
+      Name "Main Beautify Pass (core)"
       HLSLPROGRAM
       #pragma vertex VertBeautify
       #pragma fragment FragBeautify
       #pragma multi_compile_local __ BEAUTIFY_TONEMAP_ACES
-      #pragma multi_compile_local __ BEAUTIFY_LUT BEAUTIFY_NIGHT_VISION
+      #pragma multi_compile_local __ BEAUTIFY_LUT BEAUTIFY_LUT3D BEAUTIFY_NIGHT_VISION
 	  #pragma multi_compile_local __ BEAUTIFY_BLOOM
       #pragma multi_compile_local __ BEAUTIFY_DIRT
       #pragma multi_compile_local __ BEAUTIFY_DEPTH_OF_FIELD BEAUTIFY_DOF_TRANSPARENT BEAUTIFY_CHROMATIC_ABERRATION
@@ -65,11 +69,13 @@ Subshader {
       #pragma multi_compile_local __ BEAUTIFY_DITHER
       #pragma multi_compile_local __ BEAUTIFY_SHARPEN
       #pragma multi_compile_local __ BEAUTIFY_FRAME BEAUTIFY_FRAME_MASK
+      #pragma multi_compile_local __ BEAUTIFY_EDGE_AA
       #include "BeautifyCore.hlsl"
       ENDHLSL
   }
 
-  Pass { // 3 Extract luminance
+  Pass { // 3
+      Name "Extract Luminance"
       HLSLPROGRAM
       #pragma vertex VertLum
       #pragma fragment FragLum
@@ -80,7 +86,8 @@ Subshader {
       ENDHLSL
   }  
 
-  Pass { // 4 Debug bloom
+  Pass { // 4 
+      Name "Debug bloom"
       HLSLPROGRAM
       #pragma vertex VertOS
       #pragma fragment FragDebugBloom
@@ -88,7 +95,8 @@ Subshader {
       ENDHLSL
   }  
 
-  Pass { // 5 Blur horizontally
+  Pass { // 5 
+      Name "Blur horizontally"
       HLSLPROGRAM
       #pragma vertex VertBlur
       #pragma fragment FragBlur
@@ -97,7 +105,8 @@ Subshader {
       ENDHLSL
   }    
       
-  Pass { // 6 Blur vertically
+  Pass { // 6 
+      Name "Blur vertically"
 	  HLSLPROGRAM
       #pragma vertex VertBlur
       #pragma fragment FragBlur
@@ -105,7 +114,8 @@ Subshader {
       ENDHLSL
   }    
 
-  Pass { // 7 Bloom compose
+  Pass { // 7 
+      Name "Bloom compose"
 	  HLSLPROGRAM
       #pragma vertex VertOS
       #pragma fragment FragBloomCompose
@@ -113,7 +123,8 @@ Subshader {
       ENDHLSL
   }   
 
-  Pass { // 8 Resample
+  Pass { // 8 
+      Name "Resample"
 	  HLSLPROGRAM
       #pragma vertex VertCross
       #pragma fragment FragResample
@@ -121,7 +132,8 @@ Subshader {
       ENDHLSL
   } 
 
-  Pass { // 9 Combine resample
+  Pass { // 9 
+      Name "Combine resample"
 	  HLSLPROGRAM
       #pragma vertex VertCross
       #pragma fragment FragResample
@@ -130,7 +142,8 @@ Subshader {
       ENDHLSL
   }   
 
-  Pass { // 10 Bloom extract luminance with antiflicker
+  Pass { // 10 
+      Name "Bloom extract luminance with antiflicker"
 	  HLSLPROGRAM
       #pragma vertex VertCrossLum
       #pragma fragment FragLumAntiflicker
@@ -141,7 +154,8 @@ Subshader {
       ENDHLSL
   } 
 
-   Pass { // 11 Resample Anamorphic Flares
+   Pass { // 11 
+      Name "Resample Anamorphic Flares"
 	  HLSLPROGRAM
       #pragma vertex VertCross
       #pragma fragment FragResampleAF
@@ -150,7 +164,8 @@ Subshader {
       ENDHLSL
   }
 
-  Pass { // 12 Combine AF
+  Pass { // 12 
+      Name "Combine AF"
 	  HLSLPROGRAM
       #pragma vertex VertOS
       #pragma fragment FragCombine
@@ -159,7 +174,8 @@ Subshader {
       ENDHLSL
   } 
 
-  Pass { // 13 Compute Screen Lum
+  Pass { // 13 
+      Name "Compute Screen Lum"
       HLSLPROGRAM
       #pragma vertex VertOS
       #pragma fragment FragScreenLum
@@ -168,7 +184,8 @@ Subshader {
       ENDHLSL
   }      
   
-  Pass { // 14 Reduce Screen Lum
+  Pass { // 14 
+      Name "Reduce Screen Lum"
       HLSLPROGRAM
       #pragma vertex VertCross
       #pragma fragment FragReduceScreenLum
@@ -176,7 +193,8 @@ Subshader {
       ENDHLSL
   }  
 
-  Pass { // 15 Blend Screen Lum
+  Pass { // 15 
+      Name "Blend Screen Lum"
       Blend SrcAlpha OneMinusSrcAlpha
       HLSLPROGRAM
       #pragma vertex VertOS
@@ -185,7 +203,8 @@ Subshader {
       ENDHLSL
   }      
   
-  Pass { // 16 Simple Blend
+  Pass { // 16 
+      Name "Simple Blend"
       HLSLPROGRAM
       #pragma vertex VertOS
       #pragma fragment FragBlend
@@ -193,7 +212,8 @@ Subshader {
       ENDHLSL
   }  
 
-  Pass { // 17 AF Lum
+  Pass { // 17 
+      Name "AF Lum"
       HLSLPROGRAM
       #pragma vertex VertLum
       #pragma fragment FragLum
@@ -204,7 +224,8 @@ Subshader {
       ENDHLSL
   }  
 
-  Pass { // 18 AF Lum AntiFlicker
+  Pass { // 18 
+      Name "AF Lum AntiFlicker"
       HLSLPROGRAM
       #pragma vertex VertCrossLum
       #pragma fragment FragLumAntiflicker
@@ -215,7 +236,8 @@ Subshader {
       ENDHLSL
   } 
 
- Pass { // 19 Sun Flares
+ Pass { // 19 
+      Name "Sun Flares"
       HLSLPROGRAM
       #pragma vertex VertSF
       #pragma fragment FragSF
@@ -226,7 +248,8 @@ Subshader {
       ENDHLSL
   }
   
- Pass { // 20 Sun Flares Additive
+ Pass { // 20 
+      Name "Sun Flares Additive"
       HLSLPROGRAM
       #pragma vertex VertSF
       #pragma fragment FragSFAdditive
@@ -237,7 +260,8 @@ Subshader {
       ENDHLSL
   }
 
- Pass { // 21 DoF CoC
+ Pass { // 21 
+      Name "DoF CoC"
       HLSLPROGRAM
       #pragma vertex VertOS
       #pragma fragment FragCoC
@@ -247,7 +271,8 @@ Subshader {
       ENDHLSL
   } 
  
-  Pass { // 22 DoF CoC Debug
+  Pass { // 22 
+      Name "DoF CoC Debug"
       HLSLPROGRAM
       #pragma vertex VertOS
       #pragma fragment FragCoCDebug
@@ -257,7 +282,8 @@ Subshader {
       ENDHLSL
   } 
  
-  Pass { // 23 DoF Blur
+  Pass { // 23 
+      Name "DoF Blur"
       HLSLPROGRAM
       #pragma vertex VertOS
       #pragma fragment FragBlur
@@ -266,7 +292,8 @@ Subshader {
       ENDHLSL
   }    
 
-  Pass { // 24 DoF Blur wo/Bokeh
+  Pass { // 24 
+      Name "DoF Blur wo/Bokeh"
       HLSLPROGRAM
       #pragma vertex VertOS
       #pragma fragment FragBlurNoBokeh
@@ -275,7 +302,8 @@ Subshader {
       ENDHLSL
   }    
 
-  Pass { // 25 DoF Blur Horizontally
+  Pass { // 25
+      Name "DoF Blur Horizontally"
       HLSLPROGRAM
       #pragma vertex VertBlur
       #pragma fragment FragBlurCoC
@@ -285,7 +313,8 @@ Subshader {
       ENDHLSL
   }    
 
-  Pass { // 26 DoF Blur Vertically
+  Pass { // 26
+      Name "DoF Blur Vertically"
       HLSLPROGRAM
       #pragma vertex VertBlur
       #pragma fragment FragBlurCoC
@@ -294,7 +323,8 @@ Subshader {
       ENDHLSL
   }    
 
-  Pass { // 27 Raw Copy (Bilinear Filtering)
+  Pass { // 27 
+      Name "Raw Copy (Bilinear Filtering)"
       HLSLPROGRAM
       #pragma vertex VertOS
       #pragma fragment FragCopy
@@ -303,7 +333,8 @@ Subshader {
       ENDHLSL
   }
 
-  Pass { // 28 Bloom Exclusion Layer Debug
+  Pass { // 28 
+      Name "Bloom Exclusion Layer Debug"
       HLSLPROGRAM
       #pragma vertex VertOS
       #pragma fragment FragDebugBloomExclusionLayer
@@ -311,7 +342,8 @@ Subshader {
       ENDHLSL
   }
  
-  Pass { // 29 DoF Debug Transparent
+  Pass { // 29 
+      Name "DoF Debug Transparent"
       HLSLPROGRAM
       #pragma vertex VertOS
       #pragma fragment FragDoFDebugTransparent
@@ -321,7 +353,8 @@ Subshader {
       ENDHLSL
   } 
 
-  Pass { // 30 Chromatic Aberration Custom Pass
+  Pass { // 30 
+      Name "Chromatic Aberration Custom Pass"
       HLSLPROGRAM
       #pragma vertex VertOS
       #pragma fragment fragChromaticAberration
@@ -332,16 +365,19 @@ Subshader {
       ENDHLSL
   } 
 
-  Pass { // 31 Outline Detection Pass
+  Pass { // 31 
+      Name "Outline Detection Pass"
       HLSLPROGRAM
       #pragma vertex VertOutline
       #pragma fragment fragOutline
       #pragma fragmentoption ARB_precision_hint_fastest
+      #pragma multi_compile_local _ BEAUTIFY_DEPTH_FADE
       #include "BeautifyPPSOutline.hlsl"
       ENDHLSL
   }
 
-  Pass { // 32 Outline Blur Horizontally (depth aware)
+  Pass { // 32 
+      Name "Outline Blur Horizontally (depth aware)"
       HLSLPROGRAM
       #pragma vertex VertBlur
       #pragma fragment FragBlur
@@ -351,7 +387,8 @@ Subshader {
       ENDHLSL
   }
 
-  Pass { // 33  Outline Blur Vertically (depth aware)
+  Pass { // 33  
+      Name "Outline Blur Vertically (depth aware)"
       HLSLPROGRAM
       #pragma vertex VertBlur
       #pragma fragment FragBlur
@@ -360,7 +397,8 @@ Subshader {
       ENDHLSL
   }
 
-  Pass { // 34 Outline Blend Pass
+  Pass { // 34 
+      Name "Outline Blend Pass"
 	  Blend SrcAlpha OneMinusSrcAlpha
       HLSLPROGRAM
       #pragma vertex VertOutline
@@ -370,7 +408,8 @@ Subshader {
       ENDHLSL
   }
 
-  Pass { // 35 Mask Blur
+  Pass { // 35 
+      Name "Mask Blur"
       HLSLPROGRAM
       #pragma vertex VertOS
       #pragma fragment FragCopyWithMask
@@ -379,7 +418,8 @@ Subshader {
   }    
 
 
-  Pass { // 36 - DoF Threshold for bokeh
+  Pass { // 36 
+      Name "DoF Threshold for bokeh"
       HLSLPROGRAM
       #pragma vertex VertOS
       #pragma fragment FragThreshold
@@ -387,7 +427,8 @@ Subshader {
       ENDHLSL
   }
 
-  Pass { // 37 - DoF Additive
+  Pass { // 37
+      Name "DoF Additive"
       Blend One One
       HLSLPROGRAM
       #pragma vertex VertOS
@@ -396,7 +437,8 @@ Subshader {
       ENDHLSL
   }
 
-  Pass { // 38 - DoF Blur bokeh
+  Pass { // 38 
+      Name "DoF Blur bokeh"
       HLSLPROGRAM
       #pragma vertex VertOS
       #pragma fragment FragBlurSeparateBokeh

@@ -12,10 +12,10 @@ namespace Beautify.Universal {
         }
 
         void FixedUpdate() {
-            if (transform.position.z < 1f) {
-                rb.AddForce(Vector3.forward * 10f);
+            if (transform.position.z < 2.5f) {
+                rb.AddForce(Vector3.forward * 200f * Time.fixedDeltaTime);
             } else if (transform.position.z > 8f) {
-                rb.AddForce(-Vector3.forward * 10f);
+                rb.AddForce(Vector3.back * 200f * Time.fixedDeltaTime);
             }
         }
     }

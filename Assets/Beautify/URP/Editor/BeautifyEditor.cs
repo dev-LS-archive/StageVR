@@ -9,7 +9,11 @@ using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
 namespace Beautify.Universal {
+#if UNITY_2022_2_OR_NEWER
+    [CustomEditor(typeof(Beautify))]
+#else
     [VolumeComponentEditor(typeof(Beautify))]
+#endif
     public class BeautifyEditor : VolumeComponentEditor {
 
         Beautify beautify;
@@ -23,9 +27,9 @@ namespace Beautify.Universal {
             public List<MemberInfo> singleFields = new List<MemberInfo>();
         }
 
-        Dictionary<Beautify.SectionGroup, SectionContents> sections = new Dictionary<Beautify.SectionGroup, SectionContents>();
-        Dictionary<Beautify.SettingsGroup, List<MemberInfo>> groupedFields = new Dictionary<Beautify.SettingsGroup, List<MemberInfo>>();
-
+        readonly Dictionary<Beautify.SectionGroup, SectionContents> sections = new Dictionary<Beautify.SectionGroup, SectionContents>();
+        readonly Dictionary<Beautify.SettingsGroup, List<MemberInfo>> groupedFields = new Dictionary<Beautify.SettingsGroup, List<MemberInfo>>();
+        readonly Dictionary<MemberInfo, SerializedDataParameter> unpackedFields = new Dictionary<MemberInfo, SerializedDataParameter>();
 #if !UNITY_2021_2_OR_NEWER
         public override bool hasAdvancedMode => false;
 #endif
@@ -51,6 +55,9 @@ namespace Beautify.Universal {
                             .Where(t => t.GetCustomAttributes(typeof(Beautify.SectionGroup), false).Any());
 
             // group by settings first
+            unpackedFields.Clear();
+            sections.Clear();
+            groupedFields.Clear();
             foreach (var setting in settings) {
                 SectionContents sectionContents = null;
 
@@ -66,10 +73,12 @@ namespace Beautify.Universal {
                         }
                         groupedFields[settingGroup].Add(setting);
                         isGrouped = true;
+                        unpackedFields[setting] = Unpack(propertyFetcher.Find(setting.Name));
                     }
 
                     if (!isGrouped) {
                         sectionContents.singleFields.Add(setting);
+                        unpackedFields[setting] = Unpack(propertyFetcher.Find(setting.Name));
                     }
                 }
             }
@@ -93,19 +102,25 @@ namespace Beautify.Universal {
                 GUILayout.Label(headerTex, blackBack, GUILayout.ExpandWidth(true));
                 GUILayout.EndHorizontal();
 
+                UniversalRenderPipelineAsset pipe = GraphicsSettings.currentRenderPipeline as UniversalRenderPipelineAsset;
+
                 Camera cam = Camera.main;
                 if (cam != null) {
                     UniversalAdditionalCameraData data = cam.GetComponent<UniversalAdditionalCameraData>();
-                    if (data != null && !data.renderPostProcessing) {
-                        EditorGUILayout.HelpBox("Post Processing option is disabled in the camera.", MessageType.Warning);
+                    if (data != null && !data.renderPostProcessing && !BeautifyRendererFeature.ignoringPostProcessingOption) {
+                        EditorGUILayout.HelpBox("Post Processing option is disabled in the camera. Either enable it or enable the option 'Ignore Post Processing Option' in the Beautify Render Feature.", MessageType.Warning);
+                        EditorGUILayout.BeginHorizontal();
                         if (GUILayout.Button("Go to Camera")) {
                             Selection.activeObject = cam;
                         }
+                        if (GUILayout.Button("Go to Universal Rendering Pipeline Asset")) {
+                            Selection.activeObject = pipe;
+                        }
+                        EditorGUILayout.EndHorizontal();
                         EditorGUILayout.Separator();
                     }
                 }
 
-                UniversalRenderPipelineAsset pipe = GraphicsSettings.currentRenderPipeline as UniversalRenderPipelineAsset;
                 if (pipe == null) {
                     EditorGUILayout.HelpBox("Universal Rendering Pipeline asset is not set in 'Project Settings / Graphics' !", MessageType.Error);
                     EditorGUILayout.Separator();
@@ -142,13 +157,14 @@ namespace Beautify.Universal {
 
                     // individual properties
                     foreach (var field in section.Value.singleFields) {
-                        var parameter = Unpack(propertyFetcher.Find(field.Name));
+                        if (!unpackedFields.TryGetValue(field, out var parameter)) continue;
+                        bool indent;
+                        if (!IsVisible(parameter, field, out indent)) continue;
+
                         var displayName = parameter.displayName;
                         if (field.GetCustomAttribute(typeof(Beautify.DisplayName)) is Beautify.DisplayName displayNameAttrib) {
                             displayName = displayNameAttrib.name;
                         }
-                        bool indent;
-                        if (!IsVisible(parameter, field, out indent)) continue;
 
                         if (printSectionHeader) {
                             GUILayout.Space(6.0f);
@@ -172,7 +188,7 @@ namespace Beautify.Universal {
                         bool groupHasContent = false;
 
                         foreach (var field in group.Value) {
-                            var parameter = Unpack(propertyFetcher.Find(field.Name));
+                            if (!unpackedFields.TryGetValue(field, out var parameter)) continue;
                             bool indent;
                             if (!IsVisible(parameter, field, out indent)) {
                                 if (firstField) break;
@@ -257,11 +273,22 @@ UnityEditorInternal.InternalEditorUtility.RepaintAllViews();
                 SerializedProperty condProp = propertyFetcher.Find(boolCondition.field);
                 if (condProp != null) {
                     var value = condProp.FindPropertyRelative("m_Value");
-                    if (value != null && value.boolValue != boolCondition.value) {
-                        return false;
+                    if (value != null) {
+                        if (value.boolValue != boolCondition.value) {
+                            return false;
+                        }
+                        indent = value.boolValue;
                     }
-                    indent = value.boolValue;
-                    return true;
+                }
+                SerializedProperty condProp2 = propertyFetcher.Find(boolCondition.field2);
+                if (condProp2 != null) {
+                    var value2 = condProp2.FindPropertyRelative("m_Value");
+                    if (value2 != null) {
+                        if (value2.boolValue != boolCondition.value2) {
+                            return false;
+                        }
+                        indent = indent || value2.boolValue;
+                    }
                 }
             }
             return true;
@@ -286,8 +313,13 @@ UnityEditorInternal.InternalEditorUtility.RepaintAllViews();
                     bool prev = pr.value;
 
                     using (new EditorGUILayout.HorizontalScope()) {
-                        var overrideRect = GUILayoutUtility.GetRect(17f, 17f, GUILayout.ExpandWidth(false));
+                        float w = 17f;
+                        if (EditorGUI.indentLevel > 0) w += 8f;
+                        var overrideRect = GUILayoutUtility.GetRect(w, 20f, GUILayout.ExpandWidth(false));
                         overrideRect.yMin += 4f;
+                        if (EditorGUI.indentLevel > 0) {
+                            overrideRect.xMin += 12f;
+                        }
                         bool value = GUI.Toggle(overrideRect, prev, GUIContent.none);
 
                         string tooltip = null;

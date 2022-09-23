@@ -27,7 +27,7 @@ namespace Beautify.Universal {
         LUTGroup[] groups;
 
 
-        [MenuItem("Window/LUT Browser")]
+        [MenuItem("Window/Beautify/LUT Browser")]
         public static void ShowBrowser() {
             GetWindow<LUTBrowser>("LUT Browser");
         }

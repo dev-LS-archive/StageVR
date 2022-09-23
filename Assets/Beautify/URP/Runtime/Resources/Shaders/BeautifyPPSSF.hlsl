@@ -10,6 +10,7 @@
 	float4 _MainTex_ST;
 	float4 _MainTex_TexelSize;
 	float4	  _SunPos;
+	float3    _SunDir;
 	float4    _SunData;	// x = sunIntensity, y = disk size, z = ray difraction, w = ray difraction amount
 	float4    _SunCoronaRays1;  // x = length, y = streaks, z = spread, w = angle offset
 	float4    _SunCoronaRays2;  // x = length, y = streaks, z = spread, w = angle offset
@@ -29,15 +30,15 @@
 		UNITY_VERTEX_OUTPUT_STEREO
 	};
 
-	VaryingsSF VertSF(Attributes input) {
+	VaryingsSF VertSF(AttributesSimple input) {
 		VaryingsSF output;
 		UNITY_SETUP_INSTANCE_ID(input);
 		UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(output);
 		output.positionCS = input.positionOS;
-		output.positionCS.y *= _ProjectionParams.x;
+		output.positionCS.y *= _ProjectionParams.x * _FlipY;
 		output.uv = input.uv.xy;
 
-		float4 clipPos = TransformWorldToHClip(_WorldSpaceCameraPos.xyz - _MainLightPosition.xyz * 1000.0);
+		float4 clipPos = TransformWorldToHClip(_WorldSpaceCameraPos.xyz - _SunDir.xyz * 1000.0);
 		float2 sunPos = float2(clipPos.x, clipPos.y * _ProjectionParams.x) * 0.5 / clipPos.w + 0.5;
 		output.sunPos = sunPos;
 

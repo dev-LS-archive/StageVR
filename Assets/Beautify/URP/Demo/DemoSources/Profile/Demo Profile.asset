@@ -34,12 +34,23 @@ MonoBehaviour:
   compareMode:
     m_OverrideState: 1
     m_Value: 0
+  compareSameSide:
+    m_OverrideState: 0
+    m_Value: 0
+  comparePanning:
+    m_OverrideState: 0
+    m_Value: 0.25
+    min: 0
+    max: 0.5
   compareLineAngle:
     m_OverrideState: 0
     m_Value: 1.4
   compareLineWidth:
     m_OverrideState: 0
     m_Value: 0.002
+  flipY:
+    m_OverrideState: 1
+    m_Value: 0
   hideInSceneView:
     m_OverrideState: 1
     m_Value: 0
@@ -55,9 +66,12 @@ MonoBehaviour:
   downsampling:
     m_OverrideState: 1
     m_Value: 0
+  downsamplingMode:
+    m_OverrideState: 1
+    m_Value: 10
   downsamplingMultiplier:
-    m_OverrideState: 0
-    m_Value: 1
+    m_OverrideState: 1
+    m_Value: 2.71
     min: 1
     max: 8
   downsamplingBilinear:
@@ -75,7 +89,13 @@ MonoBehaviour:
   stripBeautifyDithering:
     m_OverrideState: 1
     m_Value: 0
+  stripBeautifyEdgeAA:
+    m_OverrideState: 1
+    m_Value: 0
   stripBeautifyLUT:
+    m_OverrideState: 1
+    m_Value: 0
+  stripBeautifyLUT3D:
     m_OverrideState: 1
     m_Value: 0
   stripBeautifyColorTweaks:
@@ -111,10 +131,16 @@ MonoBehaviour:
   stripBeautifyNightVision:
     m_OverrideState: 1
     m_Value: 0
+  stripBeautifyFrame:
+    m_OverrideState: 1
+    m_Value: 0
   optimizeBuildUnityPPSAuto:
     m_OverrideState: 1
     m_Value: 1
   stripUnityFilmGrain:
+    m_OverrideState: 1
+    m_Value: 0
+  stripUnityDithering:
     m_OverrideState: 1
     m_Value: 0
   stripUnityTonemapping:
@@ -129,15 +155,19 @@ MonoBehaviour:
   stripUnityDistortion:
     m_OverrideState: 1
     m_Value: 0
-  stripBeautifyFrame:
+  stripUnityDebugVariants:
     m_OverrideState: 1
     m_Value: 0
   sharpenIntensity:
-    m_OverrideState: 0
-    m_Value: 4
+    m_OverrideState: 1
+    m_Value: 8
+    min: 0
+    max: 25
   sharpenDepthThreshold:
     m_OverrideState: 0
     m_Value: 0.035
+    min: 0
+    max: 0.05
   sharpenMinMaxDepth:
     m_OverrideState: 0
     m_Value: {x: 0, y: 0.999}
@@ -146,15 +176,46 @@ MonoBehaviour:
   sharpenMinMaxDepthFallOff:
     m_OverrideState: 0
     m_Value: 0
+    min: 0
+    max: 1
   sharpenRelaxation:
     m_OverrideState: 0
     m_Value: 0.08
+    min: 0
+    max: 0.2
   sharpenClamp:
     m_OverrideState: 0
     m_Value: 0.45
+    min: 0
+    max: 1
   sharpenMotionSensibility:
     m_OverrideState: 0
     m_Value: 0.5
+    min: 0
+    max: 1
+  sharpenMotionRestoreSpeed:
+    m_OverrideState: 0
+    m_Value: 0.5
+    min: 0.01
+    max: 5
+  antialiasStrength:
+    m_OverrideState: 0
+    m_Value: 5
+    min: 0
+    max: 20
+  antialiasDepthThreshold:
+    m_OverrideState: 0
+    m_Value: 0
+    min: 0
+    max: 0.05
+  antialiasSpread:
+    m_OverrideState: 0
+    m_Value: 3
+    min: 0.1
+    max: 8
+  antialiasDepthAttenuation:
+    m_OverrideState: 0
+    m_Value: 0
   tonemap:
     m_OverrideState: 0
     m_Value: 0
@@ -219,21 +280,22 @@ MonoBehaviour:
   bloomIntensity:
     m_OverrideState: 1
     m_Value: 0.35
-    min: 0
-    max: 10
   bloomThreshold:
     m_OverrideState: 0
     m_Value: 0.75
     min: 0
     max: 5
+  bloomSpread:
+    m_OverrideState: 0
+    m_Value: 0.5
+    min: 0
+    max: 1
   bloomMaxBrightness:
     m_OverrideState: 0
     m_Value: 1000
   bloomDepthAtten:
     m_OverrideState: 0
     m_Value: 0
-    min: 0
-    max: 1
   bloomNearAtten:
     m_OverrideState: 0
     m_Value: 0
@@ -258,6 +320,9 @@ MonoBehaviour:
     m_Value: 1
     min: 1
     max: 10
+  bloomQuickerBlur:
+    m_OverrideState: 0
+    m_Value: 0
   bloomCustomize:
     m_OverrideState: 0
     m_Value: 0
@@ -330,8 +395,6 @@ MonoBehaviour:
   anamorphicFlaresIntensity:
     m_OverrideState: 1
     m_Value: 1
-    min: 0
-    max: 10
   anamorphicFlaresThreshold:
     m_OverrideState: 0
     m_Value: 0.75
@@ -354,8 +417,6 @@ MonoBehaviour:
   anamorphicFlaresDepthAtten:
     m_OverrideState: 0
     m_Value: 0
-    min: 0
-    max: 1
   anamorphicFlaresNearAtten:
     m_OverrideState: 0
     m_Value: 0
@@ -367,6 +428,9 @@ MonoBehaviour:
     m_Value: 1
     min: 1
     max: 10
+  anamorphicFlaresQuickerBlur:
+    m_OverrideState: 0
+    m_Value: 0
   sunFlaresIntensity:
     m_OverrideState: 0
     m_Value: 0
@@ -556,6 +620,11 @@ MonoBehaviour:
   chromaticAberrationIntensity:
     m_OverrideState: 0
     m_Value: 0
+  chromaticAberrationShift:
+    m_OverrideState: 0
+    m_Value: 0
+    min: -1
+    max: 1
   chromaticAberrationSmoothing:
     m_OverrideState: 0
     m_Value: 0
@@ -585,6 +654,9 @@ MonoBehaviour:
   depthOfFieldDistance:
     m_OverrideState: 0
     m_Value: 1
+  depthOfFieldCameraSettings:
+    m_OverrideState: 0
+    m_Value: 0
   depthOfFieldFocalLength:
     m_OverrideState: 0
     m_Value: 0.05
@@ -593,6 +665,21 @@ MonoBehaviour:
   depthOfFieldAperture:
     m_OverrideState: 0
     m_Value: 2.8
+  depthOfFieldFocalLengthReal:
+    m_OverrideState: 0
+    m_Value: 50
+    min: 1
+    max: 300
+  depthOfFieldFStop:
+    m_OverrideState: 0
+    m_Value: 2
+    min: 1
+    max: 32
+  depthOfFieldImageSensorHeight:
+    m_OverrideState: 0
+    m_Value: 24
+    min: 1
+    max: 48
   depthOfFieldFocusSpeed:
     m_OverrideState: 0
     m_Value: 1
@@ -606,6 +693,20 @@ MonoBehaviour:
     m_Value:
       serializedVersion: 2
       m_Bits: 1
+  depthOfFieldTransparentDoubleSided:
+    m_OverrideState: 0
+    m_Value: 0
+  depthOfFieldAlphaTestSupport:
+    m_OverrideState: 0
+    m_Value: 0
+  depthOfFieldAlphaTestLayerMask:
+    m_OverrideState: 0
+    m_Value:
+      serializedVersion: 2
+      m_Bits: 1
+  depthOfFieldAlphaTestDoubleSided:
+    m_OverrideState: 0
+    m_Value: 0
   depthOfFieldForegroundBlur:
     m_OverrideState: 0
     m_Value: 1
@@ -774,6 +875,9 @@ MonoBehaviour:
     m_Value: 1
     min: 0
     max: 8
+  outlineDistanceFade:
+    m_OverrideState: 0
+    m_Value: 0
   nightVision:
     m_OverrideState: 0
     m_Value: 0
@@ -783,14 +887,6 @@ MonoBehaviour:
     hdr: 0
     showAlpha: 1
     showEyeDropper: 1
-  blurIntensity:
-    m_OverrideState: 0
-    m_Value: 0
-    min: 0
-    max: 4
-  blurMask:
-    m_OverrideState: 0
-    m_Value: {fileID: 0}
   ditherIntensity:
     m_OverrideState: 0
     m_Value: 0.005
@@ -799,6 +895,29 @@ MonoBehaviour:
   frame:
     m_OverrideState: 0
     m_Value: 0
+  frameStyle:
+    m_OverrideState: 0
+    m_Value: 0
+  frameBandHorizontalSize:
+    m_OverrideState: 0
+    m_Value: 0
+    min: 0
+    max: 0.5
+  frameBandHorizontalSmoothness:
+    m_OverrideState: 0
+    m_Value: 0
+    min: 0
+    max: 1
+  frameBandVerticalSize:
+    m_OverrideState: 0
+    m_Value: 0.1
+    min: 0
+    max: 0.5
+  frameBandVerticalSmoothness:
+    m_OverrideState: 0
+    m_Value: 0
+    min: 0
+    max: 1
   frameColor:
     m_OverrideState: 0
     m_Value: {r: 1, g: 1, b: 1, a: 1}
@@ -806,5 +925,13 @@ MonoBehaviour:
     showAlpha: 1
     showEyeDropper: 1
   frameMask:
+    m_OverrideState: 0
+    m_Value: {fileID: 0}
+  blurIntensity:
+    m_OverrideState: 0
+    m_Value: 0
+    min: 0
+    max: 4
+  blurMask:
     m_OverrideState: 0
     m_Value: {fileID: 0}
