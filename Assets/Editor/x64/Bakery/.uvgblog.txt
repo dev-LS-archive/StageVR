@@ -2623,3 +2623,70 @@ Done
 Done
 Done
 Done
+2022-10-6
+Rendering UV GBuffer for Garage Scene VR Sample_LMA3 50
+RGBA32F...RGBA8...RGBA8_SRGB...RGBA16F...states...
+Rendering faceted UV normal...
+Rendering UV pos...
+Rendering smooth UV pos...
+Rendering UV GBuffer for probes 256
+RGBA32F...RGBA8...RGBA8_SRGB...RGBA16F...states...
+Done
+Done
+Running ftrace fixpos12 "C:\Users\admin\AppData\Local\Temp\frender" "uvpos_Garage Scene VR Sample_LMA3.lz4" 2 0 0 0
+Running ftrace batchpointlightprobesh "C:\Users\admin\AppData\Local\Temp\frender" "PointBatch_1_0_0" 1924 0 1 batchpointlight_1_0_0.bin
+Running ftrace skycubemapprobesh "C:\Users\admin\AppData\Local\Temp\frender" "light_-1132257598_1" 1924 0 1 sky0.bin
+Running ftrace addmul "C:\Users\admin\AppData\Local\Temp\frender" "probes" 4 0 1 comp_1.bin
+Running ftrace batchpointlight "C:\Users\admin\AppData\Local\Temp\frender" "PointBatch_0_0_0" 4 0 0 batchpointlight_0_0_0.bin
+Running ftrace skycubemap "C:\Users\admin\AppData\Local\Temp\frender" "light_-1132257598_0" 4 0 0 sky0.bin
+Running ftrace addmul "C:\Users\admin\AppData\Local\Temp\frender" "Garage Scene VR Sample_LMA3" 4 0 0 comp_0.bin
+Running ftrace texgi "C:\Users\admin\AppData\Local\Temp\frender" "Garage Scene VR Sample_LMA3_diffuse" 4 16 0 "gi_Garage Scene VR Sample_LMA30.bin" "Garage Scene VR Sample_LMA3_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftrace texgi "C:\Users\admin\AppData\Local\Temp\frender" "Garage Scene VR Sample_LMA3_diffuse" 4 16 0 "gi_Garage Scene VR Sample_LMA31.bin" "Garage Scene VR Sample_LMA3_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftrace texgi "C:\Users\admin\AppData\Local\Temp\frender" "Garage Scene VR Sample_LMA3_diffuse" 4 16 0 "gi_Garage Scene VR Sample_LMA32.bin" "Garage Scene VR Sample_LMA3_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftrace texgi "C:\Users\admin\AppData\Local\Temp\frender" "Garage Scene VR Sample_LMA3_diffuse" 4 16 0 "gi_Garage Scene VR Sample_LMA33.bin" "Garage Scene VR Sample_LMA3_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftrace texgiprobesh "C:\Users\admin\AppData\Local\Temp\frender" "probes_final" 1924 16 1 "gi_probes4.bin" "probes_lights_HDR.lz4" vbTraceTex.bin
+Running ftrace texgi "C:\Users\admin\AppData\Local\Temp\frender" "Garage Scene VR Sample_LMA3_final" 4 16 0 "gi_Garage Scene VR Sample_LMA34.bin" "Garage Scene VR Sample_LMA3_lights_HDR.lz4" vbTraceTex.bin
+Running ftrace addsh "C:\Users\admin\AppData\Local\Temp\frender" "probes_final_" 4 0 1 shcomp_1.bin
+Running denoiserLegacy c "C:\Users\admin\AppData\Local\Temp\frender/Garage Scene VR Sample_LMA3_final_HDR.lz4" "C:\Users\admin\AppData\Local\Temp\frender/Garage Scene VR Sample_LMA3_final_HDR.lz4" 2048 0
+Running seamfixer "C:\Users\admin\AppData\Local\Temp\frender" "0" "Garage Scene VR Sample_LMA3_final_HDR.lz4"
+Running halffloat2hdr "C:\Users\admin\AppData\Local\Temp\frender/Garage Scene VR Sample_LMA3_final_HDR.lz4" "C:/Users/admin/Documents/GitHub/2022/VR/StageVR/Assets/BakeryLightmaps/Garage Scene VR Sample_LMA3_final.hdr" 1024
+Done
+Done
+Done
+Done
+Loaded vertex shader: quad.vso
+Loaded pixel shader: skyOutput.pso
+Loaded pixel shader: cookieOutput.pso
+initShaders done
+initScene done
+Done
+Loaded vertex shader: quad.vso
+Loaded pixel shader: skyOutput.pso
+Loaded pixel shader: cookieOutput.pso
+initShaders done
+Rendering UV GBuffer for Garage Scene VR Sample_LMA3 50
+RGBA32F...RGBA8...RGBA8_SRGB...RGBA16F...states...
+Rendering faceted UV normal...
+Rendering UV pos...
+Rendering smooth UV pos...
+Rendering UV GBuffer for probes 256
+RGBA32F...RGBA8...RGBA8_SRGB...RGBA16F...states...
+Done
+Done
+Running ftrace batchpointlightprobesh "C:\Users\admin\AppData\Local\Temp\frender" "PointBatch_1_0_0" 1924 0 1 batchpointlight_1_0_0.bin
+Running ftrace skycubemapprobesh "C:\Users\admin\AppData\Local\Temp\frender" "light_-1132257598_1" 1924 0 1 sky0.bin
+Running ftrace addmul "C:\Users\admin\AppData\Local\Temp\frender" "probes" 4 0 1 comp_1.bin
+Running ftrace texgiprobesh "C:\Users\admin\AppData\Local\Temp\frender" "probes_final" 1924 16 1 "gi_probes4.bin" "probes_lights_HDR.lz4" vbTraceTex.bin
+Running ftrace addsh "C:\Users\admin\AppData\Local\Temp\frender" "probes_final_" 4 0 1 shcomp_1.bin
+C:\build\output\Unity-Technologies\mono\mono\eglib\gpath.c:115: assertion 'filename != NULL' failed
+
+Symbol file LoadedFromMemory doesn't match image C:\Users\admin\Documents\GitHub\2022\VR\StageVR\Library\PackageCache\com.unity.visualscripting@1.7.8\Editor\VisualScripting.Core\Dependencies\DotNetZip\Unity.VisualScripting.IonicZip.dll
+Symbol file LoadedFromMemory doesn't match image C:\Users\admin\Documents\GitHub\2022\VR\StageVR\Library\PackageCache\com.unity.visualscripting@1.7.8\Editor\VisualScripting.Core\Dependencies\YamlDotNet\Unity.VisualScripting.YamlDotNet.dll
+Symbol file LoadedFromMemory doesn't match image C:\Users\admin\Documents\GitHub\2022\VR\StageVR\Library\PackageCache\com.unity.visualscripting@1.7.8\Editor\VisualScripting.Core\Dependencies\DotNetZip\Unity.VisualScripting.IonicZip.dll
+Symbol file LoadedFromMemory doesn't match image C:\Users\admin\Documents\GitHub\2022\VR\StageVR\Library\PackageCache\com.unity.visualscripting@1.7.8\Editor\VisualScripting.Core\Dependencies\YamlDotNet\Unity.VisualScripting.YamlDotNet.dll
+Symbol file LoadedFromMemory doesn't match image C:\Users\admin\Documents\GitHub\2022\VR\StageVR\Library\PackageCache\com.unity.visualscripting@1.7.8\Editor\VisualScripting.Core\Dependencies\DotNetZip\Unity.VisualScripting.IonicZip.dll
+Symbol file LoadedFromMemory doesn't match image C:\Users\admin\Documents\GitHub\2022\VR\StageVR\Library\PackageCache\com.unity.visualscripting@1.7.8\Editor\VisualScripting.Core\Dependencies\YamlDotNet\Unity.VisualScripting.YamlDotNet.dll
+Done
+Done
+Done
+Done
