@@ -25,7 +25,8 @@ namespace Dev_LSG.Scripts.Manager
         
         [SerializeField]
         private AssetReferenceTexture2D texture2DAssetReference;
-        
+
+
         //UI Component
         private RawImage _rawImage;
         
@@ -33,10 +34,18 @@ namespace Dev_LSG.Scripts.Manager
         void Start()
         {
             Addressables.InitializeAsync().Completed += AddressablesManager_Completed;
+            
         }
 
         private void AddressablesManager_Completed(AsyncOperationHandle<IResourceLocator> obj)
         {
+            playerXRRigAssetReference.InstantiateAsync().Completed += (go) =>
+            {
+                var playerController = go.Result;
+                var target = Array.Find(Labels.Instance.labels, label => label.name == "XR");
+                playerController.transform.SetParent(target);
+
+            };
         }
         // Update is called once per frame
         void Update()
