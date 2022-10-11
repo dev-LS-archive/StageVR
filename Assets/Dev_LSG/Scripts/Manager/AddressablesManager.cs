@@ -1,4 +1,6 @@
 using System;
+using Dev_LSG.Scripts.Player;
+using HurricaneVR.Framework.Core;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.AddressableAssets.ResourceLocators;
@@ -18,6 +20,9 @@ namespace Dev_LSG.Scripts.Manager
         private AssetReference playerXRRigAssetReference;
 
         [SerializeField]
+        private AssetReference hvrGlobal;
+        
+        [SerializeField]
         private AssetReference handsMatAssetReference;
         
         [SerializeField]
@@ -25,6 +30,9 @@ namespace Dev_LSG.Scripts.Manager
         
         [SerializeField]
         private AssetReferenceTexture2D texture2DAssetReference;
+
+        [SerializeField]
+        private HVRManager hvrManager;
 
 
         //UI Component
@@ -34,23 +42,37 @@ namespace Dev_LSG.Scripts.Manager
         void Start()
         {
             Addressables.InitializeAsync().Completed += AddressablesManager_Completed;
-            
         }
 
         private void AddressablesManager_Completed(AsyncOperationHandle<IResourceLocator> obj)
         {
-            playerXRRigAssetReference.InstantiateAsync().Completed += (go) =>
+            hvrGlobal.InstantiateAsync().Completed += (manager) =>
             {
-                var playerController = go.Result;
-                var target = Array.Find(Labels.Instance.labels, label => label.name == "XR");
-                playerController.transform.SetParent(target);
-
+                var hvr = manager.Result;
+                hvrManager = hvr.GetComponent<HVRManager>();
+                playerXRRigAssetReference.InstantiateAsync().Completed += (go) =>
+                {
+                    var playerController = go.Result;
+#if UNITY_EDITOR
+                    Core.Logger.Instance.LogInfo(playerController.ToString());
+#else
+                    if(Debug.isDebugBuild)
+                        Core.Logger.Instance.LogInfo(playerController.ToString()); 
+#endif
+                    var target = Array.Find(Labels.Instance.labels, label => label.name == "XR");
+                    playerController.transform.SetParent(target);
+                    hvr.transform.SetParent(target);
+                    hvrManager.PlayerController =
+                        playerController.GetComponent<PlayerComponent>().hvrPlayerController;
+#if UNITY_EDITOR
+                    Core.Logger.Instance.LogInfo(hvrManager.PlayerController.ToString());
+#else
+                    if(Debug.isDebugBuild)
+                        Core.Logger.Instance.LogInfo(hvrManager.PlayerController.ToString());
+#endif
+                };
             };
-        }
-        // Update is called once per frame
-        void Update()
-        {
-        
+            
         }
     }
 }
