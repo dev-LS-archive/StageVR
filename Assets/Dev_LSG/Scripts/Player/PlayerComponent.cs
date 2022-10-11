@@ -6,5 +6,6 @@ namespace Dev_LSG.Scripts.Player
     public class PlayerComponent : MonoBehaviour
     {
         public HVRPlayerController hvrPlayerController;
+        public Event.MenuButtonActive menuButtonActive;
     }
 }

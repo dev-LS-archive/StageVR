@@ -23,6 +23,9 @@ namespace Dev_LSG.Scripts.Manager
         private AssetReference hvrGlobal;
         
         [SerializeField]
+        public AssetReference playerUI;
+        
+        [SerializeField]
         private AssetReference handsMatAssetReference;
         
         [SerializeField]
@@ -70,6 +73,12 @@ namespace Dev_LSG.Scripts.Manager
                     if(Debug.isDebugBuild)
                         Core.Logger.Instance.LogInfo(hvrManager.PlayerController.ToString());
 #endif
+                    playerUI.InstantiateAsync().Completed += (uiAsset) =>
+                    {
+                        var playerUIResult = uiAsset.Result;
+                        playerUIResult.transform.SetParent(target);
+                        playerController.GetComponent<PlayerComponent>().menuButtonActive.menu = playerUIResult;
+                    };
                 };
             };
             
