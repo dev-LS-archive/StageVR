@@ -1,6 +1,7 @@
 using System;
 using Dev_LSG.Scripts.Player;
 using HurricaneVR.Framework.Core;
+using HurricaneVR.Framework.Core.UI;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.AddressableAssets.ResourceLocators;
@@ -26,6 +27,9 @@ namespace Dev_LSG.Scripts.Manager
         public AssetReference playerUI;
         
         [SerializeField]
+        public AssetReference uiManager;
+        
+        [SerializeField]
         private AssetReference handsMatAssetReference;
         
         [SerializeField]
@@ -36,6 +40,9 @@ namespace Dev_LSG.Scripts.Manager
 
         [SerializeField]
         private HVRManager hvrManager;
+
+        [SerializeField]
+        private HVRInputModule hvrInputModule;
 
 
         //UI Component
@@ -49,6 +56,15 @@ namespace Dev_LSG.Scripts.Manager
 
         private void AddressablesManager_Completed(AsyncOperationHandle<IResourceLocator> obj)
         {
+            uiManager.InstantiateAsync().Completed += (uiAsset) =>
+            {
+                var manager = uiAsset.Result;
+                hvrInputModule = manager.GetComponent<HVRInputModule>();
+                var target = Array.Find(Labels.Instance.labels, label => label.name == "Manager");
+                manager.transform.SetParent(target);
+                
+                Logger(manager.ToString());
+            };
             hvrGlobal.InstantiateAsync().Completed += (manager) =>
             {
                 var hvr = manager.Result;
@@ -56,32 +72,38 @@ namespace Dev_LSG.Scripts.Manager
                 playerXRRigAssetReference.InstantiateAsync().Completed += (go) =>
                 {
                     var playerController = go.Result;
-#if UNITY_EDITOR
-                    Core.Logger.Instance.LogInfo(playerController.ToString());
-#else
-                    if(Debug.isDebugBuild)
-                        Core.Logger.Instance.LogInfo(playerController.ToString()); 
-#endif
+                    
+                    Logger(playerController.ToString());
+                    
                     var target = Array.Find(Labels.Instance.labels, label => label.name == "XR");
                     playerController.transform.SetParent(target);
                     hvr.transform.SetParent(target);
                     hvrManager.PlayerController =
                         playerController.GetComponent<PlayerComponent>().hvrPlayerController;
-#if UNITY_EDITOR
-                    Core.Logger.Instance.LogInfo(hvrManager.PlayerController.ToString());
-#else
-                    if(Debug.isDebugBuild)
-                        Core.Logger.Instance.LogInfo(hvrManager.PlayerController.ToString());
-#endif
+                    
+                    Logger(hvrManager.PlayerController.ToString());
+                    
                     playerUI.InstantiateAsync().Completed += (uiAsset) =>
                     {
                         var playerUIResult = uiAsset.Result;
                         playerUIResult.transform.SetParent(target);
                         playerController.GetComponent<PlayerComponent>().menuButtonActive.menu = playerUIResult;
+                        hvrInputModule.UICanvases.Add(playerUIResult.GetComponent<UICanvas>().canvas);
+                        Logger(hvrInputModule.UICanvases[1].ToString());
                     };
                 };
             };
             
+        }
+
+        private void Logger(String str)
+        {
+#if UNITY_EDITOR
+            Core.Logger.Instance.LogInfo(str);
+#else
+            if(Debug.isDebugBuild)
+                Core.Logger.Instance.LogInfo(str);
+#endif
         }
     }
 }

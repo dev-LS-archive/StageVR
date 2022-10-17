@@ -155,6 +155,7 @@ GameObject:
   - component: {fileID: 8127904079184294786}
   - component: {fileID: 6070831993687125439}
   - component: {fileID: 643683774}
+  - component: {fileID: 4773909990394452569}
   m_Layer: 0
   m_Name: Player_UI_Grab
   m_TagString: Untagged
@@ -330,6 +331,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &4773909990394452569
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9136151795191515953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 732d35a6d0beb05408d2932bcf3a7547, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvas: {fileID: 307579151923448465}
 --- !u!1001 &8934465188526740968
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -675,6 +689,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4a3a46a501efbb6448b1c2bd5ea3a7e7, type: 3}
+--- !u!223 &307579151923448465 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 9203428388001046393, guid: 4a3a46a501efbb6448b1c2bd5ea3a7e7, type: 3}
+  m_PrefabInstance: {fileID: 8934465188526740968}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &307579151923448466 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 9203428388001046394, guid: 4a3a46a501efbb6448b1c2bd5ea3a7e7, type: 3}
