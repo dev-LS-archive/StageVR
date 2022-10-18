@@ -48,20 +48,6 @@ AudioMixerEffectController:
   m_SendTarget: {fileID: 0}
   m_EnableWetMix: 0
   m_Bypass: 0
---- !u!244 &-8166122137528103142
-AudioMixerEffectController:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_EffectID: f08f8a51b304ca74cb6869892dd94c2a
-  m_EffectName: Attenuation
-  m_MixLevel: 08bb8966abe124942ad10bb7e5341a2a
-  m_Parameters: []
-  m_SendTarget: {fileID: 0}
-  m_EnableWetMix: 0
-  m_Bypass: 0
 --- !u!245 &-7790152059189000784
 AudioMixerSnapshotController:
   m_ObjectHideFlags: 0
@@ -105,32 +91,13 @@ AudioMixerEffectController:
   m_SendTarget: {fileID: 0}
   m_EnableWetMix: 0
   m_Bypass: 0
---- !u!243 &-3342915186823308998
-AudioMixerGroupController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: New Group
-  m_AudioMixer: {fileID: 24100000}
-  m_GroupID: ae16ba21ce5a6af46acc1566ebcd5735
-  m_Children: []
-  m_Volume: 4a4d0d3bc73c6a44bbd998c84f98253b
-  m_Pitch: aba30bc82cb6f5d428b1d94275a6b885
-  m_Send: 00000000000000000000000000000000
-  m_Effects:
-  - {fileID: -8166122137528103142}
-  m_UserColorIndex: 0
-  m_Mute: 0
-  m_Solo: 0
-  m_BypassEffects: 0
 --- !u!241 &24100000
 AudioMixerController:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: NewAudioMixer
+  m_Name: MasterAudioMixer
   m_OutputGroup: {fileID: 0}
   m_MasterGroup: {fileID: 24300002}
   m_Snapshots:
@@ -145,7 +112,6 @@ AudioMixerController:
     - ce98c4fac9d7f4d4ab5ac75d5b23eb69
     - 9159b77bd060aad488ef3740f6ccf4f2
     - a37051c2fc771374f8fd000372f80142
-    - ae16ba21ce5a6af46acc1566ebcd5735
     name: View
   m_CurrentViewIndex: 0
   m_TargetSnapshot: {fileID: -7790152059189000784}
@@ -207,8 +173,7 @@ AudioMixerGroupController:
   m_Name: BGM
   m_AudioMixer: {fileID: 24100000}
   m_GroupID: 9159b77bd060aad488ef3740f6ccf4f2
-  m_Children:
-  - {fileID: -3342915186823308998}
+  m_Children: []
   m_Volume: ea1a8293ddfede348bb049edcd3c09f0
   m_Pitch: b1bc781183c801f4fb325e98412e719d
   m_Send: 00000000000000000000000000000000

@@ -89,7 +89,12 @@ namespace Dev_LSG.Scripts.Manager
                         playerUIResult.transform.SetParent(target);
                         playerController.GetComponent<PlayerComponent>().menuButtonActive.menu = playerUIResult;
                         hvrInputModule.UICanvases.Add(playerUIResult.GetComponent<UICanvas>().canvas);
-                        Logger(hvrInputModule.UICanvases[1].ToString());
+                        Logger(playerUIResult.ToString());
+                    };
+
+                    musicAssetReference.LoadAssetAsync().Completed += (clip) =>
+                    {
+
                     };
                 };
             };
