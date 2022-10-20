@@ -17,6 +17,7 @@ namespace Dev_LSG.Scripts.Manager
     }
     public class AddressablesManager : MonoBehaviour
     {
+        #region VARABLE
         [SerializeField]
         private AssetReference playerXRRigAssetReference;
 
@@ -29,14 +30,14 @@ namespace Dev_LSG.Scripts.Manager
         [SerializeField]
         public AssetReference uiManager;
         
-        [SerializeField]
-        private AssetReference handsMatAssetReference;
+        //[SerializeField]
+        //private AssetReference handsMatAssetReference;
         
         [SerializeField]
         private AssetReferenceAudioClip musicAssetReference;
         
-        [SerializeField]
-        private AssetReferenceTexture2D texture2DAssetReference;
+        //[SerializeField]
+        //private AssetReferenceTexture2D texture2DAssetReference;
 
         [SerializeField]
         private HVRManager hvrManager;
@@ -48,58 +49,81 @@ namespace Dev_LSG.Scripts.Manager
         //UI Component
         private RawImage _rawImage;
         
+        //Instance Objects
+        private GameObject _manager, _playerController, _hvr,_playerUIResult;
+
+        #endregion
+
         // Start is called before the first frame update
         void Start()
         {
+            Logger("Initializing Addressables...");
             Addressables.InitializeAsync().Completed += AddressablesManager_Completed;
         }
 
         private void AddressablesManager_Completed(AsyncOperationHandle<IResourceLocator> obj)
         {
+            Logger("Initialized Addressables...");
+            
             uiManager.InstantiateAsync().Completed += (uiAsset) =>
             {
-                var manager = uiAsset.Result;
-                hvrInputModule = manager.GetComponent<HVRInputModule>();
+                _manager = uiAsset.Result;
+                hvrInputModule = _manager.GetComponent<HVRInputModule>();
                 var target = Array.Find(Labels.Instance.labels, label => label.name == "Manager");
-                manager.transform.SetParent(target);
-                
-                Logger(manager.ToString());
+                _manager.transform.SetParent(target);
+
+                Logger("Initialized the " + _manager);
             };
             hvrGlobal.InstantiateAsync().Completed += (manager) =>
             {
-                var hvr = manager.Result;
-                hvrManager = hvr.GetComponent<HVRManager>();
+                _hvr = manager.Result;
+                hvrManager = _hvr.GetComponent<HVRManager>();
+                Logger("Initialized the " + _hvr);
+                
                 playerXRRigAssetReference.InstantiateAsync().Completed += (go) =>
                 {
-                    var playerController = go.Result;
+                    _playerController = go.Result;
                     
-                    Logger(playerController.ToString());
+                    Logger("Initialized the " +_playerController);
                     
                     var target = Array.Find(Labels.Instance.labels, label => label.name == "XR");
-                    playerController.transform.SetParent(target);
-                    hvr.transform.SetParent(target);
+                    _playerController.transform.SetParent(target);
+                    _hvr.transform.SetParent(target);
                     hvrManager.PlayerController =
-                        playerController.GetComponent<PlayerComponent>().hvrPlayerController;
-                    
-                    Logger(hvrManager.PlayerController.ToString());
-                    
+                        _playerController.GetComponent<PlayerComponent>().hvrPlayerController;
+
                     playerUI.InstantiateAsync().Completed += (uiAsset) =>
                     {
-                        var playerUIResult = uiAsset.Result;
-                        playerUIResult.transform.SetParent(target);
-                        playerController.GetComponent<PlayerComponent>().menuButtonActive.menu = playerUIResult;
-                        hvrInputModule.UICanvases.Add(playerUIResult.GetComponent<UICanvas>().canvas);
-                        Logger(playerUIResult.ToString());
+                        _playerUIResult = uiAsset.Result;
+                        _playerUIResult.transform.SetParent(target);
+                        _playerController.GetComponent<PlayerComponent>().menuButtonActive.menu = _playerUIResult;
+                        hvrInputModule.UICanvases.Add(_playerUIResult.GetComponent<UICanvas>().canvas);
+                        
+                        Logger("Initialized the " + _playerUIResult);
                     };
-
                     musicAssetReference.LoadAssetAsync().Completed += (clip) =>
                     {
-
+                        var audioSource = _hvr.GetComponent<SoundSource>().bgmPlayer;
+                        audioSource.clip = clip.Result;
+                        audioSource.playOnAwake = false;
+                        audioSource.loop = true;
+                        audioSource.Play();
+                    
+                        Logger("Loaded the audio clip...");
                     };
                 };
             };
-            
+            Logger("Loaded Assets...");
         }
+        
+        // private void OnDestroy()
+        // {
+        //     uiManager.ReleaseInstance(_manager);
+        //     playerXRRigAssetReference.ReleaseInstance(_playerController);
+        //     hvrGlobal.ReleaseInstance(_hvr);
+        //     playerUI.ReleaseInstance(_playerUIResult);
+        //     musicAssetReference.ReleaseAsset();
+        // } 
 
         private void Logger(String str)
         {

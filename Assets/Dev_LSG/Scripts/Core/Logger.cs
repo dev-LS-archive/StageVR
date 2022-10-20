@@ -19,6 +19,9 @@ namespace Dev_LSG.Scripts.Core
 
         void Awake()
         {
+            if (!Debug.isDebugBuild)
+                gameObject.SetActive(false);
+            
             if (debugAreaText == null)
             {
                 debugAreaText = GetComponent<TextMeshProUGUI>();

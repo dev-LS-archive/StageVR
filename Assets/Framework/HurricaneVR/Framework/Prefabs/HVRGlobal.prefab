@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1416730703189038187}
   - component: {fileID: 4183768154327135795}
   m_Layer: 0
-  m_Name: AudioSourceTemplate
+  m_Name: SFX_AudioSourceTemplate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -171,7 +171,7 @@ GameObject:
   - component: {fileID: 7852545493662609917}
   - component: {fileID: 7848824075361005512}
   m_Layer: 0
-  m_Name: AudioSourceTemplate
+  m_Name: BGM_AudioSourceTemplate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -202,7 +202,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 3196475423415429735, guid: 3112f68933148b64ca6f4ed4d74ad8cb, type: 2}
-  m_audioClip: {fileID: 8300000, guid: 4b1789e872c4dbf40b5fa03cc7360826, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -351,6 +351,7 @@ GameObject:
   - component: {fileID: 3922033727118239866}
   - component: {fileID: 2682805446976548354}
   - component: {fileID: 6653875500687940427}
+  - component: {fileID: 6107317205210238374}
   m_Layer: 0
   m_Name: HVRGlobal
   m_TagString: Untagged
@@ -949,3 +950,17 @@ MonoBehaviour:
   RightTrackPadDownDeactivated:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &6107317205210238374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4013254746517429689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b087da05e1ff8e7489d96da9769b76de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sfxPlayer: {fileID: 4183768154327135795}
+  bgmPlayer: {fileID: 7848824075361005512}
