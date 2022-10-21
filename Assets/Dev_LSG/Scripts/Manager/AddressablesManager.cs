@@ -116,14 +116,14 @@ namespace Dev_LSG.Scripts.Manager
             Logger("Loaded Assets...");
         }
         
-        private void OnDestroy()
-        {
-            uiManager.ReleaseInstance(_manager);
-            playerXRRigAssetReference.ReleaseInstance(_playerController);
-            hvrGlobal.ReleaseInstance(_hvr);
-            playerUI.ReleaseInstance(_playerUIResult);
-            musicAssetReference.ReleaseAsset();
-        } 
+        // private void OnDestroy()
+        // {
+        //     uiManager.ReleaseInstance(_manager);
+        //     playerXRRigAssetReference.ReleaseInstance(_playerController);
+        //     hvrGlobal.ReleaseInstance(_hvr);
+        //     playerUI.ReleaseInstance(_playerUIResult);
+        //     musicAssetReference.ReleaseAsset();
+        // } 
 
         private void Logger(String str)
         {
