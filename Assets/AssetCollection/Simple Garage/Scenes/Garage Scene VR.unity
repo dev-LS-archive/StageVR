@@ -486,7 +486,6 @@ MonoBehaviour:
   ParentHandModel: 1
   BreakDistance: 1
   BreakDistanceSource: 0
-  RemainsKinematic: 1
   Stationary: 0
   ReleasedAngularConversionFactor: 1
   ReleasedVelocityFactor: 1
@@ -777,13 +776,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10345b4efa150014fb756a02715a4231, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SocketOrientation: {fileID: 1590450060}
-  SocketScale: 1
+  Poses: []
   CounterScale: {x: 1, y: 1, z: 1}
+  UseRendererBounds: 1
+  ScaleSize: 0
+  SocketScale: 1
   ScaleOverride: {fileID: 0}
   SocketedClip: {fileID: 0}
   UnsocketedClip: {fileID: 0}
   LinkedGrabbables: []
+  SocketOrientation: {fileID: 1590450060}
   Tags:
     Tags: {fileID: 11400000, guid: 0e83bcde818c784468e6c9a69d44702f, type: 2}
     _data: 1
@@ -811,6 +813,7 @@ MonoBehaviour:
   MaxDepenetration: 0
   COMGizmoSize: {x: 0.02, y: 0.02, z: 0.02}
   LiveUpdate: 0
+  ShowCOMGizmo: 0
   Rigidbody: {fileID: 44901854}
 --- !u!65 &44901852
 BoxCollider:
@@ -879,7 +882,6 @@ MonoBehaviour:
   ParentHandModel: 0
   BreakDistance: 1
   BreakDistanceSource: 0
-  RemainsKinematic: 1
   Stationary: 0
   ReleasedAngularConversionFactor: 0
   ReleasedVelocityFactor: 1
@@ -2347,7 +2349,6 @@ MonoBehaviour:
     MiddleStart: 0
     RingStart: 0
     PinkyStart: 0
-  ReferencePose: {fileID: 0}
   MirrorAxis: 0
 --- !u!1 &161713595
 GameObject:
@@ -5360,13 +5361,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10345b4efa150014fb756a02715a4231, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SocketOrientation: {fileID: 1454720538}
-  SocketScale: 1
+  Poses: []
   CounterScale: {x: 1, y: 1, z: 1}
+  UseRendererBounds: 1
+  ScaleSize: 0
+  SocketScale: 1
   ScaleOverride: {fileID: 0}
   SocketedClip: {fileID: 0}
   UnsocketedClip: {fileID: 0}
   LinkedGrabbables: []
+  SocketOrientation: {fileID: 1454720538}
   Tags:
     Tags: {fileID: 11400000, guid: 0e83bcde818c784468e6c9a69d44702f, type: 2}
     _data: 1
@@ -5394,6 +5398,7 @@ MonoBehaviour:
   MaxDepenetration: 0
   COMGizmoSize: {x: 0.02, y: 0.02, z: 0.02}
   LiveUpdate: 0
+  ShowCOMGizmo: 0
   Rigidbody: {fileID: 298319207}
 --- !u!65 &298319205
 BoxCollider:
@@ -5462,7 +5467,6 @@ MonoBehaviour:
   ParentHandModel: 0
   BreakDistance: 1
   BreakDistanceSource: 0
-  RemainsKinematic: 1
   Stationary: 0
   ReleasedAngularConversionFactor: 0
   ReleasedVelocityFactor: 1
@@ -6457,7 +6461,6 @@ MonoBehaviour:
   ParentHandModel: 1
   BreakDistance: 1
   BreakDistanceSource: 0
-  RemainsKinematic: 1
   Stationary: 0
   ReleasedAngularConversionFactor: 1
   ReleasedVelocityFactor: 1
@@ -7044,7 +7047,6 @@ MonoBehaviour:
   ParentHandModel: 1
   BreakDistance: 1
   BreakDistanceSource: 0
-  RemainsKinematic: 1
   Stationary: 0
   ReleasedAngularConversionFactor: 1
   ReleasedVelocityFactor: 1
@@ -7302,7 +7304,6 @@ MonoBehaviour:
   ParentHandModel: 1
   BreakDistance: 1
   BreakDistanceSource: 0
-  RemainsKinematic: 1
   Stationary: 0
   ReleasedAngularConversionFactor: 1
   ReleasedVelocityFactor: 1
@@ -8201,7 +8202,6 @@ MonoBehaviour:
   ParentHandModel: 1
   BreakDistance: 1
   BreakDistanceSource: 0
-  RemainsKinematic: 1
   Stationary: 0
   ReleasedAngularConversionFactor: 1
   ReleasedVelocityFactor: 1
@@ -9475,6 +9475,7 @@ MonoBehaviour:
   SocketFilters: []
   FilterCondition: 0
   DistanceSource: {fileID: 0}
+  PoseTag: 
   DisableCollision: 1
   SpawnedPrefab:
     m_PersistentCalls:
@@ -10392,7 +10393,6 @@ MonoBehaviour:
   ParentHandModel: 1
   BreakDistance: 1
   BreakDistanceSource: 0
-  RemainsKinematic: 1
   Stationary: 0
   ReleasedAngularConversionFactor: 1
   ReleasedVelocityFactor: 1
@@ -11022,7 +11022,6 @@ MonoBehaviour:
     RingStart: 0
     PinkyStart: 0
   Blends: []
-  ReferencePose: {fileID: 0}
   MirrorAxis: 1
 --- !u!1001 &539935700
 PrefabInstance:
@@ -11215,7 +11214,6 @@ MonoBehaviour:
   ParentHandModel: 1
   BreakDistance: 1
   BreakDistanceSource: 0
-  RemainsKinematic: 1
   Stationary: 0
   ReleasedAngularConversionFactor: 1
   ReleasedVelocityFactor: 1
@@ -12210,7 +12208,6 @@ MonoBehaviour:
   ParentHandModel: 1
   BreakDistance: 1
   BreakDistanceSource: 0
-  RemainsKinematic: 1
   Stationary: 0
   ReleasedAngularConversionFactor: 1
   ReleasedVelocityFactor: 1
@@ -13195,7 +13192,6 @@ MonoBehaviour:
   ParentHandModel: 1
   BreakDistance: 1
   BreakDistanceSource: 0
-  RemainsKinematic: 1
   Stationary: 0
   ReleasedAngularConversionFactor: 1
   ReleasedVelocityFactor: 1
@@ -13683,7 +13679,6 @@ MonoBehaviour:
   ParentHandModel: 1
   BreakDistance: 1
   BreakDistanceSource: 0
-  RemainsKinematic: 1
   Stationary: 0
   ReleasedAngularConversionFactor: 1
   ReleasedVelocityFactor: 1
@@ -16375,7 +16370,6 @@ MonoBehaviour:
   ParentHandModel: 1
   BreakDistance: 1
   BreakDistanceSource: 0
-  RemainsKinematic: 1
   Stationary: 0
   ReleasedAngularConversionFactor: 1
   ReleasedVelocityFactor: 1
@@ -19730,7 +19724,6 @@ MonoBehaviour:
     RingStart: 0
     PinkyStart: 0
   Blends: []
-  ReferencePose: {fileID: 0}
   MirrorAxis: 1
 --- !u!4 &924485722 stripped
 Transform:
@@ -19935,7 +19928,6 @@ MonoBehaviour:
   ParentHandModel: 1
   BreakDistance: 1
   BreakDistanceSource: 0
-  RemainsKinematic: 1
   Stationary: 0
   ReleasedAngularConversionFactor: 1
   ReleasedVelocityFactor: 1
@@ -20775,7 +20767,6 @@ MonoBehaviour:
   ParentHandModel: 1
   BreakDistance: 1
   BreakDistanceSource: 0
-  RemainsKinematic: 1
   Stationary: 0
   ReleasedAngularConversionFactor: 1
   ReleasedVelocityFactor: 1
@@ -22289,7 +22280,6 @@ MonoBehaviour:
     RingStart: 0
     PinkyStart: 0
   Blends: []
-  ReferencePose: {fileID: 0}
   MirrorAxis: 1
 --- !u!1 &1016864509
 GameObject:
@@ -22736,6 +22726,7 @@ MonoBehaviour:
   SocketFilters: []
   FilterCondition: 0
   DistanceSource: {fileID: 0}
+  PoseTag: 
   DisableCollision: 1
   SpawnedPrefab:
     m_PersistentCalls:
@@ -23217,7 +23208,6 @@ MonoBehaviour:
     RingStart: 0
     PinkyStart: 0
   Blends: []
-  ReferencePose: {fileID: 0}
   MirrorAxis: 0
 --- !u!1 &1060010800
 GameObject:
@@ -23795,7 +23785,6 @@ MonoBehaviour:
     RingStart: 0
     PinkyStart: 0
   Blends: []
-  ReferencePose: {fileID: 0}
   MirrorAxis: 1
 --- !u!1 &1089828803
 GameObject:
@@ -25124,7 +25113,6 @@ MonoBehaviour:
     RingStart: 0
     PinkyStart: 0
   Blends: []
-  ReferencePose: {fileID: 0}
   MirrorAxis: 0
 --- !u!1 &1181723891
 GameObject:
@@ -25334,7 +25322,6 @@ MonoBehaviour:
     RingStart: 0
     PinkyStart: 0
   Blends: []
-  ReferencePose: {fileID: 0}
   MirrorAxis: 1
 --- !u!1 &1190664272
 GameObject:
@@ -25853,7 +25840,6 @@ MonoBehaviour:
   ParentHandModel: 1
   BreakDistance: 1
   BreakDistanceSource: 0
-  RemainsKinematic: 1
   Stationary: 0
   ReleasedAngularConversionFactor: 1
   ReleasedVelocityFactor: 1
@@ -26078,7 +26064,6 @@ MonoBehaviour:
   ParentHandModel: 1
   BreakDistance: 1
   BreakDistanceSource: 0
-  RemainsKinematic: 1
   Stationary: 0
   ReleasedAngularConversionFactor: 1
   ReleasedVelocityFactor: 1
@@ -26703,7 +26688,6 @@ MonoBehaviour:
     RingStart: 0
     PinkyStart: 0
   Blends: []
-  ReferencePose: {fileID: 0}
   MirrorAxis: 0
 --- !u!1 &1242102017
 GameObject:
@@ -27292,7 +27276,6 @@ MonoBehaviour:
     RingStart: 0
     PinkyStart: 0
   Blends: []
-  ReferencePose: {fileID: 0}
   MirrorAxis: 1
 --- !u!1 &1263138493
 GameObject:
@@ -27519,6 +27502,7 @@ MonoBehaviour:
   MaxDepenetration: 0
   COMGizmoSize: {x: 0.02, y: 0.02, z: 0.02}
   LiveUpdate: 0
+  ShowCOMGizmo: 0
   Rigidbody: {fileID: 1268544956}
 --- !u!54 &1268544956
 Rigidbody:
@@ -27560,7 +27544,6 @@ MonoBehaviour:
   ParentHandModel: 1
   BreakDistance: 1
   BreakDistanceSource: 0
-  RemainsKinematic: 1
   Stationary: 1
   ReleasedAngularConversionFactor: 1
   ReleasedVelocityFactor: 1
@@ -28520,7 +28503,6 @@ MonoBehaviour:
   ParentHandModel: 1
   BreakDistance: 1
   BreakDistanceSource: 0
-  RemainsKinematic: 1
   Stationary: 0
   ReleasedAngularConversionFactor: 1
   ReleasedVelocityFactor: 1
@@ -28705,13 +28687,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10345b4efa150014fb756a02715a4231, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SocketOrientation: {fileID: 2067360853}
-  SocketScale: 1
+  Poses: []
   CounterScale: {x: 1, y: 1, z: 1}
+  UseRendererBounds: 1
+  ScaleSize: 0
+  SocketScale: 1
   ScaleOverride: {fileID: 0}
   SocketedClip: {fileID: 0}
   UnsocketedClip: {fileID: 0}
   LinkedGrabbables: []
+  SocketOrientation: {fileID: 2067360853}
   Tags:
     Tags: {fileID: 11400000, guid: 0e83bcde818c784468e6c9a69d44702f, type: 2}
     _data: 1
@@ -29387,7 +29372,6 @@ MonoBehaviour:
   ParentHandModel: 1
   BreakDistance: 1
   BreakDistanceSource: 0
-  RemainsKinematic: 1
   Stationary: 0
   ReleasedAngularConversionFactor: 1
   ReleasedVelocityFactor: 1
@@ -30533,7 +30517,6 @@ MonoBehaviour:
   ParentHandModel: 1
   BreakDistance: 1
   BreakDistanceSource: 0
-  RemainsKinematic: 1
   Stationary: 0
   ReleasedAngularConversionFactor: 1
   ReleasedVelocityFactor: 1
@@ -31450,7 +31433,6 @@ MonoBehaviour:
   ParentHandModel: 1
   BreakDistance: 1
   BreakDistanceSource: 0
-  RemainsKinematic: 1
   Stationary: 0
   ReleasedAngularConversionFactor: 1
   ReleasedVelocityFactor: 1
@@ -32430,7 +32412,6 @@ MonoBehaviour:
   ParentHandModel: 1
   BreakDistance: 1
   BreakDistanceSource: 0
-  RemainsKinematic: 1
   Stationary: 1
   ReleasedAngularConversionFactor: 1
   ReleasedVelocityFactor: 1
@@ -33173,7 +33154,6 @@ MonoBehaviour:
   ParentHandModel: 1
   BreakDistance: 1
   BreakDistanceSource: 0
-  RemainsKinematic: 1
   Stationary: 0
   ReleasedAngularConversionFactor: 1
   ReleasedVelocityFactor: 1
@@ -33469,7 +33449,6 @@ MonoBehaviour:
   ParentHandModel: 1
   BreakDistance: 1
   BreakDistanceSource: 0
-  RemainsKinematic: 1
   Stationary: 0
   ReleasedAngularConversionFactor: 1
   ReleasedVelocityFactor: 1
@@ -33983,7 +33962,6 @@ MonoBehaviour:
   ParentHandModel: 1
   BreakDistance: 1
   BreakDistanceSource: 0
-  RemainsKinematic: 1
   Stationary: 0
   ReleasedAngularConversionFactor: 1
   ReleasedVelocityFactor: 1
@@ -34303,7 +34281,6 @@ MonoBehaviour:
   ParentHandModel: 1
   BreakDistance: 1
   BreakDistanceSource: 0
-  RemainsKinematic: 1
   Stationary: 0
   ReleasedAngularConversionFactor: 1
   ReleasedVelocityFactor: 1
@@ -34714,7 +34691,6 @@ MonoBehaviour:
     RingStart: 0
     PinkyStart: 0
   Blends: []
-  ReferencePose: {fileID: 0}
   MirrorAxis: 0
 --- !u!1 &1610359819
 GameObject:
@@ -35239,7 +35215,6 @@ MonoBehaviour:
   ParentHandModel: 1
   BreakDistance: 1
   BreakDistanceSource: 0
-  RemainsKinematic: 1
   Stationary: 0
   ReleasedAngularConversionFactor: 1
   ReleasedVelocityFactor: 1
@@ -36971,7 +36946,6 @@ MonoBehaviour:
   ParentHandModel: 1
   BreakDistance: 1
   BreakDistanceSource: 0
-  RemainsKinematic: 1
   Stationary: 0
   ReleasedAngularConversionFactor: 1
   ReleasedVelocityFactor: 1
@@ -37855,6 +37829,7 @@ MonoBehaviour:
   SocketFilters: []
   FilterCondition: 0
   DistanceSource: {fileID: 0}
+  PoseTag: 
   DisableCollision: 1
   SpawnedPrefab:
     m_PersistentCalls:
@@ -38073,7 +38048,6 @@ MonoBehaviour:
     RingStart: 0
     PinkyStart: 0
   Blends: []
-  ReferencePose: {fileID: 0}
   MirrorAxis: 0
 --- !u!1 &1811402201
 GameObject:
@@ -38191,7 +38165,6 @@ MonoBehaviour:
     RingStart: 0
     PinkyStart: 0
   Blends: []
-  ReferencePose: {fileID: 0}
   MirrorAxis: 1
 --- !u!1 &1814170125
 GameObject:
@@ -38626,6 +38599,7 @@ MonoBehaviour:
   SocketFilters: []
   FilterCondition: 0
   DistanceSource: {fileID: 0}
+  PoseTag: 
   DisableCollision: 1
   SpawnedPrefab:
     m_PersistentCalls:
@@ -39375,13 +39349,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10345b4efa150014fb756a02715a4231, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SocketOrientation: {fileID: 2131670470}
-  SocketScale: 1
+  Poses: []
   CounterScale: {x: 1, y: 1, z: 1}
+  UseRendererBounds: 1
+  ScaleSize: 0
+  SocketScale: 1
   ScaleOverride: {fileID: 0}
   SocketedClip: {fileID: 0}
   UnsocketedClip: {fileID: 0}
   LinkedGrabbables: []
+  SocketOrientation: {fileID: 2131670470}
   Tags:
     Tags: {fileID: 11400000, guid: 0e83bcde818c784468e6c9a69d44702f, type: 2}
     _data: 1
@@ -39409,6 +39386,7 @@ MonoBehaviour:
   MaxDepenetration: 0
   COMGizmoSize: {x: 0.02, y: 0.02, z: 0.02}
   LiveUpdate: 0
+  ShowCOMGizmo: 0
   Rigidbody: {fileID: 1867541726}
 --- !u!65 &1867541724
 BoxCollider:
@@ -39477,7 +39455,6 @@ MonoBehaviour:
   ParentHandModel: 0
   BreakDistance: 1
   BreakDistanceSource: 0
-  RemainsKinematic: 1
   Stationary: 0
   ReleasedAngularConversionFactor: 0
   ReleasedVelocityFactor: 1
@@ -39653,7 +39630,6 @@ MonoBehaviour:
   ParentHandModel: 1
   BreakDistance: 1
   BreakDistanceSource: 0
-  RemainsKinematic: 1
   Stationary: 0
   ReleasedAngularConversionFactor: 1
   ReleasedVelocityFactor: 1
@@ -39997,7 +39973,6 @@ MonoBehaviour:
     RingStart: 0
     PinkyStart: 0
   Blends: []
-  ReferencePose: {fileID: 0}
   MirrorAxis: 1
 --- !u!1001 &1892337733
 PrefabInstance:
@@ -41243,6 +41218,7 @@ MonoBehaviour:
   SocketFilters: []
   FilterCondition: 0
   DistanceSource: {fileID: 0}
+  PoseTag: 
   DisableCollision: 1
   SpawnedPrefab:
     m_PersistentCalls:
@@ -41944,7 +41920,6 @@ MonoBehaviour:
   ParentHandModel: 1
   BreakDistance: 1
   BreakDistanceSource: 0
-  RemainsKinematic: 1
   Stationary: 0
   ReleasedAngularConversionFactor: 1
   ReleasedVelocityFactor: 1
@@ -42395,7 +42370,6 @@ MonoBehaviour:
   ParentHandModel: 1
   BreakDistance: 1
   BreakDistanceSource: 0
-  RemainsKinematic: 1
   Stationary: 0
   ReleasedAngularConversionFactor: 1
   ReleasedVelocityFactor: 1
@@ -42775,7 +42749,6 @@ MonoBehaviour:
   ParentHandModel: 1
   BreakDistance: 1
   BreakDistanceSource: 0
-  RemainsKinematic: 1
   Stationary: 0
   ReleasedAngularConversionFactor: 1
   ReleasedVelocityFactor: 1
@@ -43713,7 +43686,6 @@ MonoBehaviour:
   ParentHandModel: 1
   BreakDistance: 1
   BreakDistanceSource: 0
-  RemainsKinematic: 1
   Stationary: 0
   ReleasedAngularConversionFactor: 1
   ReleasedVelocityFactor: 1
@@ -44782,7 +44754,6 @@ MonoBehaviour:
   ParentHandModel: 1
   BreakDistance: 1
   BreakDistanceSource: 0
-  RemainsKinematic: 1
   Stationary: 0
   ReleasedAngularConversionFactor: 1
   ReleasedVelocityFactor: 1
