@@ -11,7 +11,7 @@ namespace Dev_LSG.Scripts.UI
         public Image cooldown;
         public bool coolingDown;
         public float waitTime = 3.0f;
-        public UnityEvent[] fullFillFunctions;
+        public UnityEvent fullFillFunctions;
 
         public void ActFill()
         {
@@ -37,10 +37,7 @@ namespace Dev_LSG.Scripts.UI
 
                 if (Math.Abs(Math.Abs(cooldown.fillAmount) - 1) == 0)
                 {
-                    foreach (var function in fullFillFunctions)
-                    {
-                        function.Invoke();
-                    }
+                    fullFillFunctions.Invoke();
                     break;
                 }
             }
