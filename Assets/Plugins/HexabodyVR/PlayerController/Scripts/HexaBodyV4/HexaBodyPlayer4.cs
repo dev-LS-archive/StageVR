@@ -1314,7 +1314,12 @@ namespace HexabodyVR.PlayerController
             _previousTurnAxis = input;
         }
 
-        protected virtual IEnumerator SnapTurn(float sign)
+        public void CallSnapTurn()
+        {
+            StartCoroutine(SnapTurn(Mathf.Sign(SnapThreshold)));
+        }
+
+        public virtual IEnumerator SnapTurn(float sign)
         {
             _turning = true;
 
@@ -1325,7 +1330,6 @@ namespace HexabodyVR.PlayerController
 
             while (elapsed < time)
             {
-
                 var angle = Quaternion.Angle(Pelvis.transform.rotation, finish);
                 if (angle < SnapTurnSpeed * Time.fixedDeltaTime)
                     TurnSpeed = sign * angle;
