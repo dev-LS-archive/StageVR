@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using HexabodyVR.PlayerController;
 using UnityEngine;
@@ -12,7 +11,6 @@ namespace Dev_LSG.Scripts.Interactables
         public float waitTime = 10.0f;
         public Volume volume;
         public Transform body;
-        public MovablePlatform platform;
         [SerializeField]
         private bool fading = false;
         
@@ -39,7 +37,7 @@ namespace Dev_LSG.Scripts.Interactables
 
         IEnumerator Fade()
         {
-            print(1.0f/waitTime);
+            //print(1.0f/waitTime);
             while (fading)
             {
                 //Reduce fill amount over 30 seconds
@@ -50,6 +48,7 @@ namespace Dev_LSG.Scripts.Interactables
                 {
                     volume.weight = 1;
                     body.GetComponent<HexaBodyPlayer4>().CallSnapTurn();
+                    fullFillFunctions.Invoke();
                     StartCoroutine(UnFade());
                     break;
                 }
@@ -68,8 +67,6 @@ namespace Dev_LSG.Scripts.Interactables
                 if (volume.weight <= 0)
                 {
                     volume.weight = 0;
-                    fullFillFunctions.Invoke();
-                    platform.CallMove();
                     gameObject.SetActive(false);
                     break;
                 }

@@ -1,10 +1,12 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Dev_LSG.Scripts.Interactables
 {
     public class MovablePlatform : MonoBehaviour
     {
+        public bool canEvent = true;
         private Rigidbody Rigidbody { get; set; }
         public Transform[] end;
         public float speed = 3f;
@@ -19,6 +21,8 @@ namespace Dev_LSG.Scripts.Interactables
         private bool _waiting = true;
         private bool _endTarget;
         private float _elapsed;
+        
+        public UnityEvent[] endEvent;
     
         void Start()
         {
@@ -44,6 +48,9 @@ namespace Dev_LSG.Scripts.Interactables
                 if ((_target - Rigidbody.position).magnitude < .01)
                 {
                     _speed = 0f;
+                    if (canEvent)
+                        endEvent[order].Invoke();
+                    print("Event");
                     order++;
                     if (order.Equals(end.Length))
                     {
