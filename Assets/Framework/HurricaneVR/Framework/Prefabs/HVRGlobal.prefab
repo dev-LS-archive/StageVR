@@ -137,6 +137,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6604352366278366314}
+  - component: {fileID: 836756127}
   m_Layer: 0
   m_Name: BGMPlayer
   m_TagString: Untagged
@@ -160,6 +161,22 @@ Transform:
   m_Father: {fileID: 4013254746517429691}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &836756127
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1667527619117936718}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 419c2eb96dd76bc41abbcac86b3f572c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bgmAudioSource: {fileID: 7848824075361005512}
+  roadBGM: {fileID: 8300000, guid: cf48f06e01265e4499e0b383cb533cc4, type: 3}
+  construction: {fileID: 0}
+  hammering: {fileID: 0}
 --- !u!1 &2170131821279929368
 GameObject:
   m_ObjectHideFlags: 0
@@ -204,7 +221,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 3196475423415429735, guid: 3112f68933148b64ca6f4ed4d74ad8cb, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.2
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -248,7 +265,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 0
       inSlope: 0
       outSlope: 0
       tangentMode: 0
