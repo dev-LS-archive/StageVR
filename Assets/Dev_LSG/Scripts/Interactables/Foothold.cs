@@ -13,6 +13,8 @@ namespace Dev_LSG.Scripts.Interactables
         public Transform body;
         [SerializeField]
         private bool fading = false;
+
+        public bool dontFade = false;
         
         public UnityEvent fullFillFunctions;
         private void OnTriggerEnter(Collider other)
@@ -40,6 +42,12 @@ namespace Dev_LSG.Scripts.Interactables
             //print(1.0f/waitTime);
             while (fading)
             {
+                if (dontFade)
+                {
+                    fullFillFunctions.Invoke();
+                    gameObject.SetActive(false);
+                    break;
+                }
                 //Reduce fill amount over 30 seconds
                 volume.weight += 1.0f/waitTime * Time.deltaTime;
                 yield return null;
