@@ -24,6 +24,10 @@ namespace Dev_LSG.Scripts.Interactables
         private float _elapsed;
         
         public UnityEvent[] endEvent;
+
+        public bool brake;
+        public Transform audioPos;
+        public AudioSource brakeSound;
     
         void Awake()
         {
@@ -33,6 +37,7 @@ namespace Dev_LSG.Scripts.Interactables
             _waiting = true;
         }
 
+        [ContextMenu("Call Move")]
         public void CallMove()
         {
             _waiting = false;
@@ -46,6 +51,15 @@ namespace Dev_LSG.Scripts.Interactables
                 _speed = Mathf.Lerp(0, speed, _elapsed / timeToMaxSpeed);
                 Rigidbody.MovePosition(Vector3.MoveTowards(Rigidbody.position, _target, _speed * Time.deltaTime));
 
+                if (brake)
+                {
+                    if ((audioPos.position - Rigidbody.position).magnitude < 5)
+                    {
+                        //print("Audio");
+                        brakeSound.Play();
+                    }
+                }
+                
                 if ((_target - Rigidbody.position).magnitude < .01)
                 {
                     _speed = 0f;
