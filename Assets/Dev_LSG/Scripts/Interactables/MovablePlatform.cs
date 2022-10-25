@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
@@ -24,7 +25,7 @@ namespace Dev_LSG.Scripts.Interactables
         
         public UnityEvent[] endEvent;
     
-        void Start()
+        void Awake()
         {
             Rigidbody = GetComponent<Rigidbody>();
             _target = end[order].position;
@@ -69,6 +70,14 @@ namespace Dev_LSG.Scripts.Interactables
                     _elapsed = 0f;
                 }
                 yield return new WaitForFixedUpdate();
+            }
+        }
+
+        private void OnCollisionEnter(Collision collision)
+        {
+            if (collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
+            {
+                _speed = 0f;
             }
         }
     }

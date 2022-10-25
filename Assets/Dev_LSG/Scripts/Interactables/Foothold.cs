@@ -37,6 +37,11 @@ namespace Dev_LSG.Scripts.Interactables
             }
         }
 
+        public void CallUnfade()
+        {
+            StartCoroutine(UnFade());
+        }
+
         IEnumerator Fade()
         {
             //print(1.0f/waitTime);
@@ -80,6 +85,10 @@ namespace Dev_LSG.Scripts.Interactables
                 }
             }
             yield return null;
+            if (volume.weight != 0)
+            {
+                StartCoroutine(UnFade());
+            }
         }
     }
 }

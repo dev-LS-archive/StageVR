@@ -22,7 +22,7 @@ namespace Dev_LSG.Scripts.Player
                 if (_fading == false)
                 {
                     _fading = true;
-                    StartCoroutine(Filling());
+                    //StartCoroutine(Filling());
                 }
             }
         }
@@ -35,9 +35,15 @@ namespace Dev_LSG.Scripts.Player
                 if (_fading == false)
                 {
                     _fading = true;
-                    StartCoroutine(Filling());
+                    //StartCoroutine(Filling());
                 }
             }
+        }
+
+        public void CallDie()
+        {
+            _fading = true;
+            StartCoroutine(Filling());
         }
 
         IEnumerator Filling()
