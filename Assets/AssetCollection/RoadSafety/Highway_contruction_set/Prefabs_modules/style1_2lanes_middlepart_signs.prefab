@@ -178,6 +178,7 @@ GameObject:
   - component: {fileID: 3300004}
   - component: {fileID: 2300004}
   - component: {fileID: 20500000}
+  - component: {fileID: 5122543481312331237}
   m_Layer: 0
   m_Name: style1_2lanes_middlepart_signs
   m_TagString: Untagged
@@ -279,6 +280,19 @@ LODGroup:
     renderers:
     - renderer: {fileID: 2300000}
   m_Enabled: 1
+--- !u!65 &5122543481312331237
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100004}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 43.427193, y: 0, z: 30}
+  m_Center: {x: 0, y: -0.21736094, z: 0}
 --- !u!1 &100006
 GameObject:
   m_ObjectHideFlags: 0
@@ -295,7 +309,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &400006
 Transform:
   m_ObjectHideFlags: 0
@@ -320,7 +334,7 @@ MeshCollider:
   m_GameObject: {fileID: 100006}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30

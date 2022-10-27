@@ -21,9 +21,13 @@ namespace Dev_LSG.Scripts.Interactables
         {
             if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
             {
-                //print("PlayerEnter");
-                fading = true;
-                StartCoroutine(Fade());
+                print("PlayerEnter");
+                if (fading == false)
+                {
+                    print("call");
+                    fading = true;
+                    StartCoroutine(Fade());
+                }
             }
         }
 
@@ -31,9 +35,9 @@ namespace Dev_LSG.Scripts.Interactables
         {
             if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
             {
-                //print("PlayerExit");
+                print("PlayerExit");
                 volume.weight = 0;
-                fading = false;
+                //fading = false;
             }
         }
 
@@ -60,7 +64,7 @@ namespace Dev_LSG.Scripts.Interactables
                 if (volume.weight >= 1)
                 {
                     volume.weight = 1;
-                    body.GetComponent<HexaBodyPlayer4>().CallSnapTurn();
+                    //body.GetComponent<HexaBodyPlayer4>().CallSnapTurn();
                     fullFillFunctions.Invoke();
                     StartCoroutine(UnFade());
                     break;
