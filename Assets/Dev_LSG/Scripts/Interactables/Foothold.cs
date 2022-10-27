@@ -21,7 +21,7 @@ namespace Dev_LSG.Scripts.Interactables
         {
             if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
             {
-                print("PlayerEnter");
+                //print("PlayerEnter");
                 if (fading == false)
                 {
                     print("call");
@@ -35,7 +35,7 @@ namespace Dev_LSG.Scripts.Interactables
         {
             if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
             {
-                print("PlayerExit");
+                //print("PlayerExit");
                 volume.weight = 0;
                 //fading = false;
             }

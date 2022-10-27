@@ -14,17 +14,28 @@ namespace Dev_LSG.Scripts.Player
                 public KeyCode Recenter = KeyCode.Space;
                 [SerializeField] private Transform firstPos;
 
-                private void Start()
+                void OnEnable()
                 {
-                        if (SceneManager.GetActiveScene().name == "MainMenu"||SceneManager.GetActiveScene().name == "SelectMenu")
+                        SceneManager.sceneLoaded += OnSceneLoaded;
+                }
+                
+                void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+                {
+                        if (scene.name == "MainMenu"||scene.name == "SelectMenu")
                         {
+                                //print("Menu");
                                 ResetPosition();
                         }
                         else
                         {
-                                print("First");
+                                //print("First");
                                 FirstResetPosition();
                         }
+                }
+                void OnDisable()
+                {
+                        //Debug.Log("OnDisable");
+                        SceneManager.sceneLoaded -= OnSceneLoaded;
                 }
 
 
