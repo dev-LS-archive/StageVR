@@ -31,15 +31,15 @@ namespace Dev_LSG.Scripts.Interactables
             }
         }
 
-        private void OnTriggerExit(Collider other)
-        {
-            if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
-            {
-                //print("PlayerExit");
-                volume.weight = 0;
-                //fading = false;
-            }
-        }
+        // private void OnTriggerExit(Collider other)
+        // {
+        //     if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
+        //     {
+        //         //print("PlayerExit");
+        //         volume.weight = 0;
+        //         //fading = false;
+        //     }
+        // }
 
         public void CallUnfade()
         {
@@ -64,7 +64,7 @@ namespace Dev_LSG.Scripts.Interactables
                 if (volume.weight >= 1)
                 {
                     volume.weight = 1;
-                    //body.GetComponent<HexaBodyPlayer4>().CallSnapTurn();
+                    body.GetComponent<HexaBodyPlayer4>().CallSnapTurn();
                     fullFillFunctions.Invoke();
                     StartCoroutine(UnFade());
                     break;
