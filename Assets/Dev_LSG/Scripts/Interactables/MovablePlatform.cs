@@ -50,7 +50,8 @@ namespace Dev_LSG.Scripts.Interactables
             {
                 _speed = Mathf.Lerp(0, speed, _elapsed / timeToMaxSpeed);
 
-                Rigidbody.MoveRotation(Quaternion.RotateTowards(Rigidbody.rotation, end[order].rotation, _speed));
+                //Rigidbody.MoveRotation(Quaternion.RotateTowards(Rigidbody.rotation, end[order].rotation,
+                    //_speed * Time.deltaTime));
                 Rigidbody.MovePosition(Vector3.MoveTowards(Rigidbody.position, _target, _speed * Time.deltaTime));
 
                 if (brake)
