@@ -13,9 +13,10 @@ namespace Dev_LSG.Scripts.Interactables
         public Transform body;
         [SerializeField]
         private bool fading = false;
-
-        public bool dontFade = false;
         
+        [SerializeField]
+        private bool dontFade = false;
+
         public UnityEvent fullFillFunctions;
         private void OnTriggerEnter(Collider other)
         {

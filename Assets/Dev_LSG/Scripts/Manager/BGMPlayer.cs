@@ -30,6 +30,11 @@ namespace Dev_LSG.Scripts.Manager
                 bgmAudioSource.clip = roadBGM;
                 bgmAudioSource.Play();
             }
+            else if (scene.name == "ShoulderofSafety")
+            {
+                bgmAudioSource.clip = roadBGM;
+                bgmAudioSource.Play();
+            }
             else
             {
                 bgmAudioSource.Stop();
