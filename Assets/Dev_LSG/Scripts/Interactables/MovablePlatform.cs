@@ -49,6 +49,8 @@ namespace Dev_LSG.Scripts.Interactables
             while (!_waiting)
             {
                 _speed = Mathf.Lerp(0, speed, _elapsed / timeToMaxSpeed);
+
+                Rigidbody.MoveRotation(Quaternion.RotateTowards(Rigidbody.rotation, end[order].rotation, _speed));
                 Rigidbody.MovePosition(Vector3.MoveTowards(Rigidbody.position, _target, _speed * Time.deltaTime));
 
                 if (brake)
@@ -64,7 +66,11 @@ namespace Dev_LSG.Scripts.Interactables
                 {
                     _speed = 0f;
                     if (canEvent)
-                        endEvent[order].Invoke();
+                    {
+                        if (order < endEvent.Length)
+                            endEvent[order].Invoke();
+                    }
+                        
                     print("Event");
                     order++;
                     if (order.Equals(end.Length))
