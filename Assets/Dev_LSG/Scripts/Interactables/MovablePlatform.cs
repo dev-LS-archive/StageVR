@@ -22,6 +22,7 @@ namespace Dev_LSG.Scripts.Interactables
         private bool _waiting = true;
         private bool _endTarget;
         private float _elapsed;
+        private float _rotSpeed;
         
         public UnityEvent[] endEvent;
 
@@ -46,12 +47,17 @@ namespace Dev_LSG.Scripts.Interactables
 
         IEnumerator Moving()
         {
+            var distance = Vector3.Distance(_target, Rigidbody.position);
+            var rotDiff = end[order].rotation.y - transform.rotation.y;
+            _rotSpeed = 1 / distance;
+            //_rotSpeed = Mathf.Abs(rotDiff / distance);
+            
             while (!_waiting)
             {
                 _speed = Mathf.Lerp(0, speed, _elapsed / timeToMaxSpeed);
-
-                //Rigidbody.MoveRotation(Quaternion.RotateTowards(Rigidbody.rotation, end[order].rotation,
-                    //_speed * Time.deltaTime));
+                
+                Rigidbody.rotation = Quaternion.Lerp(Rigidbody.rotation, end[order].rotation,
+                    1 * Time.deltaTime);
                 Rigidbody.MovePosition(Vector3.MoveTowards(Rigidbody.position, _target, _speed * Time.deltaTime));
 
                 if (brake)
@@ -64,6 +70,7 @@ namespace Dev_LSG.Scripts.Interactables
                 }
                 
                 if ((_target - Rigidbody.position).magnitude < .01)
+                    
                 {
                     _speed = 0f;
                     if (canEvent)
@@ -72,7 +79,7 @@ namespace Dev_LSG.Scripts.Interactables
                             endEvent[order].Invoke();
                     }
                         
-                    print("Event");
+                    //print("Event");
                     order++;
                     if (order.Equals(end.Length))
                     {

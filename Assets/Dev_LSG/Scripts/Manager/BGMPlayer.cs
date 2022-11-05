@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -9,6 +10,8 @@ namespace Dev_LSG.Scripts.Manager
         public AudioClip roadBGM;
         public AudioClip construction;
         public AudioClip hammering;
+        public AudioClip main;
+        public AudioClip select;
 
         // called first
         void OnEnable()
@@ -20,30 +23,48 @@ namespace Dev_LSG.Scripts.Manager
         // called second
         void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
+            bgmAudioSource.loop = true;
             if (scene.name == "RemovalofSafety_1")
             {
-                bgmAudioSource.clip = roadBGM;
-                bgmAudioSource.Play();
+                Play(roadBGM);
             }
             else if (scene.name == "RemovalofSafety_2")
             {
-                bgmAudioSource.clip = roadBGM;
-                bgmAudioSource.Play();
+                Play(roadBGM);
             }
             else if (scene.name == "ShoulderofSafety")
             {
-                bgmAudioSource.clip = roadBGM;
-                bgmAudioSource.Play();
+                Play(roadBGM);
             }
             else
             {
                 bgmAudioSource.Stop();
                 bgmAudioSource.clip = null;
+                bgmAudioSource.loop = false;
+                if (scene.name == "MainMenu")
+                {
+                    StartCoroutine(DelayPlay(main));
+                }
+                else if (scene.name == "SelectMenu")
+                {
+                    StartCoroutine(DelayPlay(select));
+                }
             }
             //Debug.Log("OnSceneLoaded: " + scene.name);
             //Debug.Log(mode);
         }
-        
+
+        IEnumerator DelayPlay(AudioClip clip)
+        {
+            yield return new WaitForSeconds(0.5f);
+            Play(clip);
+        }
+
+        void Play(AudioClip clip)
+        {
+            bgmAudioSource.clip = clip;
+            bgmAudioSource.Play();
+        }
         // called when the game is terminated
         void OnDisable()
         {
