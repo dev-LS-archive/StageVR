@@ -3368,6 +3368,7 @@ GameObject:
   - component: {fileID: 1645433649}
   - component: {fileID: 1645433648}
   - component: {fileID: 1645433651}
+  - component: {fileID: 1645433652}
   m_Layer: 5
   m_Name: start_bg
   m_TagString: Untagged
@@ -3509,10 +3510,10 @@ MonoBehaviour:
   fullFillFunctions:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1161858739}
-        m_TargetAssemblyTypeName: Dev_LSG.Scripts.Manager.SceneManager, Dev_LSG_Manager
-        m_MethodName: SceneLoad
-        m_Mode: 5
+      - m_Target: {fileID: 1645433652}
+        m_TargetAssemblyTypeName: Dev_LSG.Scripts.Event.DelayEvent, Dev_LSG.Scripts.Event
+        m_MethodName: CallDelay
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -3533,6 +3534,34 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1645433652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1645433646}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6386dd11689ee3448bb05f04528e2c2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  delayEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1161858739}
+        m_TargetAssemblyTypeName: Dev_LSG.Scripts.Manager.SceneManager, Dev_LSG.Scripts.Manager
+        m_MethodName: SceneLoad
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: SelectMenu
+          m_BoolArgument: 0
+        m_CallState: 2
+  delay: 0.5
 --- !u!1 &1650486262
 GameObject:
   m_ObjectHideFlags: 0

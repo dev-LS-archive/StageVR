@@ -25,11 +25,12 @@ namespace Dev_LSG.Scripts.Manager
         {
             bgmAudioSource.loop = true;
             bgmAudioSource.volume = 0.2f;
-            if (scene.name == "RemovalofSafety_1")
+            if (scene.name == "RemovalofSafety_1" || scene.name == "RemovalofSafety_1_end")
             {
                 Play(roadBGM);
             }
-            else if (scene.name == "RemovalofSafety_2")
+            else if (scene.name == "RemovalofSafety_2" || scene.name == "RemovalofSafety_2_end" ||
+                     scene.name == "RemovalofSafety_2_end_1" || scene.name == "RemovalofSafety_2_end_2")
             {
                 Play(roadBGM);
             }

@@ -33,6 +33,8 @@ namespace Dev_LSG.Scripts.Interactables
         public bool delayCall = false;
         public float delayDistance = 15f;
 
+        public bool canRot = false;
+
         public void RotFastSet(bool value)
         {
             rotFast = value;
@@ -92,9 +94,12 @@ namespace Dev_LSG.Scripts.Interactables
             while (!_waiting)
             {
                 _speed = Mathf.Lerp(0, speed, _elapsed / timeToMaxSpeed);
-                
-                Rigidbody.rotation = Quaternion.Lerp(Rigidbody.rotation, end[order].rotation,
-                    _rotSpeed * Time.deltaTime);
+
+                if (canRot == true)
+                {
+                    Rigidbody.rotation = Quaternion.Lerp(Rigidbody.rotation, end[order].rotation,
+                        _rotSpeed * Time.deltaTime);
+                }
                 Rigidbody.MovePosition(Vector3.MoveTowards(Rigidbody.position, _target, _speed * Time.deltaTime));
 
                 if (brake)
