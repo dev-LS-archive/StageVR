@@ -16,6 +16,8 @@ namespace Dev_LSG.Scripts.Interactables
         
         [SerializeField]
         private bool dontFade = false;
+        [SerializeField]
+        private bool dontSnap = false;
 
         public UnityEvent fullFillFunctions;
         private void OnTriggerEnter(Collider other)
@@ -65,7 +67,8 @@ namespace Dev_LSG.Scripts.Interactables
                 if (volume.weight >= 1)
                 {
                     volume.weight = 1;
-                    body.GetComponent<HexaBodyPlayer4>().CallSnapTurn();
+                    if (!dontSnap) 
+                        body.GetComponent<HexaBodyPlayer4>().CallSnapTurn();
                     fullFillFunctions.Invoke();
                     StartCoroutine(UnFade());
                     break;

@@ -24,6 +24,7 @@ namespace Dev_LSG.Scripts.Manager
         void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
             bgmAudioSource.loop = true;
+            bgmAudioSource.volume = 0.2f;
             if (scene.name == "RemovalofSafety_1")
             {
                 Play(roadBGM);
@@ -41,6 +42,7 @@ namespace Dev_LSG.Scripts.Manager
                 bgmAudioSource.Stop();
                 bgmAudioSource.clip = null;
                 bgmAudioSource.loop = false;
+                bgmAudioSource.volume = 1f;
                 if (scene.name == "MainMenu")
                 {
                     StartCoroutine(DelayPlay(main));

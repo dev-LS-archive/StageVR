@@ -29,7 +29,18 @@ namespace Dev_LSG.Scripts.Interactables
         public bool brake;
         public Transform audioPos;
         public AudioSource brakeSound;
-    
+        public bool rotFast = false;
+        public bool delayCall = false;
+        public float delayDistance = 15f;
+
+        public void RotFastSet(bool value)
+        {
+            rotFast = value;
+        }
+        public void SpeedSet(float value)
+        {
+            speed = value;
+        }
         void Awake()
         {
             Rigidbody = GetComponent<Rigidbody>();
@@ -45,19 +56,45 @@ namespace Dev_LSG.Scripts.Interactables
             StartCoroutine(Moving());
         }
 
+        public void SetDelayCall(bool value)
+        {
+            delayCall = value;
+        }
+
+        public void SetTransform()
+        {
+            end[order].position = transform.position;
+        }
+
+        public void Call_wait(float second)
+        {
+            StartCoroutine(Call_Wait(second));
+        }
+        IEnumerator Call_Wait(float second)
+        {
+            yield return new WaitForSeconds(second);
+            CallMove();
+        }
         IEnumerator Moving()
         {
             var distance = Vector3.Distance(_target, Rigidbody.position);
             var rotDiff = end[order].rotation.y - transform.rotation.y;
-            _rotSpeed = 1 / distance;
+            if (rotFast == false)
+            {
+                _rotSpeed = 1 / distance;
+            }
+            else
+            {
+                _rotSpeed = 5;
+            }
             //_rotSpeed = Mathf.Abs(rotDiff / distance);
-            
+            //print(_rotSpeed);
             while (!_waiting)
             {
                 _speed = Mathf.Lerp(0, speed, _elapsed / timeToMaxSpeed);
                 
                 Rigidbody.rotation = Quaternion.Lerp(Rigidbody.rotation, end[order].rotation,
-                    1 * Time.deltaTime);
+                    _rotSpeed * Time.deltaTime);
                 Rigidbody.MovePosition(Vector3.MoveTowards(Rigidbody.position, _target, _speed * Time.deltaTime));
 
                 if (brake)
@@ -68,8 +105,11 @@ namespace Dev_LSG.Scripts.Interactables
                         brakeSound.Play();
                     }
                 }
+
+                float timing;
+                timing = delayCall == true ? delayDistance : 0.01f;
                 
-                if ((_target - Rigidbody.position).magnitude < .01)
+                if ((_target - Rigidbody.position).magnitude < timing)
                     
                 {
                     _speed = 0f;

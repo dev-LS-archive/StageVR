@@ -42,5 +42,11 @@ namespace Dev_LSG.Scripts.UI
                 }
             }
         }
+
+        [ContextMenu("InvokeFunction")]
+        void InvokeFunction()
+        {
+            fullFillFunctions.Invoke();
+        }
     }
 }
