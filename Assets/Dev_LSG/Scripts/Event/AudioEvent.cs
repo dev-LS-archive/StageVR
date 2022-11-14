@@ -11,6 +11,9 @@ namespace Dev_LSG.Scripts.Event
         public AudioSource audioSource;
 
         public bool delayEvent = false;
+        [Tooltip("오디오가 끝날때 오브젝트를 켤지 끌지")]
+        public bool actOn = false;
+        
         public float delay;
         private bool _coolTime = false;
         void Update()
@@ -20,7 +23,8 @@ namespace Dev_LSG.Scripts.Event
                 if (!audioSource.isPlaying)
                 {
                     disableEvent.Invoke();
-                    gameObject.SetActive(false);
+                    if (actOn == false) 
+                        gameObject.SetActive(false);
                 }
             }
             else

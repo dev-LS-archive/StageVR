@@ -44,11 +44,11 @@ namespace Dev_LSG.Scripts.Manager
                 bgmAudioSource.clip = null;
                 bgmAudioSource.loop = false;
                 bgmAudioSource.volume = 1f;
-                if (scene.name == "MainMenu")
-                {
-                    StartCoroutine(DelayPlay(main));
-                }
-                else if (scene.name == "SelectMenu")
+                // if (scene.name == "MainMenu")
+                // {
+                //     StartCoroutine(DelayPlay(main));
+                // }
+                if (scene.name == "SelectMenu")
                 {
                     StartCoroutine(DelayPlay(select));
                 }
