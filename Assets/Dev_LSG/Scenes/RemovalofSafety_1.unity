@@ -2312,11 +2312,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6712062662711530533, guid: b3f322179e2445744965072dcb079851, type: 3}
       propertyPath: m_LocalRotation.w
-      value: -1.13686824e-13
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6712062662711530533, guid: b3f322179e2445744965072dcb079851, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6712062662711530533, guid: b3f322179e2445744965072dcb079851, type: 3}
       propertyPath: m_LocalRotation.y
@@ -2324,7 +2324,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6712062662711530533, guid: b3f322179e2445744965072dcb079851, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -4.352516e-12
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6712062662711530533, guid: b3f322179e2445744965072dcb079851, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -2392,7 +2392,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6712062663668830016, guid: b3f322179e2445744965072dcb079851, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.8897706e-25
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6712062663668830016, guid: b3f322179e2445744965072dcb079851, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2400,7 +2400,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6712062663668830016, guid: b3f322179e2445744965072dcb079851, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -2.5418695e-12
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6712062664799868389, guid: b3f322179e2445744965072dcb079851, type: 3}
       propertyPath: m_Enabled
@@ -16469,7 +16469,7 @@ GameObject:
   - component: {fileID: 915347744}
   - component: {fileID: 915347745}
   m_Layer: 5
-  m_Name: Guid_07_UI
+  m_Name: Guid_06_UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16489,7 +16489,7 @@ RectTransform:
   m_Children:
   - {fileID: 1530965298}
   m_Father: {fileID: 1326587528}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -17791,7 +17791,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1067917293}
   m_Layer: 0
-  m_Name: TargerPos_2
+  m_Name: TargerPos_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17810,7 +17810,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 626843826175292685}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1071872554
 PrefabInstance:
@@ -29255,8 +29255,8 @@ Transform:
   - {fileID: 1151954096}
   - {fileID: 2053274900}
   - {fileID: 1096489067}
-  - {fileID: 1361418601}
   - {fileID: 915347738}
+  - {fileID: 1361418601}
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -29368,7 +29368,7 @@ GameObject:
   - component: {fileID: 1361418607}
   - component: {fileID: 1361418608}
   m_Layer: 5
-  m_Name: Guid_06_UI
+  m_Name: Guid_06_UI_Min
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29388,7 +29388,7 @@ RectTransform:
   m_Children:
   - {fileID: 1604458812}
   m_Father: {fileID: 1326587528}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -29772,6 +29772,31 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 8812997543574040069}
+        m_TargetAssemblyTypeName: Dev_LSG.Scripts.Interactables.MovablePlatform,
+          Dev_LSG.Scripts.Interactables
+        m_MethodName: SpeedSet
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 1726274601}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
         m_CallState: 2
   brake: 1
   audioPos: {fileID: 2114582588}
@@ -40881,7 +40906,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1640696588}
   m_LocalRotation: {x: -0, y: -0.02102964, z: -0, w: 0.99977887}
-  m_LocalPosition: {x: 0.08000088, y: 0, z: 119.40997}
+  m_LocalPosition: {x: -0.35, y: 0, z: 127.58}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -50898,6 +50923,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 416294, guid: 9fa4100b047a1684aa8e98446ca97e12, type: 3}
   m_PrefabInstance: {fileID: 491310752746437477}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1840635978
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1840635979}
+  m_Layer: 0
+  m_Name: TargerPos_2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1840635979
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1840635978}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 4.6, y: -26.7, z: -375.8}
+  m_LocalScale: {x: 0.7688533, y: 0.9054109, z: 0.7688533}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 626843826175292685}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1842176251 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 416294, guid: 9fa4100b047a1684aa8e98446ca97e12, type: 3}
@@ -102438,6 +102494,7 @@ Transform:
   - {fileID: 2048500387}
   - {fileID: 1046081026}
   - {fileID: 68679893}
+  - {fileID: 1840635979}
   - {fileID: 1067917293}
   m_Father: {fileID: 1015442421}
   m_RootOrder: 0
@@ -122224,9 +122281,10 @@ MonoBehaviour:
   canEvent: 1
   end:
   - {fileID: 68679893}
+  - {fileID: 1840635979}
   - {fileID: 1067917293}
   speed: 2
-  timeToMaxSpeed: 1
+  timeToMaxSpeed: 0
   order: 0
   endEvent:
   - m_PersistentCalls:
@@ -122257,7 +122315,20 @@ MonoBehaviour:
         m_CallState: 2
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1361418600}
+      - m_Target: {fileID: 8812997543574040069}
+        m_TargetAssemblyTypeName: Dev_LSG.Scripts.Interactables.MovablePlatform,
+          Dev_LSG.Scripts.Interactables
+        m_MethodName: Call_wait
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0.01
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1390743528}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
@@ -122269,6 +122340,21 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 1390743532}
+        m_TargetAssemblyTypeName: Dev_LSG.Scripts.Interactables.MovablePlatform,
+          Dev_LSG.Scripts.Interactables
+        m_MethodName: CallMove
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  - m_PersistentCalls:
+      m_Calls:
       - m_Target: {fileID: 1726274601}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
