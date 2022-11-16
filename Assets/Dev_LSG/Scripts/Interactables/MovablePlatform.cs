@@ -100,8 +100,14 @@ namespace Dev_LSG.Scripts.Interactables
                     Rigidbody.rotation = Quaternion.Lerp(Rigidbody.rotation, end[order].rotation,
                         _rotSpeed * Time.deltaTime);
                 }
-                Rigidbody.MovePosition(Vector3.MoveTowards(Rigidbody.position, _target, _speed * Time.deltaTime));
 
+                var pos = Vector3.MoveTowards(Rigidbody.position, _target, _speed * Time.deltaTime);
+                
+                if (!float.IsNaN(pos.x) && !float.IsNaN(pos.y) && !float.IsNaN(pos.z))
+                {
+                    Rigidbody.MovePosition(pos);
+                }
+                
                 if (brake)
                 {
                     if ((audioPos.position - Rigidbody.position).magnitude < 5)

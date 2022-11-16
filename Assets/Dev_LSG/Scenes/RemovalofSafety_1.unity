@@ -2364,7 +2364,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6712062662884560392, guid: b3f322179e2445744965072dcb079851, type: 3}
       propertyPath: CanMove
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6712062662884560392, guid: b3f322179e2445744965072dcb079851, type: 3}
       propertyPath: CanTurn
@@ -40906,7 +40906,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1640696588}
   m_LocalRotation: {x: -0, y: -0.02102964, z: -0, w: 0.99977887}
-  m_LocalPosition: {x: -0.35, y: 0, z: 127.58}
+  m_LocalPosition: {x: -0.35, y: 0, z: 123}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -50947,7 +50947,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1840635978}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 4.6, y: -26.7, z: -375.8}
+  m_LocalPosition: {x: 4.6, y: -26.7, z: -372.32}
   m_LocalScale: {x: 0.7688533, y: 0.9054109, z: 0.7688533}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -52441,6 +52441,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 804201072}
+        m_TargetAssemblyTypeName: Dev_LSG.Scripts.Player.PlayerRecenter, Dev_LSG.Scripts.Player
+        m_MethodName: ResetPosition
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
