@@ -2390,6 +2390,10 @@ PrefabInstance:
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6712062663252399030, guid: b3f322179e2445744965072dcb079851, type: 3}
+      propertyPath: m_UseGravity
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6712062663668830016, guid: b3f322179e2445744965072dcb079851, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -2405,6 +2409,10 @@ PrefabInstance:
     - target: {fileID: 6712062664799868389, guid: b3f322179e2445744965072dcb079851, type: 3}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6712062664799868389, guid: b3f322179e2445744965072dcb079851, type: 3}
+      propertyPath: m_TrackingType
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6712062664799868391, guid: b3f322179e2445744965072dcb079851, type: 3}
       propertyPath: m_Enabled
@@ -29648,7 +29656,7 @@ Animator:
   m_GameObject: {fileID: 1020752192}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: e7968053dfd324e458e816ab12e9e63e, type: 2}
+  m_Controller: {fileID: 9100000, guid: 13ec260384ceb2549a173cb5a9a2aa01, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -29789,6 +29797,18 @@ MonoBehaviour:
       - m_Target: {fileID: 1726274601}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1506335437}
+        m_TargetAssemblyTypeName: UnityEngine.Rigidbody, UnityEngine
+        m_MethodName: set_useGravity
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -39681,6 +39701,11 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+--- !u!54 &1506335437 stripped
+Rigidbody:
+  m_CorrespondingSourceObject: {fileID: 6712062663252399030, guid: b3f322179e2445744965072dcb079851, type: 3}
+  m_PrefabInstance: {fileID: 251823831}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1508505551 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 416294, guid: 9fa4100b047a1684aa8e98446ca97e12, type: 3}
