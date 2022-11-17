@@ -848,7 +848,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 626843826175292685}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &72908298 stripped
 Transform:
@@ -17818,7 +17818,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 626843826175292685}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1071872554
 PrefabInstance:
@@ -18454,6 +18454,37 @@ MonoBehaviour:
   delayEvent: 0
   actOn: 0
   delay: 0
+--- !u!1 &1098582989
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1098582990}
+  m_Layer: 0
+  m_Name: TargerPos_1_Audio_Pos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1098582990
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1098582989}
+  m_LocalRotation: {x: -0, y: -0, z: 1.13686824e-13, w: 1}
+  m_LocalPosition: {x: 4.6, y: -26.700005, z: -386.46}
+  m_LocalScale: {x: 0.76885337, y: 0.9054109, z: 0.76885337}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 626843826175292685}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1099373529 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 476152, guid: bc39415097a884efdbd06c5db44b1484, type: 3}
@@ -18756,7 +18787,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 513565737636612716, guid: 3112f68933148b64ca6f4ed4d74ad8cb, type: 2}
-  m_audioClip: {fileID: 8300000, guid: 7b00ea8281e013143b3637aa0719475d, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 2af03e11310527b49892922a60de8374, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -29656,7 +29687,7 @@ Animator:
   m_GameObject: {fileID: 1020752192}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 13ec260384ceb2549a173cb5a9a2aa01, type: 2}
+  m_Controller: {fileID: 9100000, guid: e7968053dfd324e458e816ab12e9e63e, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -50977,7 +51008,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 626843826175292685}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1842176251 stripped
 Transform:
@@ -102530,6 +102561,7 @@ Transform:
   m_Children:
   - {fileID: 2048500387}
   - {fileID: 1046081026}
+  - {fileID: 1098582990}
   - {fileID: 68679893}
   - {fileID: 1840635979}
   - {fileID: 1067917293}
@@ -122317,6 +122349,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canEvent: 1
   end:
+  - {fileID: 1098582990}
   - {fileID: 68679893}
   - {fileID: 1840635979}
   - {fileID: 1067917293}
@@ -122338,6 +122371,21 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 8812997543574040069}
+        m_TargetAssemblyTypeName: Dev_LSG.Scripts.Interactables.MovablePlatform,
+          Dev_LSG.Scripts.Interactables
+        m_MethodName: Call_wait
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0.01
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  - m_PersistentCalls:
+      m_Calls:
       - m_Target: {fileID: 1726274601}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive

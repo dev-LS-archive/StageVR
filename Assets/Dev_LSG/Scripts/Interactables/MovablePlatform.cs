@@ -134,6 +134,7 @@ namespace Dev_LSG.Scripts.Interactables
                     order++;
                     if (order.Equals(end.Length))
                     {
+                        order--;
                         break;
                     }
                     _target = end[order].position;
