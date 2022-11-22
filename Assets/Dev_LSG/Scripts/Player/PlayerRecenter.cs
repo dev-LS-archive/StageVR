@@ -11,19 +11,33 @@ namespace Dev_LSG.Scripts.Player
                 [SerializeField] private GameObject player;
                 [SerializeField] private Camera playerHead;
                 
-                public KeyCode Recenter = KeyCode.Space;
+                public KeyCode recenter = KeyCode.Space;
                 [SerializeField] private Transform firstPos;
+                [SerializeField] private int isForward;
 
                 void OnEnable()
                 {
                         SceneManager.sceneLoaded += OnSceneLoaded;
+                        isForward = PlayerPrefs.GetInt("isForward", 0);
+                        if (isForward == 1)
+                        {
+                                print("reset");
+                                Invoke(nameof(ResetPosition), 0.3f);
+                        }
+                }
+
+                public void SetDirection(int value)
+                {
+                        print(value);
+                        PlayerPrefs.SetInt("isForward", value);
+                        ResetPosition();
                 }
                 
                 void OnSceneLoaded(Scene scene, LoadSceneMode mode)
                 {
-                        if (scene.name == "MainMenu"||scene.name == "SelectMenu")
+                        if (scene.name is "MainDirectionSelect" or "MainMenu" or "SelectMenu")
                         {
-                                //print("Menu");
+                                print("Menu");
                                 ResetPosition();
                         }
                         else
@@ -62,7 +76,7 @@ namespace Dev_LSG.Scripts.Player
                 
                 private void Update()
                 {
-                        if (Input.GetKeyDown(Recenter))
+                        if (Input.GetKeyDown(recenter))
                         {
                                 ResetPosition();
                         }
