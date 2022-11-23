@@ -15852,8 +15852,9 @@ MonoBehaviour:
   resetTransform: {fileID: 246150848}
   player: {fileID: 697670318}
   playerHead: {fileID: 1369365918}
-  Recenter: 32
+  recenter: 32
   firstPos: {fileID: 1529657990}
+  isFirstReset: 1
 --- !u!4 &805369160 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 476152, guid: bc39415097a884efdbd06c5db44b1484, type: 3}
@@ -52921,6 +52922,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 804201072}
+        m_TargetAssemblyTypeName: Dev_LSG.Scripts.Player.PlayerRecenter, Dev_LSG.Scripts.Player
+        m_MethodName: NotFirstReset
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

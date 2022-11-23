@@ -13,16 +13,27 @@ namespace Dev_LSG.Scripts.Player
                 
                 public KeyCode recenter = KeyCode.Space;
                 [SerializeField] private Transform firstPos;
-                [SerializeField] private int isForward;
+
+                [SerializeField] private bool isFirstReset = false;
+                //[SerializeField] private int isForward;
 
                 void OnEnable()
                 {
                         SceneManager.sceneLoaded += OnSceneLoaded;
-                        isForward = PlayerPrefs.GetInt("isForward", 0);
-                        if (isForward == 1)
-                        {
-                                print("reset");
+                        // isForward = PlayerPrefs.GetInt("isForward", 0);
+                        // if (isForward == 1)
+                        // {
+                        //         //print("reset");
+                        //         Invoke(nameof(ResetPosition), 0.3f);
+                        // }
+                        
+                        if (SceneManager.GetActiveScene().name is "MainDirectionSelect" or "MainMenu" or "SelectMenu")
+                        { 
                                 Invoke(nameof(ResetPosition), 0.3f);
+                        }
+                        else
+                        {
+                                Invoke(nameof(FirstResetPosition), 0.3f);
                         }
                 }
 
@@ -37,7 +48,7 @@ namespace Dev_LSG.Scripts.Player
                 {
                         if (scene.name is "MainDirectionSelect" or "MainMenu" or "SelectMenu")
                         {
-                                print("Menu");
+                                //print("Menu");
                                 ResetPosition();
                         }
                         else
@@ -73,12 +84,23 @@ namespace Dev_LSG.Scripts.Player
                         var distanceDiff = firstPos.position - playerHead.transform.position;
                         player.transform.position += distanceDiff;
                 }
-                
+
+                public void NotFirstReset()
+                {
+                        isFirstReset = false;
+                }
                 private void Update()
                 {
                         if (Input.GetKeyDown(recenter))
                         {
-                                ResetPosition();
+                                if (!isFirstReset)
+                                {
+                                        ResetPosition();
+                                }
+                                else
+                                {
+                                        FirstResetPosition();
+                                }
                         }
                 }
         }
