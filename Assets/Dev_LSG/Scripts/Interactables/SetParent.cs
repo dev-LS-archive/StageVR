@@ -1,13 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class SetParent : MonoBehaviour
+namespace Dev_LSG.Scripts.Interactables
 {
-    public Transform parent;
-
-    public void SetParentFunction()
+    public class SetParent : MonoBehaviour
     {
-        transform.SetParent(parent);
+        public Transform parent;
+
+        public void SetParentFunction()
+        {
+            transform.SetParent(parent);
+        }
     }
 }
