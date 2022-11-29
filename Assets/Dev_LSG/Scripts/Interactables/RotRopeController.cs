@@ -1,4 +1,6 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 using Obi;
 
 namespace Dev_LSG.Scripts.Interactables
@@ -8,7 +10,11 @@ namespace Dev_LSG.Scripts.Interactables
         ObiRopeCursor _cursor;
         ObiRope _rope;
         public float minLength = 6.5f;
+        public float maxLength = 9f;
         public float ropeSpeed = 1f;
+
+        public int eventNum;
+        public UnityEvent[] maxLengthEvent;
 
         // Use this for initialization
         void Start () {
@@ -17,23 +23,36 @@ namespace Dev_LSG.Scripts.Interactables
         }
 	
         // Update is called once per frame
-        void Update () {
-            if (Input.GetKey(KeyCode.W)){
-                if (_rope.restLength > minLength)
-                    _cursor.ChangeLength(_rope.restLength - ropeSpeed * Time.deltaTime);
-            }
+        // void Update () {
+        //     if (Input.GetKey(KeyCode.W)){
+        //         if (_rope.restLength > minLength)
+        //             _cursor.ChangeLength(_rope.restLength - ropeSpeed * Time.deltaTime);
+        //     }
+        //
+        //     if (Input.GetKey(KeyCode.S)){
+        //         _cursor.ChangeLength(_rope.restLength + ropeSpeed * Time.deltaTime);
+        //     }
+        // }
 
-            if (Input.GetKey(KeyCode.S)){
+        public void CallLonger(int num)
+        {
+            eventNum = num;
+            StartCoroutine(Longerer());
+        }
+
+        public void ResetLength()
+        {
+            _cursor.ChangeLength(minLength);
+        }
+        private IEnumerator Longerer()
+        {
+            while (_rope.restLength < maxLength)
+            {
                 _cursor.ChangeLength(_rope.restLength + ropeSpeed * Time.deltaTime);
+                yield return null;
+                print("Call");
             }
-
-            if (Input.GetKey(KeyCode.A)){
-                transform.Rotate(0,Time.deltaTime*15f,0);
-            }
-
-            if (Input.GetKey(KeyCode.D)){
-                transform.Rotate(0,-Time.deltaTime*15f,0);
-            }
+            maxLengthEvent[eventNum].Invoke();
         }
     }
 }
