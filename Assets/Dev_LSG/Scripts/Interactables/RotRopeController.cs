@@ -15,6 +15,7 @@ namespace Dev_LSG.Scripts.Interactables
 
         public int eventNum;
         public UnityEvent[] maxLengthEvent;
+        public Rigidbody hook;
 
         // Use this for initialization
         void Start () {
@@ -46,11 +47,12 @@ namespace Dev_LSG.Scripts.Interactables
         }
         private IEnumerator Longerer()
         {
+            hook.AddForce(transform.forward);
             while (_rope.restLength < maxLength)
             {
                 _cursor.ChangeLength(_rope.restLength + ropeSpeed * Time.deltaTime);
                 yield return null;
-                print("Call");
+                //print("Call");
             }
             maxLengthEvent[eventNum].Invoke();
         }

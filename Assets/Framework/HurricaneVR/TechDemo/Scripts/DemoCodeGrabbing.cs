@@ -17,8 +17,14 @@ namespace HurricaneVR.TechDemo.Scripts
         public void Start()
         {
             Grabber = GameObject.FindObjectsOfType<HVRHandGrabber>().FirstOrDefault(e => e.gameObject.activeInHierarchy);
+            Grabbable.Released.AddListener(CallGrab);
         }
 
+        private void CallGrab(HVRGrabberBase arg0, HVRGrabbable arg1)
+        {
+            Grab();
+        }
+        
         public void Grab()
         {
             if (Grabbable && Grabber)
@@ -34,6 +40,12 @@ namespace HurricaneVR.TechDemo.Scripts
                     Grabber.ForceRelease();
                 Grabber.Grab(Grabbable, GrabTrigger, GrabPoint);
             }
+        }
+
+        public void ResetEvent()
+        {
+            Grabbable.Released.RemoveAllListeners();
+            Grab();
         }
     }
 }

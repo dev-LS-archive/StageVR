@@ -14,6 +14,15 @@ namespace Dev_LSG.Scripts.Event
         {
             StartCoroutine(DelayInvoke());
         }
+
+        public void CallInvoke()
+        {
+            Invoke(nameof(InvokeEvent), delay);
+        }
+        public void InvokeEvent()
+        {
+            delayEvent.Invoke();
+        }
         IEnumerator DelayInvoke()
         {
             yield return new WaitForSeconds(delay);
