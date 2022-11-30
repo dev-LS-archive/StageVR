@@ -52,7 +52,7 @@ namespace Dev_LSG.Scripts.Interactables
             {
                 _cursor.ChangeLength(_rope.restLength + ropeSpeed * Time.deltaTime);
                 yield return null;
-                print(_rope.restLength);
+                //print(_rope.restLength);
             }
             maxLengthEvent[eventNum].Invoke();
         }
