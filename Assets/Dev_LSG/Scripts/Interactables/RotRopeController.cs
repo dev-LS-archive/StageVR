@@ -47,7 +47,7 @@ namespace Dev_LSG.Scripts.Interactables
         }
         private IEnumerator Longerer()
         {
-            hook.AddForce(transform.forward);
+            hook.AddRelativeForce(new Vector3(0, 200, 4000));
             while (_rope.restLength < maxLength)
             {
                 _cursor.ChangeLength(_rope.restLength + ropeSpeed * Time.deltaTime);
