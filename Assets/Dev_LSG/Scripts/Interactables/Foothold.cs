@@ -18,6 +18,8 @@ namespace Dev_LSG.Scripts.Interactables
         private bool dontFade = false;
         [SerializeField]
         private bool dontSnap = false;
+        [SerializeField]
+        private bool actOn = false;
 
         public UnityEvent fullFillFunctions;
         private void OnTriggerEnter(Collider other)
@@ -27,7 +29,7 @@ namespace Dev_LSG.Scripts.Interactables
                 //print("PlayerEnter");
                 if (fading == false)
                 {
-                    print("call");
+                    //print("call");
                     fading = true;
                     StartCoroutine(Fade());
                 }
@@ -57,7 +59,8 @@ namespace Dev_LSG.Scripts.Interactables
                 if (dontFade)
                 {
                     fullFillFunctions.Invoke();
-                    gameObject.SetActive(false);
+                    if(!actOn)
+                        gameObject.SetActive(false);
                     break;
                 }
                 //Reduce fill amount over 30 seconds
@@ -88,7 +91,8 @@ namespace Dev_LSG.Scripts.Interactables
                 if (volume.weight <= 0)
                 {
                     volume.weight = 0;
-                    gameObject.SetActive(false);
+                    if(!actOn)
+                        gameObject.SetActive(false);
                     break;
                 }
             }
