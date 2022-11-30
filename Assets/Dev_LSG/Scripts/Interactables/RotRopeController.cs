@@ -24,16 +24,16 @@ namespace Dev_LSG.Scripts.Interactables
         }
 	
         // Update is called once per frame
-        // void Update () {
-        //     if (Input.GetKey(KeyCode.W)){
-        //         if (_rope.restLength > minLength)
-        //             _cursor.ChangeLength(_rope.restLength - ropeSpeed * Time.deltaTime);
-        //     }
-        //
-        //     if (Input.GetKey(KeyCode.S)){
-        //         _cursor.ChangeLength(_rope.restLength + ropeSpeed * Time.deltaTime);
-        //     }
-        // }
+        void Update () {
+            if (Input.GetKey(KeyCode.W)){
+                if (_rope.restLength > minLength)
+                    _cursor.ChangeLength(_rope.restLength - ropeSpeed * Time.deltaTime);
+            }
+        
+            if (Input.GetKey(KeyCode.S)){
+                _cursor.ChangeLength(_rope.restLength + ropeSpeed * Time.deltaTime);
+            }
+        }
 
         public void CallLonger(int num)
         {
@@ -47,12 +47,12 @@ namespace Dev_LSG.Scripts.Interactables
         }
         private IEnumerator Longerer()
         {
-            hook.AddRelativeForce(new Vector3(0, 200, 4000));
             while (_rope.restLength < maxLength)
             {
+                hook.AddRelativeForce(new Vector3(0, 20, 400));
                 _cursor.ChangeLength(_rope.restLength + ropeSpeed * Time.deltaTime);
                 yield return null;
-                //print("Call");
+                print(_rope.restLength);
             }
             maxLengthEvent[eventNum].Invoke();
         }

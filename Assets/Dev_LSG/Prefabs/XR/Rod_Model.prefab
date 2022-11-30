@@ -582,7 +582,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1400636125380542556}
   serializedVersion: 2
-  m_Mass: 0.2
+  m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.5
   m_UseGravity: 1
@@ -899,7 +899,7 @@ MonoBehaviour:
   worldAngularInertiaScale: 0
   distanceConstraintParameters:
     evaluationOrder: 0
-    iterations: 2
+    iterations: 4
     SORFactor: 1
     enabled: 1
   bendingConstraintParameters:
@@ -991,7 +991,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   solvers:
   - {fileID: 1400636125395178967}
-  substeps: 3
+  substeps: 5
 --- !u!114 &1400636125395178953
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1844,16 +1844,16 @@ MonoBehaviour:
   m_CollisionMaterial: {fileID: 0}
   m_SurfaceCollisions: 1
   m_SelfCollisions: 1
-  restLength_: 1.0754958
+  restLength_: 1.0754948
   elements:
   - particle1: 0
     particle2: 1
-    restLength: 0.12152611
+    restLength: 0.12697259
     constraintForce: 0
     tearResistance: 1
   - particle1: 1
     particle2: 2
-    restLength: 0.12164775
+    restLength: 0.116200246
     constraintForce: 0
     tearResistance: 1
   - particle1: 2
@@ -1878,12 +1878,12 @@ MonoBehaviour:
     tearResistance: 1
   - particle1: 6
     particle2: 7
-    restLength: 0.08361499
+    restLength: 0.08361505
     constraintForce: 0
     tearResistance: 1
   - particle1: 7
     particle2: 8
-    restLength: 0.07949679
+    restLength: 0.079496734
     constraintForce: 0
     tearResistance: 1
   - particle1: 8
