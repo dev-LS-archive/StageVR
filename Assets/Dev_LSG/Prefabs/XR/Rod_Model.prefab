@@ -521,7 +521,7 @@ GameObject:
   - component: {fileID: 1400636125380542552}
   - component: {fileID: 1400636125380542555}
   - component: {fileID: 1400636125380542554}
-  m_Layer: 20
+  m_Layer: 7
   m_Name: Hook
   m_TagString: Hook
   m_Icon: {fileID: 0}
@@ -536,7 +536,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1400636125380542556}
   m_LocalRotation: {x: 0.5, y: 0, z: 0, w: 0.8660254}
-  m_LocalPosition: {x: 0, y: -0.0542, z: 1.0918}
+  m_LocalPosition: {x: 0, y: -0.0666, z: 1.099}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -555,7 +555,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.02, y: 0.03, z: 0.1}
+  m_Size: {x: 0.05, y: 0.05, z: 0.1}
   m_Center: {x: 0, y: -0.01, z: 0.05}
 --- !u!114 &1400636125380542552
 MonoBehaviour:
@@ -571,7 +571,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thickness: 0
   material: {fileID: 0}
-  filter: -65535
+  filter: 1
   m_SourceCollider: {fileID: 1400636125380542553}
   m_DistanceField: {fileID: 0}
 --- !u!54 &1400636125380542555
@@ -582,13 +582,13 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1400636125380542556}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 0.2
   m_Drag: 0
   m_AngularDrag: 0.5
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 32
   m_CollisionDetection: 0
 --- !u!114 &1400636125380542554
 MonoBehaviour:
@@ -680,9 +680,9 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1400636125395178954}
   serializedVersion: 2
-  m_Mass: 0.1
+  m_Mass: 0.2
   m_Drag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0.5
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
@@ -709,7 +709,7 @@ MonoBehaviour:
   GrabTrigger: 0
   RequireLineOfSight: 1
   PoseImmediately: 0
-  ParentHandModel: 0
+  ParentHandModel: 1
   BreakDistance: 1
   BreakDistanceSource: 0
   Stationary: 0
@@ -726,7 +726,7 @@ MonoBehaviour:
   JointOverride: {fileID: 0}
   OneHandJointSettings: {fileID: 0}
   TwoHandJointSettings: {fileID: 0}
-  PullingSettingsOverride: {fileID: 11400000, guid: 3bf470cf49b32cf4f85c594818727f64, type: 2}
+  PullingSettingsOverride: {fileID: 11400000, guid: 0d7faa96cde3eee46a312d34cd930567, type: 2}
   PalmCenterOfMass: 0
   HandGrabbedClip: {fileID: 0}
   StartingSocket: {fileID: 0}
@@ -883,7 +883,7 @@ MonoBehaviour:
   parameters:
     mode: 0
     interpolation: 0
-    gravity: {x: 0, y: -9.81, z: 0}
+    gravity: {x: 0, y: -9.81, z: 12}
     damping: 0.3
     maxAnisotropy: 3
     sleepThreshold: 0.001
@@ -893,13 +893,13 @@ MonoBehaviour:
     shockPropagation: 0
     surfaceCollisionIterations: 8
     surfaceCollisionTolerance: 0.005
-  gravity: {x: 0, y: -9.81, z: 0}
+  gravity: {x: 0, y: -9.81, z: 9}
   gravitySpace: 1
   worldLinearInertiaScale: 0
   worldAngularInertiaScale: 0
   distanceConstraintParameters:
     evaluationOrder: 0
-    iterations: 4
+    iterations: 2
     SORFactor: 1
     enabled: 1
   bendingConstraintParameters:
@@ -1018,25 +1018,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minLength: 1.08
-  maxLength: 9
-  ropeSpeed: 3
+  maxLength: 7
+  ropeSpeed: 4
   eventNum: 0
   maxLengthEvent:
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1400636125395178952}
-        m_TargetAssemblyTypeName: Dev_LSG.Scripts.Interactables.RotRopeController,
-          Dev_LSG.Scripts.Interactables
-        m_MethodName: ResetLength
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
@@ -1048,22 +1035,21 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
         m_CallState: 2
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1400636125395178952}
-        m_TargetAssemblyTypeName: Dev_LSG.Scripts.Interactables.RotRopeController,
-          Dev_LSG.Scripts.Interactables
-        m_MethodName: ResetLength
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
@@ -1076,7 +1062,24 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-  hook: {fileID: 0}
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  minLengthEvent:
+  - m_PersistentCalls:
+      m_Calls: []
+  - m_PersistentCalls:
+      m_Calls: []
+  hook: {fileID: 1400636125395178961}
 --- !u!135 &2750667055864897828
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1955,7 +1958,7 @@ MonoBehaviour:
   uvScale: {x: 1, y: 1}
   normalizeV: 1
   section: {fileID: 11400000, guid: a0bc36a59515f413e90e10895929c938, type: 2}
-  thicknessScale: 0.1
+  thicknessScale: 0.005
 --- !u!114 &1400636126192277478
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3194,51 +3197,51 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 100000, guid: bf393e594f9a6d845b29ebfcb449d4f4, type: 3}
       propertyPath: m_Layer
-      value: 20
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 100002, guid: bf393e594f9a6d845b29ebfcb449d4f4, type: 3}
       propertyPath: m_Layer
-      value: 20
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 100004, guid: bf393e594f9a6d845b29ebfcb449d4f4, type: 3}
       propertyPath: m_Layer
-      value: 20
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 100006, guid: bf393e594f9a6d845b29ebfcb449d4f4, type: 3}
       propertyPath: m_Layer
-      value: 20
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 100008, guid: bf393e594f9a6d845b29ebfcb449d4f4, type: 3}
       propertyPath: m_Layer
-      value: 20
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 100010, guid: bf393e594f9a6d845b29ebfcb449d4f4, type: 3}
       propertyPath: m_Layer
-      value: 20
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 100012, guid: bf393e594f9a6d845b29ebfcb449d4f4, type: 3}
       propertyPath: m_Layer
-      value: 20
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 100014, guid: bf393e594f9a6d845b29ebfcb449d4f4, type: 3}
       propertyPath: m_Layer
-      value: 20
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 100016, guid: bf393e594f9a6d845b29ebfcb449d4f4, type: 3}
       propertyPath: m_Layer
-      value: 20
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 100018, guid: bf393e594f9a6d845b29ebfcb449d4f4, type: 3}
       propertyPath: m_Layer
-      value: 20
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 100020, guid: bf393e594f9a6d845b29ebfcb449d4f4, type: 3}
       propertyPath: m_Layer
-      value: 20
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 100022, guid: bf393e594f9a6d845b29ebfcb449d4f4, type: 3}
       propertyPath: m_Layer
-      value: 20
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 100024, guid: bf393e594f9a6d845b29ebfcb449d4f4, type: 3}
       propertyPath: m_Name
@@ -3246,15 +3249,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 100024, guid: bf393e594f9a6d845b29ebfcb449d4f4, type: 3}
       propertyPath: m_Layer
-      value: 20
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 100026, guid: bf393e594f9a6d845b29ebfcb449d4f4, type: 3}
       propertyPath: m_Layer
-      value: 20
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 100028, guid: bf393e594f9a6d845b29ebfcb449d4f4, type: 3}
       propertyPath: m_Layer
-      value: 20
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 400024, guid: bf393e594f9a6d845b29ebfcb449d4f4, type: 3}
       propertyPath: m_RootOrder

@@ -15,6 +15,7 @@ namespace Dev_LSG.Scripts.Interactables
 
         public int eventNum;
         public UnityEvent[] maxLengthEvent;
+        public UnityEvent[] minLengthEvent;
         public Rigidbody hook;
 
         // Use this for initialization
@@ -24,30 +25,36 @@ namespace Dev_LSG.Scripts.Interactables
         }
 	
         // Update is called once per frame
-        void Update () {
-            if (Input.GetKey(KeyCode.W)){
-                if (_rope.restLength > minLength)
-                    _cursor.ChangeLength(_rope.restLength - ropeSpeed * Time.deltaTime);
-            }
-        
-            if (Input.GetKey(KeyCode.S)){
-                _cursor.ChangeLength(_rope.restLength + ropeSpeed * Time.deltaTime);
-            }
-        }
+        // void Update () {
+        //     if (Input.GetKey(KeyCode.W)){
+        //         if (_rope.restLength > minLength)
+        //             _cursor.ChangeLength(_rope.restLength - ropeSpeed * Time.deltaTime);
+        //     }
+        //
+        //     if (Input.GetKey(KeyCode.S)){
+        //         _cursor.ChangeLength(_rope.restLength + ropeSpeed * Time.deltaTime);
+        //     }
+        // }
 
         public void CallLonger(int num)
         {
             eventNum = num;
             StartCoroutine(Longerer());
         }
+        
+        public void CallShorter(int num)
+        {
+            eventNum = num;
+            StartCoroutine(Shorter());
+        }
 
-        public void ResetLength()
+        public void ResetLength(int num)
         {
             _cursor.ChangeLength(minLength);
+            minLengthEvent[num].Invoke();
         }
         private IEnumerator Longerer()
         {
-            //hook.AddRelativeForce(new Vector3(0, 4000, 16000));
             while (_rope.restLength < maxLength)
             {
                 _cursor.ChangeLength(_rope.restLength + ropeSpeed * Time.deltaTime);
@@ -55,6 +62,17 @@ namespace Dev_LSG.Scripts.Interactables
                 //print(_rope.restLength);
             }
             maxLengthEvent[eventNum].Invoke();
+        }
+        
+        private IEnumerator Shorter()
+        {
+            while (_rope.restLength > minLength)
+            {
+                _cursor.ChangeLength(_rope.restLength - ropeSpeed * Time.deltaTime);
+                yield return null;
+                //print(_rope.restLength);
+            }
+            minLengthEvent[eventNum].Invoke();
         }
     }
 }
