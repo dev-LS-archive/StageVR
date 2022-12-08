@@ -134,7 +134,6 @@ GameObject:
   - component: {fileID: 360072746}
   - component: {fileID: 360072745}
   - component: {fileID: 360072744}
-  - component: {fileID: 360072747}
   m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
@@ -246,26 +245,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50.000004, y: -16.463001, z: 0}
---- !u!114 &360072747
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 360072743}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Version: 1
-  m_UsePipelineSettings: 1
-  m_AdditionalLightsShadowResolutionTier: 2
-  m_LightLayerMask: 1
-  m_CustomShadowLayers: 0
-  m_ShadowLayerMask: 1
-  m_LightCookieSize: {x: 1, y: 1}
-  m_LightCookieOffset: {x: 0, y: 0}
 --- !u!1 &361391283
 GameObject:
   m_ObjectHideFlags: 0
@@ -433,7 +412,6 @@ GameObject:
   - component: {fileID: 896364788}
   - component: {fileID: 896364786}
   - component: {fileID: 896364785}
-  - component: {fileID: 896364790}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -515,39 +493,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &896364790
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 896364784}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_RenderShadows: 1
-  m_RequiresDepthTextureOption: 2
-  m_RequiresOpaqueTextureOption: 2
-  m_CameraType: 0
-  m_Cameras: []
-  m_RendererIndex: -1
-  m_VolumeLayerMask:
-    serializedVersion: 2
-    m_Bits: 1
-  m_VolumeTrigger: {fileID: 0}
-  m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
-  m_Antialiasing: 0
-  m_AntialiasingQuality: 2
-  m_StopNaN: 0
-  m_Dithering: 0
-  m_ClearDepth: 1
-  m_AllowXRRendering: 1
-  m_RequiresDepthTexture: 0
-  m_RequiresColorTexture: 0
-  m_Version: 2
 --- !u!1 &907125502
 GameObject:
   m_ObjectHideFlags: 0
@@ -670,7 +615,7 @@ MonoBehaviour:
   renderSettingsForceRebuildGeometry: 1
   renderSettingsPerformRendering: 1
   renderSettingsUserRenderMode: 0
-  renderSettingsDistanceShadowmask: 1
+  renderSettingsDistanceShadowmask: 0
   renderSettingsSettingsMode: 1
   renderSettingsFixSeams: 1
   renderSettingsDenoise: 1
