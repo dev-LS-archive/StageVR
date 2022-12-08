@@ -1,4 +1,4 @@
-﻿using System.Linq;
+﻿ using System.Linq;
 using HurricaneVR.Framework.Core;
 using HurricaneVR.Framework.Core.Grabbers;
 using HurricaneVR.Framework.Core.HandPoser;
@@ -10,13 +10,21 @@ namespace HurricaneVR.TechDemo.Scripts
     public class DemoCodeGrabbing : MonoBehaviour
     {
         public HVRHandGrabber Grabber { get; set; }
+        public HVRHandGrabber GrabberSet;
         public HVRGrabbable Grabbable;
         public HVRGrabTrigger GrabTrigger;
         public HVRPosableGrabPoint GrabPoint;
 
         public void Start()
         {
-            Grabber = GameObject.FindObjectsOfType<HVRHandGrabber>().FirstOrDefault(e => e.gameObject.activeInHierarchy);
+            if (GrabberSet != null)
+            {
+                Grabber = GrabberSet;
+            }
+            else
+            {
+                Grabber = GameObject.FindObjectsOfType<HVRHandGrabber>().FirstOrDefault(e => e.gameObject.activeInHierarchy);
+            }
             Grabbable.Released.AddListener(CallGrab);
         }
 
