@@ -2,25 +2,15 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!21 &2100000
 Material:
-  serializedVersion: 8
+  serializedVersion: 6
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: water ocean
   m_Shader: {fileID: 4800000, guid: 585366621acbcfc43805e78785fb85b8, type: 3}
-  m_ValidKeywords:
-  - GEOM_TYPE_BRANCH_DETAIL
-  - GEOM_TYPE_FROND
-  - GEOM_TYPE_LEAF
-  - USINGWATERVOLUME
-  - _GERSTNERDISPLACEMENT
-  - _PIXELSNAP_POINT
-  m_InvalidKeywords:
-  - GEOM_TYPE_BRANCH
-  - LUX_WATER_REFLECTIVE
-  - _SNAPPING
-  - _WORLDSPACEMAPPINGENABLED_ON
+  m_ShaderKeywords: GEOM_TYPE_BRANCH GEOM_TYPE_BRANCH_DETAIL GEOM_TYPE_FROND GEOM_TYPE_LEAF
+    LUX_WATER_REFLECTIVE _GERSTNERDISPLACEMENT _PIXELSNAP_POINT _SNAPPING _WORLDSPACEMAPPINGENABLED_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
@@ -46,7 +36,6 @@ Material:
         m_Texture: {fileID: 2800000, guid: 17c5930d7db244afb8decf6ebdc6894b, type: 3}
         m_Scale: {x: 25.7, y: 36.4}
         m_Offset: {x: 0, y: 0}
-    m_Ints: []
     m_Floats:
     - _AbsorbptionDepth: 0.01
     - _AbsorbptionScale: 1.44
@@ -94,13 +83,13 @@ Material:
     - _FogAbsorptionCancellation: 0.97
     - _FresbnelFactor: 5
     - _FresnelPower: 5
-    - _GGlobalFrequency: 0.02
+    - _GGlobalFrequency: 0.005
     - _GGlobalRotation: 290
-    - _GGlobalSpeed: 0.7
+    - _GGlobalSpeed: 0.3
     - _GerstnerElevationFactor: 0
     - _GerstnerEnabled: 1
     - _GerstnerIntensity: 0.1
-    - _GerstnerNormalIntensity: 2
+    - _GerstnerNormalIntensity: 3
     - _GerstnerPlanarNormalIntensity: 0.08
     - _GerstnerVertexIntensity: 0.2
     - _GerstnerVerticalIntensity: 0.148
@@ -147,7 +136,7 @@ Material:
     - _UnderwaterFoamParallax: 0.07
     - _UnderwaterScatteringIntensity: 3
     - _UnderwaterScatteringPower: 1.5
-    - _UsesWaterVolume: 1
+    - _UsesWaterVolume: 0
     - _WaterIOR: 1.333
     - _WaterSurfaceYPos: 90
     - _WorldSpaceMappingEnabled: 1
@@ -160,7 +149,7 @@ Material:
     - _BumpSpeed: {r: 4.08, g: -8.5, b: 2.1, a: -0.26}
     - _BumpSpeedXXX: {r: 1.7, g: 1, b: 0, a: 0}
     - _BumpTiling: {r: 0.04, g: 0.12, b: 0.31, a: 1}
-    - _Color: {r: 0.31759524, g: 0.4540887, b: 0.5754717, a: 1}
+    - _Color: {r: 0.28368637, g: 0.38839242, b: 0.4811321, a: 1}
     - _DeepFoamColor: {r: 0.9264706, g: 0.9878296, b: 1, a: 0.484}
     - _DepthAtten: {r: 0, g: 24, b: 0, a: 0}
     - _FarBumpSampleParams: {r: 0.09, g: 300, b: 0.5, a: 0.5}
@@ -172,12 +161,12 @@ Material:
     - _GAmplitude: {r: -0.39, g: 1.92, b: 1.8, a: 3.2}
     - _GDirectionAB: {r: 0.82154745, g: 0.5701401, b: 0.8616293, a: 0.5075381}
     - _GDirectionCD: {r: 0.8161377, g: 0.5778575, b: 0.3567376, a: -0.93420464}
-    - _GFinalFrequency: {r: 0.144, g: 0.18879999, b: 0.17799999, a: 0.086}
-    - _GFinalSpeed: {r: 0.7, g: 0.97999996, b: 0.84000003, a: 0.77}
-    - _GFrequency: {r: 7.2, g: 9.44, b: 8.9, a: 4.3}
+    - _GFinalFrequency: {r: 0.0083, g: 0.04, b: 0.01215, a: 0.049999997}
+    - _GFinalSpeed: {r: 0.3, g: 0.42000002, b: 0.36, a: 0.33}
+    - _GFrequency: {r: 1.66, g: 8, b: 2.43, a: 10}
     - _GRotation: {r: 35.24, g: 39.5, b: 34.7, a: 139.1}
     - _GSpeed: {r: 1, g: 1.4, b: 1.2, a: 1.1}
-    - _GSteepness: {r: 1.5, g: 1.5, b: 2.5, a: 2.5}
+    - _GSteepness: {r: 7, g: 1.5, b: 2.5, a: 3}
     - _GerstnerSecondaryWaves: {r: 0.26, g: 3.97, b: 1.25, a: 2.3}
     - _GerstnerVertexIntensity: {r: 0.15, g: 0.175, b: 0.15, a: 0}
     - _SpecColor: {r: 0.07058821, g: 0.07058821, b: 0.07058821, a: 1}

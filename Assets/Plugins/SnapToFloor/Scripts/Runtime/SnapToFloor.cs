@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
@@ -8,8 +9,6 @@ namespace SnapToFloor
 {
     public class SnapToFloor : MonoBehaviour
     {
-#if SNAP2FLOOR_2D || SNAP2FLOOR_3D
-
         private static MeshFilter[] _meshFiltersToSkip = Array.Empty<MeshFilter>();
 
         private const int Mesh16BitBufferVertexLimit = 65535;
@@ -22,238 +21,75 @@ namespace SnapToFloor
 
         //스냅이 허용되는 높이
         private const float Height = 1000f;
-#endif
 
         //경로를 지정하고, true를 해서 안보이게 하자, %는 윈도우는 컨트롤, 맥은 커맨드 키에 해당된다.
         [MenuItem("Edit/SnapToFloor _END")]
         public static void Snap2Surface()
         {
+            var mode = EditorSettings.defaultBehaviorMode;
+
             //Selection은 현재 에디터에서 선택된 오브젝트를 뜻한다.
             foreach (Transform transform in Selection.transforms)
             {
                 Undo.RecordObject(transform, "SnapUndoAction");
-#if SNAP2FLOOR_2D
-                SpriteRenderer[] hasSpriteRenders = transform.GetComponentsInChildren<SpriteRenderer>();
-                bool hasChildSpriteRender = false;
-                Collider2D hasCollider = transform.GetComponent<Collider2D>();
-
-                //자식이 SpriteRender를 가지고 있는지 체크합니다.
-                foreach (var spriteRenderer in hasSpriteRenders)
+                if (mode == EditorBehaviorMode.Mode2D)
                 {
-                    if (spriteRenderer != null)
+                    List<GameObject> activeData = new List<GameObject>();
+
+                    Collider2D hasCollider = transform.GetComponent<Collider2D>();
+
+                    //경고 메세지
+                    if (hasCollider == null)
                     {
-                        hasChildSpriteRender = true;
-                        goto FindSpriteRender;
-                    }
-                }
-
-                FindSpriteRender:
-                //경고 메세지
-                if (!hasChildSpriteRender && hasCollider == null)
-                {
-                    Debug.LogError("Could not find sprite renderer and collider 2D");
-                    return;
-                }
-                else if (hasCollider == null)
-                {
-                    Debug.LogError("Could not find collider 2D");
-                    return;
-                }
-                else if (!hasChildSpriteRender)
-                {
-                    Debug.LogError("Could not find sprite renderer");
-                    return;
-                }
-
-                #region 매쉬의 버텍스에 대한 월드 계산 위치
-
-                Vector3 minMaxDistance = GetMinMaxRangeByVertex2D(transform);
-
-                float footYPosition = GetMinYVertex2D(transform);
-
-                #endregion
-
-                float distance = minMaxDistance.z;
-
-                float startPosition = minMaxDistance.x;
-
-                //간격에 따른 알맞는 간격을 계산한다.
-                float intervalValue = CalculateSeparationByDistance(distance);
-
-                //간격에 알맞는 알갱이를 가져옴
-                int numberOfGrains = CalculatePointCount(distance, intervalValue);
-                int nowNumberOfGrains = numberOfGrains + 1;
-
-                Vector3 position = transform.position;
-                float? moveY = null;
-
-                //원하는 알갱이 수 만큼 반복한다
-                //- 원래는 내가 원하는 간격을 제시하면 그것에 맞는 알갱이를 뿌린다.
-                for (int i = 0; i < nowNumberOfGrains; i++)
-                {
-                    //그려낼 위치에서 사이간격에 맞춰 그려냄
-                    float xx = startPosition + intervalValue * i;
-
-                    Vector3 drawPosition = new Vector3(xx, footYPosition, position.z);
-
-                    //각각의 오브젝트의 위치에서 아래 방향으로 Ray를 쏜다.
-                    RaycastHit2D[] hits = Physics2D.RaycastAll(drawPosition, Vector2.down, Height);
-
-                    //각각 hit정보 확인
-                    foreach (var hit in hits)
-                    {
-                        //자기 자신의 콜라이더를 맞춘 경우 pass : 예외 처리
-                        if (hit.collider.gameObject == transform.gameObject)
-                            continue;
-
-                        if (moveY == null)
-                            moveY = hit.distance;
+                        if (Application.systemLanguage == SystemLanguage.Korean)
+                            Debug.LogError("collider 2D를 찾을 수 없습니다.");
                         else
-                        {
-                            if (moveY > hit.distance)
-                                moveY = hit.distance;
-                        }
+                            Debug.LogError("Could not find collider 2D");
+
+                        return;
                     }
-                }
 
-                position.y -= moveY ?? 0f;
-                //hit된 위치로 이동시킨다.
-                transform.position = position;
-#endif
-#if SNAP2FLOOR_3D
+                    HideAllChild(hasCollider.gameObject, activeData);
 
-                //자식 오브젝트가 있는 자식의 매쉬 필터를 가져온다.
-                SkinnedMeshRenderer[] skinnedMesh = transform.GetComponentsInChildren<SkinnedMeshRenderer>();
+                    #region 매쉬의 버텍스에 대한 월드 계산 위치
 
-                int childCount = transform.childCount;
+                    Vector3 minMaxDistance = GetMinMaxRangeByVertex2D(transform);
 
-                //매쉬 필터를 가져온다.
-                MeshFilter mfSelf = transform.GetComponent<MeshFilter>();
+                    float footYPosition = GetMinYVertex2D(transform);
 
-                //자식을 가지고 있는지 체크
-                bool hasChild = childCount > 0;
-                bool hasSkinnedMesh = skinnedMesh.Length > 0;
-                bool hasMfSelf = mfSelf;
-                Transform tr = transform;
+                    #endregion
 
-                if (hasMfSelf && childCount > 0)
-                {
-                    GameObject go = new GameObject();
-                    go.transform.position = transform.position;
-                    transform.SetParent(go.transform);
+                    float distance = minMaxDistance.z;
 
-                    tr = go.transform;
-                }
+                    float startPosition = minMaxDistance.x;
 
-                //자식이 있는 경우 컴바인한다.
-                if (!hasSkinnedMesh && hasChild)
-                {
-                    // 우리가 부모-자식 계층을 끊고 부모 계층을 다시 얻을 때 때로는 scale이 약간 달라지므로 끊기전에 scale을 저장한다.
-                    Vector3 oldScaleAsChild = tr.localScale;
+                    //간격에 따른 알맞는 간격을 계산한다.
+                    float intervalValue = CalculateSeparationByDistance(distance);
 
-                    // 부모 오브젝트 계층안에 있으면 트랜스폼에 영향이 가므로, 부모 계층을 잠시 끊는다.
-                    int positionInParentHierarchy = tr.GetSiblingIndex();
-                    Transform parent = tr.parent;
-                    tr.parent = null;
+                    //간격에 알맞는 알갱이를 가져옴
+                    int numberOfGrains = CalculatePointCount(distance, intervalValue);
+                    int nowNumberOfGrains = numberOfGrains + 1;
 
-                    // 덕분에 새로 결합된 메시는 자식과 같은 세계 공간에서 동일한 위치와 크기를 갖게 됩니다.:
-                    Quaternion oldRotation = tr.rotation;
-                    Vector3 oldPosition = tr.position;
-                    Vector3 oldScale = tr.localScale;
-                    tr.rotation = Quaternion.identity;
-                    tr.position = Vector3.zero;
-                    tr.localScale = Vector3.one;
+                    Vector3 position = transform.position;
+                    float? moveY = null;
 
-                    //기존에 매쉬 필터가 없으면 해당 오브젝트에 추가하고,
-                    //이미 있으면 새로운 오브젝트를 만들어서 거기에 추가한다.
-                    mfSelf = tr.gameObject.AddComponent<MeshFilter>();
-
-                    //컴바인 시스템 동작
-                    CombineSystem(tr);
-
-                    // 변환 값을 다시 가져옵니다.:
-                    tr.rotation = oldRotation;
-                    tr.position = oldPosition;
-                    tr.localScale = oldScale;
-
-                    // 상위 및 동일한 계층 위치를 다시 가져옵니다.:
-                    tr.parent = parent;
-                    tr.SetSiblingIndex(positionInParentHierarchy);
-
-                    //스케일 값을 자식으로 다시 설정:
-                    tr.localScale = oldScaleAsChild;
-                }
-                else
-                {
-                    //스키니드가 아니고, 자식 오브젝트가 없는 경우
-                    if (!hasSkinnedMesh)
-                    {
-                        if (STFUitllity.IsSystemLanguageKorean())
-                            Assert.IsNotNull(mfSelf, "매쉬 필터가 없습니다.");
-                        else
-                            Assert.IsNotNull(mfSelf, "Can't find Mesh filter");
-                    }
-                }
-
-                #region 매쉬의 버텍스에 대한 월드 계산 위치
-
-                Vector2 minMaxByX = GetMinMaxRangeByVertex3D(ResultType.X, tr, mfSelf);
-                Vector3 vx1 = Vector3.zero;
-                vx1.x = minMaxByX.x;
-
-                Vector3 vx2 = Vector3.zero;
-                vx2.x = minMaxByX.y;
-
-                Vector2 minMaxByZ = GetMinMaxRangeByVertex3D(ResultType.Z, tr, mfSelf);
-                Vector3 vz1 = Vector3.zero;
-                vz1.x = minMaxByZ.x;
-
-                Vector3 vz2 = Vector3.zero;
-                vz2.x = minMaxByZ.y;
-
-                float footYPosition = GetMinYVertex3D(tr);
-
-                #endregion
-
-                float distanceX = Vector3.Distance(vx1, vx2);
-                float distanceZ = Vector3.Distance(vz1, vz2);
-
-                float startPositionX = minMaxByX.x;
-                float startPositionZ = minMaxByZ.x;
-
-                //간격에 따른 알맞는 간격을 계산한다.
-                float intervalValueX = CalculateSeparationByDistance(distanceX);
-                float intervalValueZ = CalculateSeparationByDistance(distanceZ);
-
-                //간격에 알맞는 알갱이를 가져옴
-                int numberOfGrainsX = CalculatePointCount(distanceX, intervalValueX);
-                int numberOfGrainsZ = CalculatePointCount(distanceZ, intervalValueZ);
-                int nowNumberOfGrainsX = numberOfGrainsX + 1;
-                int nowNumberOfGrainsZ = numberOfGrainsZ + 1;
-
-                Vector3 position = tr.position;
-                float? moveY = null;
-
-                //원하는 알갱이 수 만큼 반복한다
-                //- 원래는 내가 원하는 간격을 제시하면 그것에 맞는 알갱이를 뿌린다.
-                for (int i = 0; i < nowNumberOfGrainsX; i++)
-                {
-                    for (int j = 0; j < nowNumberOfGrainsZ; j++)
+                    //원하는 알갱이 수 만큼 반복한다
+                    //- 원래는 내가 원하는 간격을 제시하면 그것에 맞는 알갱이를 뿌린다.
+                    for (int i = 0; i < nowNumberOfGrains; i++)
                     {
                         //그려낼 위치에서 사이간격에 맞춰 그려냄
-                        float xx = startPositionX + intervalValueX * i;
-                        float zz = startPositionZ + intervalValueZ * j;
+                        float xx = startPosition + intervalValue * i;
 
-                        Vector3 drawPosition = new Vector3(xx, footYPosition, zz);
+                        Vector3 drawPosition = new Vector3(xx, footYPosition, position.z);
 
                         //각각의 오브젝트의 위치에서 아래 방향으로 Ray를 쏜다.
-                        RaycastHit[] hits = Physics.RaycastAll(drawPosition, Vector3.down, Height);
+                        RaycastHit2D[] hits = Physics2D.RaycastAll(drawPosition, Vector2.down, Height);
 
                         //각각 hit정보 확인
-                        foreach (RaycastHit hit in hits)
+                        foreach (var hit in hits)
                         {
                             //자기 자신의 콜라이더를 맞춘 경우 pass : 예외 처리
-                            if (hit.collider.gameObject == tr.gameObject)
+                            if (hit.collider.gameObject == transform.gameObject)
                                 continue;
 
                             if (moveY == null)
@@ -265,27 +101,204 @@ namespace SnapToFloor
                             }
                         }
                     }
+
+                    position.y -= moveY ?? 0f;
+                    //hit된 위치로 이동시킨다.
+                    transform.position = position;
+
+                    //다시 활성화 시킵니다.
+                    foreach (GameObject o in activeData)
+                        o.SetActive(true);
                 }
 
-                position.y -= moveY ?? 0f;
-                //hit된 위치로 이동시킨다.
-                tr.position = position;
-
-                switch (hasMfSelf)
+                if (mode == EditorBehaviorMode.Mode3D)
                 {
-                    case true when childCount > 0:
-                        transform.parent = null;
-                        DestroyImmediate(tr.gameObject);
-                        break;
-                    case false:
-                        DestroyImmediate(mfSelf);
-                        break;
+                    //자식 오브젝트가 있는 자식의 매쉬 필터를 가져온다.
+                    SkinnedMeshRenderer[] skinnedMesh = transform.GetComponentsInChildren<SkinnedMeshRenderer>();
+
+                    int childCount = transform.childCount;
+
+                    //매쉬 필터를 가져온다.
+                    MeshFilter mfSelf = transform.GetComponent<MeshFilter>();
+
+                    //자식을 가지고 있는지 체크
+                    bool hasChild = childCount > 0;
+                    bool hasSkinnedMesh = skinnedMesh.Length > 0;
+                    bool hasMfSelf = mfSelf;
+                    Transform tr = transform;
+
+                    if (hasMfSelf && childCount > 0)
+                    {
+                        GameObject go = new GameObject();
+                        go.transform.position = transform.position;
+                        transform.SetParent(go.transform);
+
+                        tr = go.transform;
+                    }
+
+                    //자식이 있는 경우 컴바인한다.
+                    if (!hasSkinnedMesh && hasChild)
+                    {
+                        // 우리가 부모-자식 계층을 끊고 부모 계층을 다시 얻을 때 때로는 scale이 약간 달라지므로 끊기전에 scale을 저장한다.
+                        Vector3 oldScaleAsChild = tr.localScale;
+
+                        // 부모 오브젝트 계층안에 있으면 트랜스폼에 영향이 가므로, 부모 계층을 잠시 끊는다.
+                        int positionInParentHierarchy = tr.GetSiblingIndex();
+                        Transform parent = tr.parent;
+                        tr.parent = null;
+
+                        // 덕분에 새로 결합된 메시는 자식과 같은 세계 공간에서 동일한 위치와 크기를 갖게 됩니다.:
+                        Quaternion oldRotation = tr.rotation;
+                        Vector3 oldPosition = tr.position;
+                        Vector3 oldScale = tr.localScale;
+                        tr.rotation = Quaternion.identity;
+                        tr.position = Vector3.zero;
+                        tr.localScale = Vector3.one;
+
+                        //기존에 매쉬 필터가 없으면 해당 오브젝트에 추가하고,
+                        //이미 있으면 새로운 오브젝트를 만들어서 거기에 추가한다.
+                        mfSelf = tr.gameObject.AddComponent<MeshFilter>();
+
+                        //컴바인 시스템 동작
+                        CombineSystem(tr);
+
+                        // 변환 값을 다시 가져옵니다.:
+                        tr.rotation = oldRotation;
+                        tr.position = oldPosition;
+                        tr.localScale = oldScale;
+
+                        // 상위 및 동일한 계층 위치를 다시 가져옵니다.:
+                        tr.parent = parent;
+                        tr.SetSiblingIndex(positionInParentHierarchy);
+
+                        //스케일 값을 자식으로 다시 설정:
+                        tr.localScale = oldScaleAsChild;
+                    }
+                    else
+                    {
+                        //스키니드가 아니고, 자식 오브젝트가 없는 경우
+                        if (!hasSkinnedMesh)
+                        {
+                            if (Application.systemLanguage == SystemLanguage.Korean)
+                                Assert.IsNotNull(mfSelf, "매쉬 필터가 없습니다.");
+                            else
+                                Assert.IsNotNull(mfSelf, "Can't find Mesh filter");
+                        }
+                    }
+
+                    #region 매쉬의 버텍스에 대한 월드 계산 위치
+
+                    Vector2 minMaxByX = GetMinMaxRangeByVertex3D(ResultType.X, tr, mfSelf);
+                    Vector3 vx1 = Vector3.zero;
+                    vx1.x = minMaxByX.x;
+
+                    Vector3 vx2 = Vector3.zero;
+                    vx2.x = minMaxByX.y;
+
+                    Vector2 minMaxByZ = GetMinMaxRangeByVertex3D(ResultType.Z, tr, mfSelf);
+                    Vector3 vz1 = Vector3.zero;
+                    vz1.x = minMaxByZ.x;
+
+                    Vector3 vz2 = Vector3.zero;
+                    vz2.x = minMaxByZ.y;
+
+                    float footYPosition = GetMinYVertex3D(tr);
+
+                    #endregion
+
+                    float distanceX = Vector3.Distance(vx1, vx2);
+                    float distanceZ = Vector3.Distance(vz1, vz2);
+
+                    float startPositionX = minMaxByX.x;
+                    float startPositionZ = minMaxByZ.x;
+
+                    //간격에 따른 알맞는 간격을 계산한다.
+                    float intervalValueX = CalculateSeparationByDistance(distanceX);
+                    float intervalValueZ = CalculateSeparationByDistance(distanceZ);
+
+                    //간격에 알맞는 알갱이를 가져옴
+                    int numberOfGrainsX = CalculatePointCount(distanceX, intervalValueX);
+                    int numberOfGrainsZ = CalculatePointCount(distanceZ, intervalValueZ);
+                    int nowNumberOfGrainsX = numberOfGrainsX + 1;
+                    int nowNumberOfGrainsZ = numberOfGrainsZ + 1;
+
+                    Vector3 position = tr.position;
+                    float? moveY = null;
+
+                    //원하는 알갱이 수 만큼 반복한다
+                    //- 원래는 내가 원하는 간격을 제시하면 그것에 맞는 알갱이를 뿌린다.
+                    for (int i = 0; i < nowNumberOfGrainsX; i++)
+                    {
+                        for (int j = 0; j < nowNumberOfGrainsZ; j++)
+                        {
+                            //그려낼 위치에서 사이간격에 맞춰 그려냄
+                            float xx = startPositionX + intervalValueX * i;
+                            float zz = startPositionZ + intervalValueZ * j;
+
+                            Vector3 drawPosition = new Vector3(xx, footYPosition, zz);
+
+                            //각각의 오브젝트의 위치에서 아래 방향으로 Ray를 쏜다.
+                            RaycastHit[] hits = Physics.RaycastAll(drawPosition, Vector3.down, Height);
+
+                            //각각 hit정보 확인
+                            foreach (RaycastHit hit in hits)
+                            {
+                                //자기 자신의 콜라이더를 맞춘 경우 pass : 예외 처리
+                                if (hit.collider.gameObject == tr.gameObject)
+                                    continue;
+
+                                if (moveY == null)
+                                    moveY = hit.distance;
+                                else
+                                {
+                                    if (moveY > hit.distance)
+                                        moveY = hit.distance;
+                                }
+                            }
+                        }
+                    }
+
+                    position.y -= moveY ?? 0f;
+                    //hit된 위치로 이동시킨다.
+                    tr.position = position;
+
+                    switch (hasMfSelf)
+                    {
+                        case true when childCount > 0:
+                            transform.parent = null;
+                            DestroyImmediate(tr.gameObject);
+                            break;
+                        case false:
+                            DestroyImmediate(mfSelf);
+                            break;
+                    }
                 }
-#endif 
             }
         }
 
-#if SNAP2FLOOR_2D || SNAP2FLOOR_3D
+
+        private static void HideAllChild(GameObject target, ICollection<GameObject> activeData)
+        {
+            //해당 타겟의 자신과 자식을 모두 가져옵니다.
+            Transform[] allChildren = target.GetComponentsInChildren<Transform>();
+
+            for (int i = 0; i < allChildren.Length; i++)
+            {
+                //자신은 제외합니다.
+                if (i == 0) continue;
+
+                //활성화 되어있는 녀석들만 바인딩합니다.
+                if (allChildren[i].gameObject.activeSelf)
+                {
+                    //추가
+                    activeData.Add(allChildren[i].gameObject);
+
+                    //비활성화
+                    allChildren[i].gameObject.SetActive(false);
+                }
+            }
+        }
+
         /// <summary>
         /// x,y는 min,max를 반환하고, z는 두 점의 거리를 반환합니다.
         /// </summary>
@@ -484,11 +497,10 @@ namespace SnapToFloor
 
         private static int CalculatePointCount(float distance, float intervalValue)
         {
-            int result = (int) (distance / intervalValue);
+            int result = (int)(distance / intervalValue);
             if (result <= 0)
                 result = 0;
             return result;
         }
-#endif
     }
 }
