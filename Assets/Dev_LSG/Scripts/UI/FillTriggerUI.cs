@@ -57,7 +57,7 @@ namespace Dev_LSG.Scripts.UI
                 fillImage.ActFill();
             }
         }
-        void StopFill(HVRUIPointer pointer)
+        public void StopFill(HVRUIPointer pointer)
         {
             pointer.ViewOnEvent = false;
             fillImage.StopFill();

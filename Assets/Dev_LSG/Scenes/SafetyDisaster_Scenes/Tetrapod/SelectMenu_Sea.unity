@@ -5851,7 +5851,15 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3045998773752804829, guid: 31eea76b112ee4045a3d646056103bfc, type: 3}
+      propertyPath: customView
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3045998773752804829, guid: 31eea76b112ee4045a3d646056103bfc, type: 3}
       propertyPath: viewOnEvent
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7978527461334850377, guid: 31eea76b112ee4045a3d646056103bfc, type: 3}
+      propertyPath: customView
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7978527461334850377, guid: 31eea76b112ee4045a3d646056103bfc, type: 3}
@@ -13357,6 +13365,7 @@ GameObject:
   - component: {fileID: 350714039}
   - component: {fileID: 350714038}
   - component: {fileID: 350714037}
+  - component: {fileID: 350714041}
   m_Layer: 5
   m_Name: Scene (0)
   m_TagString: Untagged
@@ -13403,18 +13412,6 @@ MonoBehaviour:
   fullFillFunctions:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1634740095}
-        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
-        m_MethodName: Play
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 497733651}
         m_TargetAssemblyTypeName: Dev_LSG.Scripts.Event.DelayEvent, Dev_LSG.Scripts.Event
         m_MethodName: CallDelay
@@ -13427,25 +13424,39 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 152483589}
-        m_TargetAssemblyTypeName: UnityEngine.Renderer, UnityEngine
-        m_MethodName: set_enabled
-        m_Mode: 6
+      - m_Target: {fileID: 1634740095}
+        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
+        m_MethodName: Play
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 350714041}
+        m_TargetAssemblyTypeName: Dev_LSG.Scripts.UI.FillTriggerUI, Dev_LSG.Scripts.UI
+        m_MethodName: StopFill
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 870135446}
+          m_ObjectArgumentAssemblyTypeName: HurricaneVR.Framework.Core.UI.HVRUIPointer,
+            HurricaneVR.Framework
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 152483587}
-        m_TargetAssemblyTypeName: UnityEngine.Renderer, UnityEngine
-        m_MethodName: set_enabled
-        m_Mode: 6
+      - m_Target: {fileID: 350714041}
+        m_TargetAssemblyTypeName: Dev_LSG.Scripts.UI.FillTriggerUI, Dev_LSG.Scripts.UI
+        m_MethodName: StopFill
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 870135445}
+          m_ObjectArgumentAssemblyTypeName: HurricaneVR.Framework.Core.UI.HVRUIPointer,
+            HurricaneVR.Framework
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -13467,95 +13478,11 @@ MonoBehaviour:
   - eventID: 0
     callback:
       m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 350714037}
-          m_TargetAssemblyTypeName: Dev_LSG.Scripts.UI.FillImage, Dev_LSG.Scripts.UI
-          m_MethodName: ActFill
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 1
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-        - m_Target: {fileID: 938623220}
-          m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
-          m_MethodName: Play
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-        - m_Target: {fileID: 870135446}
-          m_TargetAssemblyTypeName: HurricaneVR.Framework.Core.UI.HVRUIPointer, HurricaneVR.Framework
-          m_MethodName: set_ViewOnEvent
-          m_Mode: 6
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 1
-          m_CallState: 2
-        - m_Target: {fileID: 870135445}
-          m_TargetAssemblyTypeName: HurricaneVR.Framework.Core.UI.HVRUIPointer, HurricaneVR.Framework
-          m_MethodName: set_ViewOnEvent
-          m_Mode: 6
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 1
-          m_CallState: 2
+        m_Calls: []
   - eventID: 1
     callback:
       m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 350714037}
-          m_TargetAssemblyTypeName: Dev_LSG.Scripts.UI.FillImage, Dev_LSG.Scripts.UI
-          m_MethodName: StopFill
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 1
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-        - m_Target: {fileID: 870135446}
-          m_TargetAssemblyTypeName: HurricaneVR.Framework.Core.UI.HVRUIPointer, HurricaneVR.Framework
-          m_MethodName: set_ViewOnEvent
-          m_Mode: 6
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-        - m_Target: {fileID: 870135445}
-          m_TargetAssemblyTypeName: HurricaneVR.Framework.Core.UI.HVRUIPointer, HurricaneVR.Framework
-          m_MethodName: set_ViewOnEvent
-          m_Mode: 6
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
+        m_Calls: []
 --- !u!114 &350714039
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13594,6 +13521,39 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 350714035}
   m_CullTransparentMesh: 1
+--- !u!114 &350714041
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 350714035}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfb8d0a9aa2bc484eb60ca1b498f736c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fillImage: {fileID: 350714037}
+  uiLeftPointer: {fileID: 870135446}
+  uiRightPointer: {fileID: 870135445}
+  startEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 938623220}
+        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
+        m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  stopEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &351061341
 GameObject:
   m_ObjectHideFlags: 0
