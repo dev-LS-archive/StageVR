@@ -9,6 +9,7 @@ namespace HurricaneVR.Framework.Core.UI
     [RequireComponent(typeof(Camera))]
     public class HVRUIPointer : MonoBehaviour
     {
+        public bool customView = false;
         public bool ViewOnEvent { get; set; } //custom
         
         public HVRHandSide HandSide;
@@ -35,8 +36,10 @@ namespace HurricaneVR.Framework.Core.UI
         
         protected virtual void Update()
         {
-            if(!ViewOnEvent) //custom
-                Pointer.enabled = CurrentUIElement;
+            // if(!ViewOnEvent) //custom
+            //     Pointer.enabled = CurrentUIElement;
+            Pointer.enabled = !customView ? CurrentUIElement : ViewOnEvent;
+
             if (Pointer.enabled)
             {
                 Pointer.SetPosition(0, transform.position);
