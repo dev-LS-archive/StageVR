@@ -11,6 +11,8 @@ Material:
   m_Shader: {fileID: 4800000, guid: 8d2bb70cbf9db8d4da26e15b26e74248, type: 3}
   m_ValidKeywords:
   - _EMISSION
+  - _GLOSSINESS_FROM_BASE_ALPHA
+  - _SPECULAR_COLOR
   m_InvalidKeywords: []
   m_LightmapFlags: 1
   m_EnableInstancingVariants: 0
@@ -51,7 +53,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 1ba9ae3ac155bb04bad7b27d44124bed, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -110,7 +112,7 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 0.28676465, g: 0.28676465, b: 0.28676465, a: 1}
-    - _Color: {r: 0.28676462, g: 0.28676462, b: 0.28676462, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _ReflectColor: {r: 0.36764705, g: 0.36764705, b: 0.36764705, a: 0.5}
     - _SpecColor: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}
