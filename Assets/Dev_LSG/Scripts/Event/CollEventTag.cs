@@ -15,6 +15,7 @@ namespace Dev_LSG.Scripts.Event
         
         public bool coolingDown;
         public bool isTrigger = false;
+        public AudioSource fillSound;
 
         private void OnEnable()
         {
@@ -88,22 +89,25 @@ namespace Dev_LSG.Scripts.Event
         
         IEnumerator Filling()
         {
-            while (coolingDown)
+            if (isTrigger)
             {
-                if (isTrigger)
+                while (coolingDown)
                 {
+                    fillSound.Play();
                     //Reduce fill amount
                     _fillAmount += 1.0f/waitTime * Time.deltaTime;
                     yield return null;
 
                     //print(Math.Abs(Math.Abs(_fillAmount)));
 
-                    if (Math.Abs(Math.Abs(_fillAmount) - 1) >= 0)
+                    if (Math.Abs(_fillAmount) - 1 >= 0)
                     {
+                        fillSound.Stop();
                         fullFillFunctions.Invoke();
                         break;
                     }
                 }
+                fillSound.Stop();
             }
         }
         [ContextMenu("InvokeFunction")]
