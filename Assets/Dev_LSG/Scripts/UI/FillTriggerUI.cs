@@ -15,16 +15,26 @@ namespace Dev_LSG.Scripts.UI
 
         private void OnEnable()
         {
-            print(("enable"));
+            AddListen();
+        }
+
+        private void OnDisable()
+        {
+            RemoveListen();
+        }
+
+        private void AddListen()
+        {
+            //print(("enable"));
             HVRControllerEvents.Instance.LeftTriggerActivated.AddListener(CallLeft);
             HVRControllerEvents.Instance.RightTriggerActivated.AddListener(CallRight);
             HVRControllerEvents.Instance.LeftTriggerDeactivated.AddListener(StopLeft);
             HVRControllerEvents.Instance.RightTriggerDeactivated.AddListener(StopRight);
         }
 
-        private void OnDisable()
+        private void RemoveListen()
         {
-            print(("disable"));
+            //print(("disable"));
             HVRControllerEvents.Instance.LeftTriggerActivated.RemoveListener(CallLeft);
             HVRControllerEvents.Instance.RightTriggerActivated.RemoveListener(CallRight);
             HVRControllerEvents.Instance.LeftTriggerDeactivated.RemoveListener(StopLeft);
