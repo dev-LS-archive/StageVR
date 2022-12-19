@@ -9,6 +9,8 @@ namespace Dev_LSG.Scripts.Event
     public class CollEventTag : MonoBehaviour
     {
         public string tagStr;
+        public UnityEvent startEvent;
+        public UnityEvent stopEvent;
         public UnityEvent fullFillFunctions;
         public float waitTime = 3.0f;
         private float _fillAmount;
@@ -76,6 +78,7 @@ namespace Dev_LSG.Scripts.Event
         private void ActFill()
         {
             coolingDown = true;
+            startEvent.Invoke();
             StartCoroutine(Filling());
             //print("Act");
         }
@@ -83,6 +86,7 @@ namespace Dev_LSG.Scripts.Event
         private void StopFill()
         {
             coolingDown = false;
+            stopEvent.Invoke();
             _fillAmount = 0;
             //print("Stop");
         }
