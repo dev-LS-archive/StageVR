@@ -97,7 +97,8 @@ namespace Dev_LSG.Scripts.Event
             {
                 while (coolingDown)
                 {
-                    fillSound.Play();
+                    if(!fillSound.isPlaying)
+                        fillSound.Play();
                     //Reduce fill amount
                     _fillAmount += 1.0f/waitTime * Time.deltaTime;
                     yield return null;
