@@ -60,7 +60,7 @@ namespace Dev_LSG.Scripts.UI
         
         void CallFill(HVRUIPointer pointer)
         {
-            if (pointer.CurrentUIElement == true)
+            if (pointer.CurrentUIElement.name == fillImage.cooldown.gameObject.name)
             {
                 pointer.ViewOnEvent = true;
                 startEvent.Invoke();
