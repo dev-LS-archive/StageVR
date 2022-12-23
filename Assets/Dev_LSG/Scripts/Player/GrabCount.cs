@@ -9,6 +9,8 @@ namespace Dev_LSG.Scripts.Player
         private bool _eventDone;
 
         public UnityEvent twoGrabEvent;
+        public UnityEvent countZeroEvent;
+        public UnityEvent countTwoEvent;
 
         private void OnEnable()
         {
@@ -19,16 +21,24 @@ namespace Dev_LSG.Scripts.Player
         public void Count()
         {
             _count += 1;
-            if (_count == 2 && !_eventDone)
+            if (_count == 2)
             {
-                _eventDone = true;
-                twoGrabEvent.Invoke();
+                countTwoEvent.Invoke();
+                if (!_eventDone)
+                {
+                    _eventDone = true;
+                    twoGrabEvent.Invoke();
+                }
             }
         }
 
         public void DisCount()
         {
             _count -= 1;
+            if (_count == 0)
+            {
+                countZeroEvent.Invoke();
+            }
         }
     }
 }
