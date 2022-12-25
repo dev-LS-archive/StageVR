@@ -3153,8 +3153,8 @@ namespace HurricaneVR.Framework.Core.Grabbers
         {
             try
             {
-                if (grabbable.IsBeingHeld)
-                    grabbable.ForceRelease();
+                //if (grabbable.IsBeingHeld)
+                    //grabbable.ForceRelease();
 
                 if (!grabPoint)
                     grabPoint = grabbable.GetGrabPoint(this, GrabpointFilter.Normal);

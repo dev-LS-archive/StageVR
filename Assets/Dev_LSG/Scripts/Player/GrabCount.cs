@@ -10,6 +10,7 @@ namespace Dev_LSG.Scripts.Player
 
         public UnityEvent twoGrabEvent;
         public UnityEvent countZeroEvent;
+        public UnityEvent countOneEvent;
         public UnityEvent countTwoEvent;
 
         private void OnEnable()
@@ -21,6 +22,10 @@ namespace Dev_LSG.Scripts.Player
         public void Count()
         {
             _count += 1;
+            if (_count == 1)
+            {
+                countOneEvent.Invoke();
+            }
             if (_count == 2)
             {
                 countTwoEvent.Invoke();

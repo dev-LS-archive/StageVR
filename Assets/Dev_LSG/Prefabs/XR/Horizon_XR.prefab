@@ -92,7 +92,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5563851414373467428}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.5000002
   m_Height: 2.0000005
@@ -361,8 +361,8 @@ Transform:
   m_GameObject: {fileID: 5563851415157514642}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.06207078, y: 0.05482762, z: 1.3147892}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.09310617, y: 0.08224144, z: 1.972184}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 5563851414373467429}
   m_Father: {fileID: 5563851415434264212}
@@ -432,6 +432,8 @@ GameObject:
   - component: {fileID: 5563851415434264210}
   - component: {fileID: 5563851415434264213}
   - component: {fileID: 5563851415434264209}
+  - component: {fileID: 3108876305496369312}
+  - component: {fileID: 2975310413384829457}
   m_Layer: 20
   m_Name: Horizon_XR
   m_TagString: Untagged
@@ -448,7 +450,7 @@ Transform:
   m_GameObject: {fileID: 5563851415434264215}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 72.022, y: 0.164, z: -37.82999}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.99999994, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5563851415157514643}
@@ -598,9 +600,9 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5563851415434264215}
   serializedVersion: 2
-  m_Mass: 1.5
+  m_Mass: 3
   m_Drag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0
   m_UseGravity: 1
   m_IsKinematic: 1
   m_Interpolate: 0
@@ -643,7 +645,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.3, y: 0.2, z: 0.2}
+  m_Size: {x: 2, y: 0.3, z: 0.3}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &5563851415434264209
 MonoBehaviour:
@@ -696,6 +698,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 5563851414373467424}
+        m_TargetAssemblyTypeName: UnityEngine.Collider, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
   countZeroEvent:
     m_PersistentCalls:
       m_Calls:
@@ -710,6 +724,21 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 1
+        m_CallState: 2
+  countOneEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5563851415434264211}
+        m_TargetAssemblyTypeName: UnityEngine.Rigidbody, UnityEngine
+        m_MethodName: set_isKinematic
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
         m_CallState: 2
   countTwoEvent:
     m_PersistentCalls:
@@ -726,6 +755,54 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &3108876305496369312
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5563851415434264215}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7655f6ce6dec68f43b66e0bf8ba4bee9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tagStr: Hand
+  collEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2975310413384829457}
+        m_TargetAssemblyTypeName: Framework.HurricaneVR.TechDemo.Scripts.CodeGrabbingCustom,
+          HurricaneVR.TechDemo
+        m_MethodName: Grab
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  eventDone: 0
+--- !u!114 &2975310413384829457
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5563851415434264215}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5b8d76e1d3a1ff40877afef563b0dc2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GrabberSet: {fileID: 0}
+  GrabberSet2: {fileID: 0}
+  Grabbable: {fileID: 5563851415434264208}
+  GrabTrigger: 2
+  GrabPoint: {fileID: 5563851414711852401}
+  GrabPoint2: {fileID: 5563851414905863425}
 --- !u!1 &5563851415496902418
 GameObject:
   m_ObjectHideFlags: 0

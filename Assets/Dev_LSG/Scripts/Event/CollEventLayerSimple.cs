@@ -3,7 +3,7 @@ using UnityEngine.Events;
 
 namespace Dev_LSG.Scripts.Event
 {
-    public class CollEventTagSimple : MonoBehaviour
+    public class CollEventLayerSimple : MonoBehaviour
     {
         public string tagStr;
         public UnityEvent collEvent;
@@ -11,11 +11,11 @@ namespace Dev_LSG.Scripts.Event
 
         private void OnCollisionEnter(Collision collision)
         {
-            if (collision.gameObject.CompareTag(tagStr))
+            if (collision.gameObject.layer == LayerMask.NameToLayer(tagStr))
             {
+                print(tagStr);
                 if (eventDone == false)
                 {
-                    //print(collision.gameObject.tag);
                     eventDone = true;
                     collEvent.Invoke();
                 }
@@ -24,11 +24,12 @@ namespace Dev_LSG.Scripts.Event
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.gameObject.CompareTag(tagStr))
+            if (other.gameObject.layer == LayerMask.NameToLayer(tagStr))
             {
+                print(tagStr);
+                print(other.gameObject.name);
                 if (eventDone == false)
                 {
-                    //print(other.gameObject.tag);
                     eventDone = true;
                     collEvent.Invoke();
                 }
