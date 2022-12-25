@@ -15,12 +15,23 @@ namespace Dev_LSG.Scripts.Player
         [ContextMenu("Vibrate")]
         public void CallVibrate()
         {
-            if (HandGrabbingPrevents && lHand.IsGrabbing) return;
-            if (HandGrabbingPrevents && rHand.IsGrabbing) return;
             var amp = Data.AmpCurve.Evaluate(Force / Data.MaxForce);
 
             lHand.Controller.Vibrate(amp, duration, Data.Frequency);
             rHand.Controller.Vibrate(amp, duration, Data.Frequency);
+        }
+        
+        public void CallLeftVibrate(float dur)
+        {
+            var amp = Data.AmpCurve.Evaluate(Force / Data.MaxForce);
+
+            lHand.Controller.Vibrate(amp, dur, Data.Frequency);
+        }
+        public void CallRightVibrate(float dur)
+        {
+            var amp = Data.AmpCurve.Evaluate(Force / Data.MaxForce);
+            
+            rHand.Controller.Vibrate(amp, dur, Data.Frequency);
         }
     }
 }

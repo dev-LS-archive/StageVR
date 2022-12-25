@@ -15,7 +15,8 @@ namespace Dev_LSG.Scripts.UI
 
         private void OnEnable()
         {
-            AddListen();
+            Invoke(nameof(AddListen), 0.2f);
+            //AddListen();
         }
 
         private void OnDisable()

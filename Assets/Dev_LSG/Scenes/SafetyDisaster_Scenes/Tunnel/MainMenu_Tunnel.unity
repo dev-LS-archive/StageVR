@@ -3036,6 +3036,7 @@ Transform:
   - {fileID: 1636670247}
   - {fileID: 35128788}
   - {fileID: 1818454779}
+  - {fileID: 1376187070}
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -7477,6 +7478,66 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4761160688867496, guid: d7ae3303c4dcf75439bc8955ae1b8812, type: 3}
   m_PrefabInstance: {fileID: 1347284500}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1376187069
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1376187070}
+  - component: {fileID: 1376187071}
+  m_Layer: 0
+  m_Name: SelectMenu_Tunnel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1376187070
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1376187069}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.0000009536743, z: 0.000061035156}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 570149666}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1376187071
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1376187069}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6386dd11689ee3448bb05f04528e2c2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  delayEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 449388582}
+        m_TargetAssemblyTypeName: Dev_LSG.Scripts.Manager.SceneManager, Dev_LSG.Scripts.Manager
+        m_MethodName: SceneLoad
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: SelectMenu_Tunnel
+          m_BoolArgument: 1
+        m_CallState: 2
+  delay: 1
 --- !u!1 &1385501440
 GameObject:
   m_ObjectHideFlags: 0
@@ -11062,7 +11123,6 @@ GameObject:
   - component: {fileID: 2065159067}
   - component: {fileID: 2065159066}
   - component: {fileID: 2065159065}
-  - component: {fileID: 2065159064}
   - component: {fileID: 2065159063}
   m_Layer: 5
   m_Name: start_bg
@@ -11125,34 +11185,6 @@ MonoBehaviour:
   stopEvent:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &2065159064
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2065159061}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6386dd11689ee3448bb05f04528e2c2f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  delayEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 449388582}
-        m_TargetAssemblyTypeName: Dev_LSG.Scripts.Manager.SceneManager, Dev_LSG.Scripts.Manager
-        m_MethodName: SceneLoad
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: SelectMenu_Tunnel
-          m_BoolArgument: 1
-        m_CallState: 2
-  delay: 1
 --- !u!114 &2065159065
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11171,9 +11203,9 @@ MonoBehaviour:
   fullFillFunctions:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2065159064}
+      - m_Target: {fileID: 1376187071}
         m_TargetAssemblyTypeName: Dev_LSG.Scripts.Event.DelayEvent, Dev_LSG.Scripts.Event
-        m_MethodName: CallDelay
+        m_MethodName: CallInvoke
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
