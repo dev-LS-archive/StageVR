@@ -8370,7 +8370,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &227161259
 Transform:
   m_ObjectHideFlags: 0
@@ -49360,7 +49360,7 @@ PlayableDirector:
   serializedVersion: 3
   m_PlayableAsset: {fileID: 11400000, guid: 5f2efd3f69993e140a416de940e9acc9, type: 2}
   m_InitialState: 1
-  m_WrapMode: 1
+  m_WrapMode: 2
   m_DirectorUpdateMode: 1
   m_InitialTime: 0
   m_SceneBindings:
@@ -49391,7 +49391,7 @@ PlayableDirector:
   - key: {fileID: -5864932299145945278, guid: 5f2efd3f69993e140a416de940e9acc9, type: 2}
     value: {fileID: 0}
   - key: {fileID: 7827967183277576027, guid: 5f2efd3f69993e140a416de940e9acc9, type: 2}
-    value: {fileID: 0}
+    value: {fileID: 1833942997}
   - key: {fileID: 4550110256520996842, guid: 5f2efd3f69993e140a416de940e9acc9, type: 2}
     value: {fileID: 0}
   - key: {fileID: 8533024903128919409, guid: 5f2efd3f69993e140a416de940e9acc9, type: 2}
@@ -49564,6 +49564,7 @@ MonoBehaviour:
   m_Events:
     m_Signals:
     - {fileID: 11400000, guid: 612facd21cdb763439228a6113334648, type: 2}
+    - {fileID: 11400000, guid: 80ca5d0c24db5af44a6b52b4804ec0dc, type: 2}
     m_Events:
     - m_PersistentCalls:
         m_Calls:
@@ -49577,6 +49578,20 @@ MonoBehaviour:
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 2088102031}
+          m_TargetAssemblyTypeName: Dev_LSG.Scripts.Manager.SceneManager, Dev_LSG.Scripts.Manager
+          m_MethodName: SceneLoad
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: SelectMenu_Tunnel
             m_BoolArgument: 0
           m_CallState: 2
 --- !u!1 &1505396275
@@ -60650,6 +60665,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1833942996}
+  - component: {fileID: 1833942997}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -60673,6 +60689,26 @@ Transform:
   m_Father: {fileID: 1625253058}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0.0002594183, y: -0.0001538513, z: 0.05419424}
+--- !u!95 &1833942997
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1833942995}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1834987927
 GameObject:
   m_ObjectHideFlags: 0
