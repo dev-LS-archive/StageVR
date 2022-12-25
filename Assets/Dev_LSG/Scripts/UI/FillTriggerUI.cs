@@ -1,3 +1,4 @@
+using System;
 using HurricaneVR.Framework.ControllerInput;
 using HurricaneVR.Framework.Core.UI;
 using UnityEngine;
@@ -15,13 +16,13 @@ namespace Dev_LSG.Scripts.UI
 
         private void OnEnable()
         {
-            Invoke(nameof(AddListen), 0.2f);
+            //Invoke(nameof(AddListen), 0.2f);
             //AddListen();
         }
 
         private void OnDisable()
         {
-            RemoveListen();
+            //RemoveListen();
         }
 
         private void AddListen()
@@ -58,7 +59,21 @@ namespace Dev_LSG.Scripts.UI
         {
             StopFill(uiRightPointer);
         }
-        
+
+        private void Update()
+        {
+            if (uiLeftPointer.CurrentUIElement == true)
+            {
+                if (uiLeftPointer.ViewOnEvent == false)
+                    CallLeft();
+            }
+            if (uiRightPointer.CurrentUIElement == true)
+            {
+                if (uiRightPointer.ViewOnEvent == false) 
+                    CallRight();
+            }
+        }
+
         void CallFill(HVRUIPointer pointer)
         {
             if (pointer.CurrentUIElement == true)
