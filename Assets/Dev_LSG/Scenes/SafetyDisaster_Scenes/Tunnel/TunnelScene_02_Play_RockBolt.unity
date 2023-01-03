@@ -14745,7 +14745,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 524907201}
   m_LocalRotation: {x: 0.000000005587935, y: -0.026176896, z: -0, w: 0.9996574}
-  m_LocalPosition: {x: 0.07599977, y: 0.33213124, z: -0.097991675}
+  m_LocalPosition: {x: 0.075999744, y: 0.33253145, z: -0.17698123}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -35618,9 +35618,9 @@ MonoBehaviour:
   disableEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2131757175}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
+      - m_Target: {fileID: 1787787175}
+        m_TargetAssemblyTypeName: UnityEngine.Collider, UnityEngine
+        m_MethodName: set_enabled
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -37250,6 +37250,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 1399509053}
+        m_TargetAssemblyTypeName: UnityEngine.Collider, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   Released:
     m_PersistentCalls:
       m_Calls: []
@@ -37330,6 +37342,18 @@ MonoBehaviour:
           HurricaneVR.TechDemo
         m_MethodName: Grab
         m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1968682822}
+        m_TargetAssemblyTypeName: UnityEngine.Collider, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -48053,7 +48077,7 @@ BoxCollider:
   m_GameObject: {fileID: 1787787173}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 50}
   m_Center: {x: 0, y: 0, z: -10}
@@ -48123,6 +48147,18 @@ MonoBehaviour:
   collEvent:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 1787787175}
+        m_TargetAssemblyTypeName: UnityEngine.Collider, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 6611722566084297889}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
@@ -48149,19 +48185,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 1182127700}
         m_TargetAssemblyTypeName: Dev_LSG.Scripts.Player.CallVirate, Dev_LSG.Scripts.Player
-        m_MethodName: CallLeftVibrate
-        m_Mode: 4
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0.25
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1182127700}
-        m_TargetAssemblyTypeName: Dev_LSG.Scripts.Player.CallVirate, Dev_LSG.Scripts.Player
-        m_MethodName: CallRightVibrate
+        m_MethodName: CallLrVibrate
         m_Mode: 4
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -48689,7 +48713,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1818476562}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.133, y: 0.3326, z: 0.477}
+  m_LocalPosition: {x: -0.133, y: 0.333, z: 0.398}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -68482,7 +68506,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5563851415245220694}
   m_LocalRotation: {x: -0.00000002793967, y: 0.0043632975, z: 0.000000048428763, w: 0.99999046}
-  m_LocalPosition: {x: 0.15899579, y: 0.3321313, z: -0.0050055147}
+  m_LocalPosition: {x: 0.158, y: 0.333, z: -0.141}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

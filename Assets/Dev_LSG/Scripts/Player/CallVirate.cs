@@ -33,5 +33,13 @@ namespace Dev_LSG.Scripts.Player
             
             rHand.Controller.Vibrate(amp, dur, Data.Frequency);
         }
+        
+        public void CallLrVibrate(float dur)
+        {
+            var amp = Data.AmpCurve.Evaluate(Force / Data.MaxForce);
+
+            lHand.Controller.Vibrate(amp, dur, Data.Frequency);
+            rHand.Controller.Vibrate(amp, dur, Data.Frequency);
+        }
     }
 }
