@@ -60,6 +60,7 @@ AudioMixerSnapshotController:
   m_FloatValues:
     ccc5a3202b475b04e8317ef96af29807: 20000
     7f9adef05a0401d42a8c4415ea055874: 0.025578514
+    0e87e751db741ba479b5402c6afb36ff: 5
     211448c166dcf714c9530b6bbe5e6392: 2.13
     5aa81f22c8a273847b2d5c67a6772802: 1.38
     3cfc4a534fdf1db40a3a09a16a8484d5: 4.18
@@ -94,6 +95,39 @@ AudioMixerEffectController:
   m_SendTarget: {fileID: 0}
   m_EnableWetMix: 0
   m_Bypass: 0
+--- !u!243 &-6232167579450179144
+AudioMixerGroupController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 5db
+  m_AudioMixer: {fileID: 24100000}
+  m_GroupID: 77c18d53d88231d4b84a137d533018bd
+  m_Children: []
+  m_Volume: 0e87e751db741ba479b5402c6afb36ff
+  m_Pitch: 7d22284343ee43c47874ca22272cbf2b
+  m_Send: 00000000000000000000000000000000
+  m_Effects:
+  - {fileID: -94732479202039783}
+  m_UserColorIndex: 0
+  m_Mute: 0
+  m_Solo: 0
+  m_BypassEffects: 0
+--- !u!244 &-94732479202039783
+AudioMixerEffectController:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_EffectID: 4949465a6266133498122f61a7ea6edc
+  m_EffectName: Attenuation
+  m_MixLevel: b7d3a857d14f250489eb598688e1ceec
+  m_Parameters: []
+  m_SendTarget: {fileID: 0}
+  m_EnableWetMix: 0
+  m_Bypass: 0
 --- !u!241 &24100000
 AudioMixerController:
   m_ObjectHideFlags: 0
@@ -117,6 +151,7 @@ AudioMixerController:
     - a37051c2fc771374f8fd000372f80142
     - bc501cb02e2bc274e8c7f82ec42d63a4
     - cad72d1816f9c9047a8537b1bdfe8e8c
+    - 77c18d53d88231d4b84a137d533018bd
     name: View
   m_CurrentViewIndex: 0
   m_TargetSnapshot: {fileID: -7790152059189000784}
@@ -134,6 +169,7 @@ AudioMixerGroupController:
   - {fileID: 7122900121407218138}
   - {fileID: 513565737636612716}
   - {fileID: 7539802692968672931}
+  - {fileID: -6232167579450179144}
   m_Volume: d6cd65be229d7da4594ccff1d7ca80df
   m_Pitch: 6131004f52b3d5a48994e59bb343f0e6
   m_Send: 00000000000000000000000000000000

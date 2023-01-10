@@ -37,7 +37,7 @@ namespace Dev_LSG.Scripts.Player
         public void CallLrVibrate(float dur)
         {
             var amp = Data.AmpCurve.Evaluate(Force / Data.MaxForce);
-
+            
             lHand.Controller.Vibrate(amp, dur, Data.Frequency);
             rHand.Controller.Vibrate(amp, dur, Data.Frequency);
         }
