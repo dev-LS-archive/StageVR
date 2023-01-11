@@ -78,7 +78,6 @@ namespace Dev_LSG.Scripts.Event
         private void ActFill()
         {
             coolingDown = true;
-            startEvent.Invoke();
             StartCoroutine(Filling());
             //print("Act");
         }
@@ -86,7 +85,6 @@ namespace Dev_LSG.Scripts.Event
         private void StopFill()
         {
             coolingDown = false;
-            stopEvent.Invoke();
             _fillAmount = 0;
             //print("Stop");
         }
@@ -95,6 +93,7 @@ namespace Dev_LSG.Scripts.Event
         {
             if (isTrigger)
             {
+                startEvent.Invoke();
                 while (coolingDown)
                 {
                     if(!fillSound.isPlaying)
@@ -113,6 +112,7 @@ namespace Dev_LSG.Scripts.Event
                     }
                 }
                 fillSound.Stop();
+                stopEvent.Invoke();
             }
         }
         [ContextMenu("InvokeFunction")]
