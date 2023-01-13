@@ -304,10 +304,10 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 1182127693}
-        m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
-        m_MethodName: SetTrigger
-        m_Mode: 5
+      - m_Target: {fileID: 1882513542}
+        m_TargetAssemblyTypeName: Dev_LSG.Scripts.Player.CheckRot, Dev_LSG.Scripts.Player
+        m_MethodName: RotEvent
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -2531,8 +2531,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1882513540}
-  - {fileID: 1758272127}
   - {fileID: 1301862081}
+  - {fileID: 1758272127}
   - {fileID: 1388609378}
   - {fileID: 1341327972}
   - {fileID: 250431720}
@@ -19497,6 +19497,66 @@ PrefabInstance:
       propertyPath: m_Name
       value: "\uD130\uB110lump"
       objectReference: {fileID: 0}
+    - target: {fileID: 1996686281933673337, guid: 545b5dd5e1e7ec241803b833ab1ce6b3, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.03
+      objectReference: {fileID: 0}
+    - target: {fileID: 1996686281933673337, guid: 545b5dd5e1e7ec241803b833ab1ce6b3, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.024
+      objectReference: {fileID: 0}
+    - target: {fileID: 1996686281933673337, guid: 545b5dd5e1e7ec241803b833ab1ce6b3, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.03
+      objectReference: {fileID: 0}
+    - target: {fileID: 1996686281933673337, guid: 545b5dd5e1e7ec241803b833ab1ce6b3, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 18.878
+      objectReference: {fileID: 0}
+    - target: {fileID: 1996686281933673337, guid: 545b5dd5e1e7ec241803b833ab1ce6b3, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -5.291
+      objectReference: {fileID: 0}
+    - target: {fileID: 1996686281933673337, guid: 545b5dd5e1e7ec241803b833ab1ce6b3, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 31.633
+      objectReference: {fileID: 0}
+    - target: {fileID: 1996686281933673337, guid: 545b5dd5e1e7ec241803b833ab1ce6b3, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.5117856
+      objectReference: {fileID: 0}
+    - target: {fileID: 1996686281933673337, guid: 545b5dd5e1e7ec241803b833ab1ce6b3, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.003369515
+      objectReference: {fileID: 0}
+    - target: {fileID: 1996686281933673337, guid: 545b5dd5e1e7ec241803b833ab1ce6b3, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.005656099
+      objectReference: {fileID: 0}
+    - target: {fileID: 1996686281933673337, guid: 545b5dd5e1e7ec241803b833ab1ce6b3, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.859088
+      objectReference: {fileID: 0}
+    - target: {fileID: 1996686281933673337, guid: 545b5dd5e1e7ec241803b833ab1ce6b3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -0.359
+      objectReference: {fileID: 0}
+    - target: {fileID: 1996686281933673337, guid: 545b5dd5e1e7ec241803b833ab1ce6b3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0.663
+      objectReference: {fileID: 0}
+    - target: {fileID: 1996686281933673337, guid: 545b5dd5e1e7ec241803b833ab1ce6b3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 118.431
+      objectReference: {fileID: 0}
+    - target: {fileID: 1996686281933673337, guid: 545b5dd5e1e7ec241803b833ab1ce6b3, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290256282545391764, guid: 545b5dd5e1e7ec241803b833ab1ce6b3, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8762695367884720718, guid: 545b5dd5e1e7ec241803b833ab1ce6b3, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -31662,6 +31722,18 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 460882198905123991, guid: 31eea76b112ee4045a3d646056103bfc, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 460882198905123991, guid: 31eea76b112ee4045a3d646056103bfc, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 460882198905123991, guid: 31eea76b112ee4045a3d646056103bfc, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 460882198905123991, guid: 31eea76b112ee4045a3d646056103bfc, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -31679,15 +31751,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 460882198905123991, guid: 31eea76b112ee4045a3d646056103bfc, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 460882198905123991, guid: 31eea76b112ee4045a3d646056103bfc, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 460882198905123991, guid: 31eea76b112ee4045a3d646056103bfc, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 460882198905123991, guid: 31eea76b112ee4045a3d646056103bfc, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -31700,6 +31772,10 @@ PrefabInstance:
     - target: {fileID: 460882198905123991, guid: 31eea76b112ee4045a3d646056103bfc, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 460882198905123991, guid: 31eea76b112ee4045a3d646056103bfc, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 460882199080251066, guid: 31eea76b112ee4045a3d646056103bfc, type: 3}
       propertyPath: CanMove
@@ -35570,7 +35646,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 65527519}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1301862082
 MonoBehaviour:
@@ -49759,7 +49835,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8127904079184294786, guid: 229fe65831b7cb640954b1fc5777f734, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8127904079184294786, guid: 229fe65831b7cb640954b1fc5777f734, type: 3}
       propertyPath: m_LocalPosition.x
@@ -53259,6 +53335,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1882513540}
   - component: {fileID: 1882513541}
+  - component: {fileID: 1882513542}
   m_Layer: 0
   m_Name: AnimPos
   m_TagString: Untagged
@@ -53295,6 +53372,48 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parent: {fileID: 424082386}
+--- !u!114 &1882513542
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1882513539}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd284f38419cebf4f91ca71b8410220f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  plusEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1182127693}
+        m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
+        m_MethodName: SetTrigger
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Die
+          m_BoolArgument: 0
+        m_CallState: 2
+  minusEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1182127693}
+        m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
+        m_MethodName: SetTrigger
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Die_back
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1882890643
 GameObject:
   m_ObjectHideFlags: 0
