@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using System.Diagnostics;
 using System.IO;
 using UnityEngine;
-using UnityEngine.Serialization;
-using UnityEngine.XR;
 using UnityEngine.XR.Management;
 using Debug = UnityEngine.Debug;
 
@@ -13,7 +9,7 @@ public class ProcessManager : MonoBehaviour
 {
     private string tetrapodPath, gangformPath, tunnelPath;
     [SerializeField] private bool isRun = false;
-    private Process[] _pName;
+    //private Process[] _pName;
     private string _runPath;
     private string _fileName;
 
@@ -43,34 +39,45 @@ public class ProcessManager : MonoBehaviour
     public void StartProcess(string path)
     {
         _runPath = path;
-        _fileName = Path.GetFileName(_runPath);
+        _fileName = Path.GetFileNameWithoutExtension(_runPath);
         print(path);
-        Invoke(nameof(DelayCheck), 3f);
+        isRun = true;
+        //Invoke(nameof(DelayCheck), 3f);
         StopXR();
         Process.Start(path);
     }
 
-    void DelayCheck()
+    public void DelayReconnect()
     {
-        print("delay");
-        _pName = Process.GetProcessesByName(Path.GetFileName(_runPath));
-        print(_pName);
-        isRun = true;
+        Reconnect();
     }
     private void Update()
     {
         if (isRun == true)
         {
-            if (_pName.Length != 0)
+            // Process.GetProcess(): 실행중인 프로세스 배열 반환
+            foreach(Process process in Process.GetProcesses())
             {
-                _pName = Process.GetProcessesByName(_fileName);
-                print(_fileName + " is running!");
+                // _fileName 라는 이름을 가진 프로세스가 존재하면 true를 리턴한다.
+                if (!process.HasExited)
+                {
+                    if(process.ProcessName.StartsWith(_fileName))
+                    {
+                        print(_fileName + " is running!");
+                    }
+                }
+                else
+                {
+                    print(_fileName + " exited!");
+                    isRun = false;
+                    Invoke(nameof(DelayReconnect), 1f);
+                }
             }
-            else
-            {
-                Reconnect();
-                isRun = false;
-            }
+            // else
+            // {
+            //     Reconnect();
+            //     isRun = false;
+            // }
         }
     }
 
