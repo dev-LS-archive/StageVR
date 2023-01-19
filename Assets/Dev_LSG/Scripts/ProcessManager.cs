@@ -1,86 +1,95 @@
-﻿using System.Collections;
-using System.Diagnostics;
+﻿using System;
+using System.Collections;
+//using System.Diagnostics;
+using KS.Diagnostics;
 using System.IO;
 using UnityEngine;
 using UnityEngine.XR.Management;
-using Debug = UnityEngine.Debug;
+using KS.UnityToolbag;
 
 public class ProcessManager : MonoBehaviour
 {
     private string tetrapodPath, gangformPath, tunnelPath;
-    [SerializeField] private bool isRun = false;
+    private Process tetrapodProc, gangformProc, tunnelProc;
     //private Process[] _pName;
-    private string _runPath;
-    private string _fileName;
 
     private void Awake()
     {
         tetrapodPath = ReadTxt(Path.Combine(Application.streamingAssetsPath, "Tetrapod.txt"));
         gangformPath = ReadTxt(Path.Combine(Application.streamingAssetsPath, "Gangform.txt"));
         tunnelPath = ReadTxt(Path.Combine(Application.streamingAssetsPath, "Tunnel.txt"));
-        print(tunnelPath);
+        
+        SetProc(tetrapodProc, tetrapodPath);
+        SetProc(gangformProc, gangformPath);
+        SetProc(tunnelProc, tunnelPath);
     }
 
+    void SetProc(Process proc, string path)
+    {
+        proc = new Process()
+        {
+            StartInfo = new ProcessStartInfo()
+            {
+                FileName = path,
+                Arguments = "",
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                CreateNoWindow = true,
+                WorkingDirectory = Path.GetDirectoryName(path),
+            },
+
+            //enables rising Exited event
+            EnableRaisingEvents = true
+        };
+
+        proc.OutputDataReceived += (s, d) =>
+            // Dispatcher is used to run on unity main thread
+            Dispatcher.Invoke(() => print(proc.StartInfo.FileName));
+
+        proc.Exited += (s, d) => Dispatcher.Invoke(() => StartCoroutine(OnExit()));
+    }
+    [ContextMenu("Tetrapod")]
     public void Tetrapod_exe()
     {
-        StartProcess(tetrapodPath);
+        print(tetrapodProc.StartInfo.FileName);
+        StartProcess(tetrapodProc);
     }
     
     public void Gangform_exe()
     {
-        StartProcess(gangformPath);
+        StartProcess(gangformProc);
     }
     
     public void Tunnel_exe()
     {
-        StartProcess(tunnelPath);
+        StartProcess(tunnelProc);
     }
     
-    public void StartProcess(string path)
+    public void StartProcess(Process process)
     {
-        _runPath = path;
-        _fileName = Path.GetFileNameWithoutExtension(_runPath);
-        print(path);
-        isRun = true;
+        print(process.StartInfo.FileName);
         //Invoke(nameof(DelayCheck), 3f);
         StopXR();
-        Process.Start(path);
+        process.Start();
     }
 
     public void DelayReconnect()
     {
         Reconnect();
     }
-    private void Update()
-    {
-        if (isRun == true)
-        {
-            // Process.GetProcess(): 실행중인 프로세스 배열 반환
-            foreach(Process process in Process.GetProcesses())
-            {
-                // _fileName 라는 이름을 가진 프로세스가 존재하면 true를 리턴한다.
-                if (!process.HasExited)
-                {
-                    if(process.ProcessName.StartsWith(_fileName))
-                    {
-                        print(_fileName + " is running!");
-                    }
-                }
-                else
-                {
-                    print(_fileName + " exited!");
-                    isRun = false;
-                    Invoke(nameof(DelayReconnect), 1f);
-                }
-            }
-            // else
-            // {
-            //     Reconnect();
-            //     isRun = false;
-            // }
-        }
-    }
 
+    IEnumerator OnExit()
+    {
+        // wait a bit to make sure all messages were read
+        yield return new WaitForSeconds(0.1f);
+        foreach(Process process in Process.GetProcesses())
+        {
+            //print(" exited!");
+        }
+        Invoke(nameof(DelayReconnect), 1f);
+        yield return new WaitForSeconds(0.1f);
+    }
+    
     [ContextMenu("Reconnect")]
     public void Reconnect()
     {
