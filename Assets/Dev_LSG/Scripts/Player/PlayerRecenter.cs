@@ -15,6 +15,8 @@ namespace Dev_LSG.Scripts.Player
                 [SerializeField] private Transform firstPos;
 
                 [SerializeField] private bool isFirstReset = false;
+
+                public bool notResetEnable;
                 //[SerializeField] private int isForward;
 
                 void OnEnable()
@@ -26,14 +28,14 @@ namespace Dev_LSG.Scripts.Player
                         //         //print("reset");
                         //         Invoke(nameof(ResetPosition), 0.3f);
                         // }
-                        
-                        if (SceneManager.GetActiveScene().name is "MainDirectionSelect" or "MainMenu" or "SelectMenu")
-                        { 
-                                Invoke(nameof(ResetPosition), 0.3f);
-                        }
-                        else
+
+                        if (!notResetEnable)
                         {
-                                Invoke(nameof(FirstResetPosition), 0.3f);
+                                Invoke(
+                                        SceneManager.GetActiveScene().name is "MainDirectionSelect" or "MainMenu"
+                                                or "SelectMenu"
+                                                ? nameof(ResetPosition)
+                                                : nameof(FirstResetPosition), 0.3f);
                         }
                 }
 
