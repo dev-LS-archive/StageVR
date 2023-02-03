@@ -91,6 +91,11 @@ namespace Dev_LSG.Scripts.Player
                 {
                         isFirstReset = false;
                 }
+
+                public void NotResetEnable(bool enable)
+                {
+                        notResetEnable = enable;
+                }
                 private void Update()
                 {
                         if (Input.GetKeyDown(recenter))

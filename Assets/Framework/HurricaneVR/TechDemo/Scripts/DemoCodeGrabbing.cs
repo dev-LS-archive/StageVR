@@ -25,6 +25,10 @@ namespace HurricaneVR.TechDemo.Scripts
             {
                 Grabber = GameObject.FindObjectsOfType<HVRHandGrabber>().FirstOrDefault(e => e.gameObject.activeInHierarchy);
             }
+        }
+
+        void OnEnable()
+        {
             Grabbable.Released.AddListener(CallGrab);
         }
 
