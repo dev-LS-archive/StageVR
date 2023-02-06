@@ -6032,6 +6032,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1230014996}
     - target: {fileID: 87395827, guid: 31eea76b112ee4045a3d646056103bfc, type: 3}
+      propertyPath: otherPos
+      value: 
+      objectReference: {fileID: 122342290}
+    - target: {fileID: 87395827, guid: 31eea76b112ee4045a3d646056103bfc, type: 3}
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
@@ -6039,6 +6043,14 @@ PrefabInstance:
       propertyPath: isFirstReset
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 87395827, guid: 31eea76b112ee4045a3d646056103bfc, type: 3}
+      propertyPath: isOtherReset
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 87395827, guid: 31eea76b112ee4045a3d646056103bfc, type: 3}
+      propertyPath: displayCamera
+      value: 
+      objectReference: {fileID: 152483589}
     - target: {fileID: 87395827, guid: 31eea76b112ee4045a3d646056103bfc, type: 3}
       propertyPath: notResetEnable
       value: 0
@@ -6107,6 +6119,14 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 460882200860161366, guid: 31eea76b112ee4045a3d646056103bfc, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 460882200860161366, guid: 31eea76b112ee4045a3d646056103bfc, type: 3}
+      propertyPath: far clip plane
+      value: 3000
+      objectReference: {fileID: 0}
     - target: {fileID: 2720792754980959945, guid: 31eea76b112ee4045a3d646056103bfc, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -6117,6 +6137,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3045998773752804829, guid: 31eea76b112ee4045a3d646056103bfc, type: 3}
       propertyPath: viewOnEvent
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4444424678002189323, guid: 31eea76b112ee4045a3d646056103bfc, type: 3}
+      propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7007268225994397789, guid: 31eea76b112ee4045a3d646056103bfc, type: 3}
@@ -6171,6 +6195,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0750ccd3b744ccbbf8cc33dc6f9d3d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!20 &152483589 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 4444424678002189323, guid: 31eea76b112ee4045a3d646056103bfc, type: 3}
+  m_PrefabInstance: {fileID: 152483584}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &156120108
 GameObject:
   m_ObjectHideFlags: 0

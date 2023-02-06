@@ -32,6 +32,10 @@ namespace HurricaneVR.TechDemo.Scripts
             Grabbable.Released.AddListener(CallGrab);
         }
 
+        void OnDisable()
+        {
+            Grabbable.Released.RemoveAllListeners();
+        }
         private void CallGrab(HVRGrabberBase arg0, HVRGrabbable arg1)
         {
             Grab();
@@ -57,6 +61,12 @@ namespace HurricaneVR.TechDemo.Scripts
         public void ResetEvent()
         {
             Grabbable.Released.RemoveAllListeners();
+            Grab();
+        }
+        
+        public void ReGrab()
+        {
+            Grabbable.Released.AddListener(CallGrab);
             Grab();
         }
     }
