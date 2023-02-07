@@ -832,11 +832,6 @@ Transform:
   m_Father: {fileID: 1731810536}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!224 &334680179 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 6202202686123672880, guid: 3edff7cfe6bbc004dab7eed75f63b641, type: 3}
-  m_PrefabInstance: {fileID: 7918591189736916318}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &492289170 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4018361016754982195, guid: c884123088440284692e484efd2c360f, type: 3}
@@ -960,7 +955,7 @@ PrefabInstance:
     - target: {fileID: 4018361016754982193, guid: c884123088440284692e484efd2c360f, type: 3}
       propertyPath: UICanvases.Array.data[0]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1866406854}
     - target: {fileID: 4018361016754982193, guid: c884123088440284692e484efd2c360f, type: 3}
       propertyPath: UICanvases.Array.data[1]
       value: 
@@ -1711,7 +1706,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 334680179}
+  - {fileID: 1866406848}
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2267,6 +2262,16 @@ Transform:
   m_Father: {fileID: 39324661}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 62, z: 0}
+--- !u!224 &1866406848 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 4320881413223346225, guid: 3edff7cfe6bbc004dab7eed75f63b641, type: 3}
+  m_PrefabInstance: {fileID: 7918591189736916318}
+  m_PrefabAsset: {fileID: 0}
+--- !u!223 &1866406854 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 4320881413223346235, guid: 3edff7cfe6bbc004dab7eed75f63b641, type: 3}
+  m_PrefabInstance: {fileID: 7918591189736916318}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1906866484
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2629,5 +2634,9 @@ PrefabInstance:
       propertyPath: delayEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 1161858739}
+    - target: {fileID: 7918591189858672187, guid: 3edff7cfe6bbc004dab7eed75f63b641, type: 3}
+      propertyPath: delayEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_StringArgument
+      value: MainMenu_Port
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3edff7cfe6bbc004dab7eed75f63b641, type: 3}
