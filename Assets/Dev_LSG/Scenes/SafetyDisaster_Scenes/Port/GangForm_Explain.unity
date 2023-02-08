@@ -16642,6 +16642,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 756490211}
+  - component: {fileID: 756490212}
   m_Layer: 0
   m_Name: FlyCam
   m_TagString: Untagged
@@ -16665,6 +16666,25 @@ Transform:
   m_Father: {fileID: 281285611}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &756490212
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 756490210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d47ce779b5c42d4ead68eed6d7d4fcc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  resetTransform: {fileID: 281285611}
+  player: {fileID: 756490210}
+  playerHead: {fileID: 807964475}
+  recenter: 32
+  firstPos: {fileID: 281285611}
+  isFirstReset: 0
+  notResetEnable: 0
 --- !u!1 &756752502
 GameObject:
   m_ObjectHideFlags: 0
