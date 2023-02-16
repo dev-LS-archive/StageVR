@@ -1534,6 +1534,57 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1107594080 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7918591189858672189, guid: 3edff7cfe6bbc004dab7eed75f63b641, type: 3}
+  m_PrefabInstance: {fileID: 7918591189736916318}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1107594085 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7918591189858672185, guid: 3edff7cfe6bbc004dab7eed75f63b641, type: 3}
+  m_PrefabInstance: {fileID: 7918591189736916318}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1107594080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1107594087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1107594080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f55fcc3768689a4f9cf863b8c11c618, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_LocalizedAssetReference:
+    m_TableReference:
+      m_TableCollectionName: GUID:7e0f524a22640e5488407e478a831245
+    m_TableEntryReference:
+      m_KeyId: 41530613968896
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+  m_UpdateAsset:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1107594085}
+        m_TargetAssemblyTypeName: UnityEngine.UI.Image, UnityEngine.UI
+        m_MethodName: set_sprite
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
 --- !u!1 &1161858737
 GameObject:
   m_ObjectHideFlags: 0
@@ -2638,5 +2689,54 @@ PrefabInstance:
       propertyPath: delayEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_StringArgument
       value: SelectMenu_Tunnel
       objectReference: {fileID: 0}
+    - target: {fileID: 7918591189858672189, guid: 3edff7cfe6bbc004dab7eed75f63b641, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3edff7cfe6bbc004dab7eed75f63b641, type: 3}
+--- !u!1 &7918591189736916319 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4320881414162359308, guid: 3edff7cfe6bbc004dab7eed75f63b641, type: 3}
+  m_PrefabInstance: {fileID: 7918591189736916318}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &7918591189736916320 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 4320881414162359351, guid: 3edff7cfe6bbc004dab7eed75f63b641, type: 3}
+  m_PrefabInstance: {fileID: 7918591189736916318}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7918591189736916321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7918591189736916319}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38027e0c17df8e241b6ac826cb438d0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_LocalizedAssetReference:
+    m_TableReference:
+      m_TableCollectionName: GUID:7e0f524a22640e5488407e478a831245
+    m_TableEntryReference:
+      m_KeyId: 35751311847424
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+  m_UpdateAsset:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7918591189736916320}
+        m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
+        m_MethodName: set_runtimeAnimatorController
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
