@@ -3254,7 +3254,12 @@ Animator:
   m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
-  m_WarningMessage: 
+  m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
+    are already bound by a Humanoid avatar. These transforms can only be changed
+    by Humanoid clips.\n\tTransform 'Bip01 L Finger0'\n\tTransform 'Bip01 R UpperArm'\n\tTransform
+    'Bip01 L UpperArm'\n\tTransform 'Bip01 R Finger0'\n\tTransform 'Bip01 L Foot'\n\tTransform
+    'Bip01 L Calf'\n\tTransform 'Bip01 Head'\n\tTransform 'Bip01 Neck'\n\tTransform
+    'Bip01 L Finger01'\n\tTransform 'Bip01 R Finger1'\n\tand more ..."
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
@@ -8599,7 +8604,12 @@ Animator:
   m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
-  m_WarningMessage: 
+  m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
+    are already bound by a Humanoid avatar. These transforms can only be changed
+    by Humanoid clips.\n\tTransform 'Bip01 L Finger0'\n\tTransform 'Bip01 R UpperArm'\n\tTransform
+    'Bip01 L UpperArm'\n\tTransform 'Bip01 R Finger0'\n\tTransform 'Bip01 L Foot'\n\tTransform
+    'Bip01 L Calf'\n\tTransform 'Bip01 Head'\n\tTransform 'Bip01 Neck'\n\tTransform
+    'Bip01 L Finger01'\n\tTransform 'Bip01 R Finger1'\n\tand more ..."
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
@@ -8741,7 +8751,12 @@ Animator:
   m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
-  m_WarningMessage: 
+  m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
+    are already bound by a Humanoid avatar. These transforms can only be changed
+    by Humanoid clips.\n\tTransform 'Bip01 L Finger0'\n\tTransform 'Bip01 R UpperArm'\n\tTransform
+    'Bip01 L UpperArm'\n\tTransform 'Bip01 R Finger0'\n\tTransform 'Bip01 L Foot'\n\tTransform
+    'Bip01 L Calf'\n\tTransform 'Bip01 Head'\n\tTransform 'Bip01 Neck'\n\tTransform
+    'Bip01 L Finger01'\n\tTransform 'Bip01 R Finger1'\n\tand more ..."
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
@@ -10492,6 +10507,8 @@ GameObject:
   - component: {fileID: 982517327}
   - component: {fileID: 982517328}
   - component: {fileID: 982517329}
+  - component: {fileID: 982517331}
+  - component: {fileID: 982517330}
   m_Layer: 0
   m_Name: TimeLine
   m_TagString: Untagged
@@ -10571,6 +10588,8 @@ PlayableDirector:
     value: {fileID: 221564996}
   - key: {fileID: -8423408072088584407, guid: 1dd5028cb3c98d54e85e9ae28d6e628f, type: 2}
     value: {fileID: 288926052}
+  - key: {fileID: -1888956618446158202, guid: 1dd5028cb3c98d54e85e9ae28d6e628f, type: 2}
+    value: {fileID: 0}
   m_ExposedReferences:
     m_References: []
 --- !u!114 &982517329
@@ -10603,6 +10622,149 @@ MonoBehaviour:
             m_StringArgument: TunnelScene_02_Play_RockBolt
             m_BoolArgument: 0
           m_CallState: 2
+--- !u!114 &982517330
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 982517326}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d18ed12b29a9aa3479eb5083b95f899d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_LocalizedAssetReference:
+    m_TableReference:
+      m_TableCollectionName: GUID:0cba51fba5b6269478af9c04b9e8f465
+    m_TableEntryReference:
+      m_KeyId: 2208011530240
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+  m_UpdateAsset:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 982517331}
+        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
+        m_MethodName: set_clip
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
+      - m_Target: {fileID: 982517331}
+        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
+        m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
+--- !u!82 &982517331
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 982517326}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 965c692496053a248823fca1a5036338, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &982769100
 GameObject:
   m_ObjectHideFlags: 0
@@ -10807,7 +10969,12 @@ Animator:
   m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
-  m_WarningMessage: 
+  m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
+    are already bound by a Humanoid avatar. These transforms can only be changed
+    by Humanoid clips.\n\tTransform 'Bip01 L Finger0'\n\tTransform 'Bip01 R UpperArm'\n\tTransform
+    'Bip01 L UpperArm'\n\tTransform 'Bip01 R Finger0'\n\tTransform 'Bip01 L Foot'\n\tTransform
+    'Bip01 L Calf'\n\tTransform 'Bip01 Head'\n\tTransform 'Bip01 Neck'\n\tTransform
+    'Bip01 L Finger01'\n\tTransform 'Bip01 R Finger1'\n\tand more ..."
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
@@ -16026,7 +16193,12 @@ Animator:
   m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
-  m_WarningMessage: 
+  m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
+    are already bound by a Humanoid avatar. These transforms can only be changed
+    by Humanoid clips.\n\tTransform 'Bip01 L Finger0'\n\tTransform 'Bip01 R UpperArm'\n\tTransform
+    'Bip01 L UpperArm'\n\tTransform 'Bip01 R Finger0'\n\tTransform 'Bip01 L Foot'\n\tTransform
+    'Bip01 L Calf'\n\tTransform 'Bip01 Head'\n\tTransform 'Bip01 Neck'\n\tTransform
+    'Bip01 L Finger01'\n\tTransform 'Bip01 R Finger1'\n\tand more ..."
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
