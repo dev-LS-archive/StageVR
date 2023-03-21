@@ -4610,3 +4610,45 @@ Running denoiserLegacy c "C:\Users\admin\AppData\Local\Temp\frender/Garage Scene
 Running seamfixer "C:\Users\admin\AppData\Local\Temp\frender" "1" "Garage Scene VR Sample_LMA1_final_HDR.lz4"
 Running halffloat2hdr "C:\Users\admin\AppData\Local\Temp\frender/Garage Scene VR Sample_LM0_final_HDR.lz4" "C:/Users/admin/Documents/GitHub/2022/VR/StageVR/Assets/Scenes/Garage Scene VR Sample/Garage Scene VR Sample_LM0_final.hdr" 1024
 Running halffloat2hdr "C:\Users\admin\AppData\Local\Temp\frender/Garage Scene VR Sample_LMA1_final_HDR.lz4" "C:/Users/admin/Documents/GitHub/2022/VR/StageVR/Assets/Scenes/Garage Scene VR Sample/Garage Scene VR Sample_LMA1_final.hdr" 1024
+2023-3-21
+Rendering UV GBuffer for Garage Scene VR_LM0 51
+RGBA32F...RGBA8...RGBA8_SRGB...RGBA16F...states...
+Rendering UV normal...
+Rendering faceted UV normal...
+Rendering UV pos...
+Rendering smooth UV pos...
+Rendering UV GBuffer for Garage Scene VR_LMA1 51
+RGBA32F...RGBA8...RGBA8_SRGB...RGBA16F...states...
+Rendering UV normal...
+Rendering faceted UV normal...
+Rendering UV pos...
+Rendering smooth UV pos...
+Rendering UV GBuffer for probes 256
+RGBA32F...RGBA8...RGBA8_SRGB...RGBA16F...states...
+Done
+Done
+Running ftraceRTX fixpos12 "C:\Users\admin\AppData\Local\Temp\frender" "uvpos_Garage Scene VR_LM0.lz4" 2 0 0 0
+Running ftraceRTX fixpos12 "C:\Users\admin\AppData\Local\Temp\frender" "uvpos_Garage Scene VR_LMA1.lz4" 2 0 1 0
+Running ftraceRTX addmul "C:\Users\admin\AppData\Local\Temp\frender" "probes" 4 0 2 comp_2.bin
+Running ftraceRTX addmul "C:\Users\admin\AppData\Local\Temp\frender" "Garage Scene VR_LM0" 4 0 0 comp_0.bin
+Running ftraceRTX addmul "C:\Users\admin\AppData\Local\Temp\frender" "Garage Scene VR_LMA1" 4 0 1 comp_1.bin
+Running ftraceRTX texgi "C:\Users\admin\AppData\Local\Temp\frender" "Garage Scene VR_LM0_diffuse" 4 16 0 "gi_Garage Scene VR_LM00.bin" "Garage Scene VR_LM0_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\admin\AppData\Local\Temp\frender" "Garage Scene VR_LMA1_diffuse" 4 16 1 "gi_Garage Scene VR_LMA10.bin" "Garage Scene VR_LMA1_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\admin\AppData\Local\Temp\frender" "Garage Scene VR_LM0_diffuse" 4 16 0 "gi_Garage Scene VR_LM01.bin" "Garage Scene VR_LM0_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\admin\AppData\Local\Temp\frender" "Garage Scene VR_LMA1_diffuse" 4 16 1 "gi_Garage Scene VR_LMA11.bin" "Garage Scene VR_LMA1_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\admin\AppData\Local\Temp\frender" "Garage Scene VR_LM0_diffuse" 4 16 0 "gi_Garage Scene VR_LM02.bin" "Garage Scene VR_LM0_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\admin\AppData\Local\Temp\frender" "Garage Scene VR_LMA1_diffuse" 4 16 1 "gi_Garage Scene VR_LMA12.bin" "Garage Scene VR_LMA1_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\admin\AppData\Local\Temp\frender" "Garage Scene VR_LM0_diffuse" 4 16 0 "gi_Garage Scene VR_LM03.bin" "Garage Scene VR_LM0_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\admin\AppData\Local\Temp\frender" "Garage Scene VR_LMA1_diffuse" 4 16 1 "gi_Garage Scene VR_LMA13.bin" "Garage Scene VR_LMA1_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgiprobesh "C:\Users\admin\AppData\Local\Temp\frender" "probes_final" 1924 16 2 "gi_probes4.bin" "probes_lights_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\admin\AppData\Local\Temp\frender" "Garage Scene VR_LM0_final" 4 16 0 "gi_Garage Scene VR_LM04.bin" "Garage Scene VR_LM0_lights_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\admin\AppData\Local\Temp\frender" "Garage Scene VR_LMA1_final" 4 16 1 "gi_Garage Scene VR_LMA14.bin" "Garage Scene VR_LMA1_lights_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX addsh "C:\Users\admin\AppData\Local\Temp\frender" "probes_final_" 4 0 2 shcomp_2.bin
+Running denoiserLegacy c "C:\Users\admin\AppData\Local\Temp\frender/Garage Scene VR_LM0_final_HDR.lz4" "C:\Users\admin\AppData\Local\Temp\frender/Garage Scene VR_LM0_final_HDR.lz4" 512 0
+Running seamfixer "C:\Users\admin\AppData\Local\Temp\frender" "0" "Garage Scene VR_LM0_final_HDR.lz4"
+Running denoiserLegacy c "C:\Users\admin\AppData\Local\Temp\frender/Garage Scene VR_LMA1_final_HDR.lz4" "C:\Users\admin\AppData\Local\Temp\frender/Garage Scene VR_LMA1_final_HDR.lz4" 512 0
+Running seamfixer "C:\Users\admin\AppData\Local\Temp\frender" "1" "Garage Scene VR_LMA1_final_HDR.lz4"
+Running halffloat2hdr "C:\Users\admin\AppData\Local\Temp\frender/Garage Scene VR_LM0_final_HDR.lz4" "D:/Done
+Done
+Done
+Done
