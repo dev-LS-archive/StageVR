@@ -21,7 +21,7 @@ namespace Dev_LSG.Scripts.Event
         }
         public void InvokeEvent()
         {
-            print( gameObject.name+" / invoke");
+            //print( gameObject.name+" / invoke");
             delayEvent.Invoke();
         }
         IEnumerator DelayInvoke()
