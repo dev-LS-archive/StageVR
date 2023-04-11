@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: metallic3
-  m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
+  m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
   m_ValidKeywords:
   - _EMISSION
   m_InvalidKeywords:
@@ -20,11 +20,16 @@ Material:
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
-  stringTagMap: {}
+  stringTagMap:
+    RenderType: Opaque
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _BaseMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BumpMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -73,6 +78,18 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
     - _AbsorptionColorStrength: 0.5
@@ -80,7 +97,9 @@ Material:
     - _AbsorptionHeight: 1
     - _AbsorptionMaxHeight: 60
     - _AbsorptionStrength: 1
+    - _AlphaClip: 0
     - _AlphaRamp: 1
+    - _Blend: 0
     - _BumpScale: 1
     - _CausticMode: 1
     - _CausticsEnabled: 1
@@ -88,16 +107,21 @@ Material:
     - _CausticsSelfDistortion: 0.2
     - _CausticsSpeed: 0.9
     - _CausticsTiling: 0.1
+    - _ClearCoatMask: 0
+    - _ClearCoatSmoothness: 0
+    - _Cull: 2
     - _Culling: 0
     - _Cutoff: 0.5
     - _DeepFoamBlur: 0
     - _DeepFoamCoverage: 1
     - _DeepFoamTiling: 0.637
     - _Density: 0.1
+    - _DetailAlbedoMapScale: 1
     - _DetailDistance: 600
     - _DetailFadeRange: 200
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
+    - _EnvironmentReflections: 1
     - _FoamCaps: 0.5
     - _FoamEnabled: 1
     - _FoamFinalErosion: 0.375
@@ -136,6 +160,8 @@ Material:
     - _Parallax: 0.02
     - _PixelSnap: 0
     - _PlanarEnabled: 0
+    - _QueueOffset: 0
+    - _ReceiveShadows: 1
     - _ReflectionBumpScale: 0.3
     - _ReflectionGlossiness: 1
     - _ReflectionStrength: 1
@@ -145,9 +171,11 @@ Material:
     - _ScatteringPower: 8
     - _SlopeAwareFoam: 0
     - _SlopeToMask: 1
+    - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
+    - _Surface: 0
     - _TranslucencyIntensity: 4
     - _UVDirection: 0
     - _UVSec: 0
@@ -157,14 +185,16 @@ Material:
     - _UsesWaterVolume: 0
     - _WaterIOR: 1.3333
     - _WaterSurfaceYPos: 0
+    - _WorkflowMode: 1
     - _ZTest: 4
     - _ZWrite: 1
     m_Colors:
+    - _BaseColor: {r: 0.09803919, g: 0.09803919, b: 0.09803919, a: 1}
     - _BumpRotation: {r: 0, g: 8, b: 32, a: 0}
     - _BumpScale: {r: 1, g: 0.5, b: 0.25, a: 0}
     - _BumpSpeed: {r: 1.7, g: 1, b: 0, a: 1}
     - _BumpTiling: {r: 1, g: 0.5, b: 0.478, a: 0.1}
-    - _Color: {r: 0.098039225, g: 0.098039225, b: 0.098039225, a: 1}
+    - _Color: {r: 0.09803916, g: 0.09803916, b: 0.09803916, a: 1}
     - _DeepFoamColor: {r: 0.7, g: 0.7, b: 0.7, a: 0.5}
     - _DepthAtten: {r: 0, g: 32, b: 1, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
@@ -188,3 +218,16 @@ Material:
     - _TranslucencyColor: {r: 0.09999997, g: 0.19999996, b: 0.29999998, a: 0}
     - _UnderWaterReflCol: {r: 1, g: 1, b: 1, a: 0}
   m_BuildTextureStacks: []
+--- !u!114 &4593961751307611683
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 5
