@@ -19,5 +19,10 @@ namespace Dev_LSG.Scripts.Event
                 }
             }
         }
+
+        public void ResetHooked()
+        {
+            hooked = false;
+        }
     }
 }
