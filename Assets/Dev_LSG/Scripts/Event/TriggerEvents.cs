@@ -3,13 +3,16 @@ using HurricaneVR.Framework.ControllerInput;
 using HurricaneVR.Framework.Shared;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 namespace Dev_LSG.Scripts.Event
 {
     public class TriggerEvents : MonoBehaviour
     {
-        public UnityEvent triggerEvent;
+        public UnityEvent[] triggerEvents;
         public HVRInputManager inputManager;
+        public int eventNum = 0;
+        public bool canEvent;
 
         private void OnEnable()
         {
@@ -23,16 +26,19 @@ namespace Dev_LSG.Scripts.Event
             inputManager.LeftControllerConnected.AddListener(LeftConnected);
             inputManager.RightControllerConnected.AddListener(RightConnected);
             yield return null;
+            print("Connect");
         }
         
         private void LeftConnected(HVRController arg0)
         {
             HVRControllerEvents.Instance.LeftTriggerActivated.AddListener(Event_Act);
+            print("Left");
         }
 
         private void RightConnected(HVRController arg0)
         {
             HVRControllerEvents.Instance.RightTriggerActivated.AddListener(Event_Act);
+            print("Right");
         }
 
         private void OnDisable()
@@ -43,9 +49,14 @@ namespace Dev_LSG.Scripts.Event
             HVRControllerEvents.Instance.RightTriggerActivated.RemoveListener(Event_Act);
         }
 
+        public void SetEventNum(int num)
+        {
+            eventNum = num;
+        }
         void Event_Act()
         {
-            triggerEvent.Invoke();
+            triggerEvents[eventNum].Invoke();
+            print("Event");
         }
     }
 }

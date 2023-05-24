@@ -19625,6 +19625,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1317104273}
+        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
       - m_Target: {fileID: 412924145}
         m_TargetAssemblyTypeName: HurricaneVR.TechDemo.Scripts.DemoCodeGrabbing,
           HurricaneVR.TechDemo
@@ -19677,7 +19689,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 310036208}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -50509,6 +50521,10 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 4259857151265813846, guid: 2de1170a0c2f8d749b35e9dc5747295a, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4268289294875100513, guid: 2de1170a0c2f8d749b35e9dc5747295a, type: 3}
       propertyPath: m_RootOrder
       value: 18
@@ -50559,7 +50575,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4268289294875378077, guid: 2de1170a0c2f8d749b35e9dc5747295a, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4414276863705915253, guid: 2de1170a0c2f8d749b35e9dc5747295a, type: 3}
       propertyPath: ParentHandModel
@@ -50631,15 +50647,48 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 924556078}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b9bd40144aab8d49972934372935a6e, type: 3}
+  m_Script: {fileID: 11500000, guid: 0827e99b70e19c5448878f549953e8b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  triggerEvent:
-    m_PersistentCalls:
-      m_Calls: []
+  triggerEvents:
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 924556080}
+        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
+        m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 924556080}
+        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
+        m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   inputManager: {fileID: 1906866485}
+  eventNum: 0
+  canEvent: 0
+--- !u!82 &924556080 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 1235189301803063944, guid: 2de1170a0c2f8d749b35e9dc5747295a, type: 3}
+  m_PrefabInstance: {fileID: 924556075}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &925128301
 GameObject:
   m_ObjectHideFlags: 0
@@ -57707,18 +57756,6 @@ MonoBehaviour:
   disableEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1205969533}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
       - m_Target: {fileID: 1096515903}
         m_TargetAssemblyTypeName: Dev_LSG.Scripts.Event.DelayEvent, Dev_LSG.Scripts.Event
         m_MethodName: CallDelay
@@ -66264,6 +66301,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: dfd0bd5ad2cfff249b8be30fc742a65c, type: 3}
   m_PrefabInstance: {fileID: 1317078988}
   m_PrefabAsset: {fileID: 0}
+--- !u!20 &1317104273 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 4259857151265813846, guid: 2de1170a0c2f8d749b35e9dc5747295a, type: 3}
+  m_PrefabInstance: {fileID: 924556075}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1319829379
 GameObject:
   m_ObjectHideFlags: 0
@@ -74107,9 +74149,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 712364304}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
+      - m_Target: {fileID: 924556079}
+        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+        m_MethodName: set_enabled
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -77301,7 +77343,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 513565737636612716, guid: 3112f68933148b64ca6f4ed4d74ad8cb, type: 2}
-  m_audioClip: {fileID: 8300000, guid: 7c0d5f079008d4a41800248f1ff0bcdf, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 3459b13a061b07a4ebb2a05fbefb4c75, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
