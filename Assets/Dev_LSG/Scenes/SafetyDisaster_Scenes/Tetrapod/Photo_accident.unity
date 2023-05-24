@@ -6077,6 +6077,7 @@ GameObject:
   - component: {fileID: 140397996}
   - component: {fileID: 140397995}
   - component: {fileID: 140397994}
+  - component: {fileID: 140398000}
   m_Layer: 5
   m_Name: Guid_02_UI (1)
   m_TagString: Untagged
@@ -6271,6 +6272,62 @@ RectTransform:
   m_AnchoredPosition: {x: 561.00604, y: 99.80001}
   m_SizeDelta: {x: 799.99994, y: 449.99997}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &140398000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 140397993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8615b313e1038224483a1f5a40cba144, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  disableEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1317104273}
+        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 412924145}
+        m_TargetAssemblyTypeName: HurricaneVR.TechDemo.Scripts.DemoCodeGrabbing,
+          HurricaneVR.TechDemo
+        m_MethodName: Grab
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 924556079}
+        m_TargetAssemblyTypeName: Dev_LSG.Scripts.Event.TriggerEvents, Dev_LSG.Scripts.Event
+        m_MethodName: SetCanEvent
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+  audioSource: {fileID: 140397994}
+  delayEvent: 0
+  actOn: 0
+  delay: 0
 --- !u!1001 &140504986
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19670,7 +19727,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 310036208}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 6a426cac4d7489e4e9eb72e1f2137e35, type: 2}
   m_CullingMode: 0
@@ -23534,7 +23591,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 387886727}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8615b313e1038224483a1f5a40cba144, type: 3}
   m_Name: 
@@ -27876,17 +27933,29 @@ MonoBehaviour:
   disableEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1400636126016934091}
-        m_TargetAssemblyTypeName: Dev_LSG.Scripts.Event.DelayEvent, Dev_LSG.Scripts.Event
-        m_MethodName: CallInvoke
-        m_Mode: 1
+      - m_Target: {fileID: 924556079}
+        m_TargetAssemblyTypeName: Dev_LSG.Scripts.Event.TriggerEvents, Dev_LSG.Scripts.Event
+        m_MethodName: SetEventNum
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 924556079}
+        m_TargetAssemblyTypeName: Dev_LSG.Scripts.Event.TriggerEvents, Dev_LSG.Scripts.Event
+        m_MethodName: SetCanEvent
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 0
+          m_BoolArgument: 1
         m_CallState: 2
   audioSource: {fileID: 481290141}
   delayEvent: 0
@@ -73113,7 +73182,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 501397733}
+      - m_Target: {fileID: 924556078}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
@@ -102889,17 +102958,6 @@ AudioSource:
   m_CorrespondingSourceObject: {fileID: 4142821870864188803, guid: 6b794a9ac8caafe47955715a5044ac18, type: 3}
   m_PrefabInstance: {fileID: 1400636126016934086}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1400636126016934091 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1400636126016934088, guid: 6b794a9ac8caafe47955715a5044ac18, type: 3}
-  m_PrefabInstance: {fileID: 1400636126016934086}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 501397733}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6386dd11689ee3448bb05f04528e2c2f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &2607134668514800536
 PrefabInstance:
   m_ObjectHideFlags: 0
