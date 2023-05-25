@@ -6419,15 +6419,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400006, guid: d408ba6304e864a4dadf9135083c9c60, type: 3}
       propertyPath: m_LocalScale.x
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 400006, guid: d408ba6304e864a4dadf9135083c9c60, type: 3}
       propertyPath: m_LocalScale.y
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 400006, guid: d408ba6304e864a4dadf9135083c9c60, type: 3}
       propertyPath: m_LocalScale.z
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 400006, guid: d408ba6304e864a4dadf9135083c9c60, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6497,7 +6497,12 @@ PrefabInstance:
       propertyPath: m_BlendShapeWeights.Array.data[0]
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 13700006, guid: d408ba6304e864a4dadf9135083c9c60, type: 3}
+      propertyPath: m_BlendShapeWeights.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 11100000, guid: d408ba6304e864a4dadf9135083c9c60, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: d408ba6304e864a4dadf9135083c9c60, type: 3}
 --- !u!1 &141745973 stripped
 GameObject:
@@ -6530,6 +6535,11 @@ MonoBehaviour:
   _maxSpeed: 100
   _warnOnSpeedClamp: 0
   _debugSubsteps: 0
+--- !u!1 &141745975 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100006, guid: d408ba6304e864a4dadf9135083c9c60, type: 3}
+  m_PrefabInstance: {fileID: 141745972}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &143068272
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -25474,6 +25484,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 426465808}
+  - component: {fileID: 426465809}
   m_Layer: 0
   m_Name: Dolphin_Anim
   m_TagString: Untagged
@@ -25488,7 +25499,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 426465807}
-  m_LocalRotation: {x: 0, y: 0.5, z: 0, w: 0.8660254}
+  m_LocalRotation: {x: -0, y: 0.5, z: -0, w: 0.8660254}
   m_LocalPosition: {x: 536.1, y: 89.05, z: 155.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -25497,6 +25508,26 @@ Transform:
   m_Father: {fileID: 1433984782}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 60, z: 0}
+--- !u!95 &426465809
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 426465807}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1001 &426797972
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -28824,6 +28855,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 511263966}
+  - component: {fileID: 511263967}
   m_Layer: 0
   m_Name: Dolphin_Timeline
   m_TagString: Untagged
@@ -28838,7 +28870,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 511263965}
-  m_LocalRotation: {x: 0, y: 0.5, z: 0, w: 0.8660254}
+  m_LocalRotation: {x: -0, y: 0.5, z: -0, w: 0.8660254}
   m_LocalPosition: {x: 536.1, y: 89.05, z: 155.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -28846,6 +28878,27 @@ Transform:
   m_Father: {fileID: 1433984782}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 60, z: 0}
+--- !u!320 &511263967
+PlayableDirector:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 511263965}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_PlayableAsset: {fileID: 11400000, guid: 208d5a1148f45c54a89c71f02c673cf9, type: 2}
+  m_InitialState: 1
+  m_WrapMode: 1
+  m_DirectorUpdateMode: 1
+  m_InitialTime: 0
+  m_SceneBindings:
+  - key: {fileID: 3792314694818417499, guid: 208d5a1148f45c54a89c71f02c673cf9, type: 2}
+    value: {fileID: 426465809}
+  - key: {fileID: -5891009133126847128, guid: 208d5a1148f45c54a89c71f02c673cf9, type: 2}
+    value: {fileID: 1750842013}
+  m_ExposedReferences:
+    m_References: []
 --- !u!1 &511943123 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2693215942601577592, guid: 6a6ce6f8c82374c438df864821be3cb3, type: 3}
@@ -83051,6 +83104,26 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 400006, guid: d408ba6304e864a4dadf9135083c9c60, type: 3}
   m_PrefabInstance: {fileID: 141745972}
   m_PrefabAsset: {fileID: 0}
+--- !u!95 &1750842013
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 141745975}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1001 &1751210295
 PrefabInstance:
   m_ObjectHideFlags: 0
