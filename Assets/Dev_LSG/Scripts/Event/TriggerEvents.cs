@@ -60,7 +60,7 @@ namespace Dev_LSG.Scripts.Event
             {
                 triggerEvents[eventNum].Invoke();
                 canEvent = false;
-                print("Event");
+                //print("Event");
             }
         }
     }
