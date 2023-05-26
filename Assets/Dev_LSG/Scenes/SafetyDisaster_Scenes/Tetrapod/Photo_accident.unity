@@ -50248,7 +50248,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-  inputManager: {fileID: 1906866485}
   eventNum: 0
   canEvent: 0
 --- !u!82 &924556080 stripped
@@ -90048,17 +90047,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a03ed519be01d1440a8ec63d2ac101f7, type: 3}
---- !u!114 &1906866485 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8289038245742653683, guid: a03ed519be01d1440a8ec63d2ac101f7, type: 3}
-  m_PrefabInstance: {fileID: 1906866484}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 94e2703aa70f47be808cc7d516fced77, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1907061212
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -96427,6 +96415,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 924556079}
+        m_TargetAssemblyTypeName: Dev_LSG.Scripts.Event.TriggerEvents, Dev_LSG.Scripts.Event
+        m_MethodName: Enable
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
