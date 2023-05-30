@@ -19,11 +19,11 @@ half3 SkyProceduralDP(in const half3 i_refl, in const half3 i_lightDir)
 #endif
 
 #if _PLANARREFLECTIONS_ON
-void PlanarReflection(in const half4 i_screenPos, in const half3 i_n_pixel, inout half3 io_colour)
+void PlanarReflection(in const half4 i_screenPos, in const half3 i_n_pixel, in const float i_pixelZ, inout half3 io_colour)
 {
 	half4 screenPos = i_screenPos;
 	// This should probably convert normal from world space to view space or something like that.
-	screenPos.xy += _PlanarReflectionNormalsStrength * i_n_pixel.xz;
+	screenPos.xy += max(1.0, i_pixelZ * _PlanarReflectionDistanceFactor) * _PlanarReflectionNormalsStrength * i_n_pixel.xz;
 	half4 refl = tex2Dproj(_ReflectionTex, screenPos);
 	// If more than four layers are used on terrain, they will appear black if HDR is enabled on the planar reflection
 	// camera. Reflection alpha is probably a negative value.
@@ -87,7 +87,7 @@ void ApplyReflectionSky
 #endif
 
 #if _PLANARREFLECTIONS_ON
-	PlanarReflection(i_screenPos, i_n_pixel, skyColour);
+	PlanarReflection(i_screenPos, i_n_pixel, i_pixelZ, skyColour);
 #endif
 
 	// Specular from sun light

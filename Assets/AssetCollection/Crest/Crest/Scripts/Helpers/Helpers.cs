@@ -20,6 +20,18 @@ namespace Crest
     /// </summary>
     public static class Helpers
     {
+        internal static int SiblingIndexComparison(int x, int y) => x.CompareTo(y);
+
+        /// <summary>
+        /// Comparer that always returns less or greater, never equal, to get work around unique key constraint
+        /// </summary>
+        internal static int DuplicateComparison(int x, int y)
+        {
+            var result = x.CompareTo(y);
+            // If non-zero, use result, otherwise return greater (never equal)
+            return result != 0 ? result : 1;
+        }
+
         public static BindingFlags s_AnyMethod = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance |
             BindingFlags.Static;
 
@@ -67,11 +79,29 @@ namespace Crest
 #endif
         }
 
+        // Taken from Unity
+        // https://docs.unity3d.com/2022.2/Documentation/Manual/BestPracticeUnderstandingPerformanceInUnity5.html
+        public static bool StartsWithNoAlloc(this string a, string b)
+        {
+            int aLen = a.Length;
+            int bLen = b.Length;
+
+            int ap = 0; int bp = 0;
+
+            while (ap < aLen && bp < bLen && a[ap] == b[bp])
+            {
+                ap++;
+                bp++;
+            }
+
+            return (bp == bLen);
+        }
+
 #if UNITY_EDITOR
         public static bool IsPreviewOfGameCamera(Camera camera)
         {
             // StartsWith has GC allocations. It is only used in the editor.
-            return camera.cameraType == CameraType.Game && camera.name.StartsWith("Preview");
+            return camera.cameraType == CameraType.Game && camera.name.StartsWithNoAlloc("Preview");
         }
 #endif
 
@@ -362,54 +392,69 @@ namespace Crest
 #endif
     }
 
-    static class Extensions
+    namespace Internal
     {
-        public static void SetKeyword(this Material material, string keyword, bool enabled)
+        static class Extensions
         {
-            if (enabled)
-            {
-                material.EnableKeyword(keyword);
-            }
-            else
-            {
-                material.DisableKeyword(keyword);
-            }
-        }
+            // Swizzle
+            public static Vector2 XZ(this Vector3 v) => new Vector2(v.x, v.z);
+            public static Vector2 XY(this Vector4 v) => new Vector2(v.x, v.y);
+            public static Vector2 ZW(this Vector4 v) => new Vector2(v.z, v.w);
+            public static Vector3 XNZ(this Vector2 v, float n = 0f) => new Vector3(v.x, n, v.y);
+            public static Vector3 XNZ(this Vector3 v, float n = 0f) => new Vector3(v.x, n, v.z);
+            public static Vector3 XNN(this Vector3 v, float n = 0f) => new Vector3(v.x, n, n);
+            public static Vector3 NNZ(this Vector3 v, float n = 0f) => new Vector3(n, n, v.z);
+            public static Vector4 XYNN(this Vector2 v, float n = 0f) => new Vector4(v.x, v.y, n, n);
+            public static Vector4 NNZW(this Vector2 v, float n = 0f) => new Vector4(n, n, v.x, v.y);
 
-        public static void SetKeyword(this ComputeShader shader, string keyword, bool enabled)
-        {
-            if (enabled)
+            public static void SetKeyword(this Material material, string keyword, bool enabled)
             {
-                shader.EnableKeyword(keyword);
+                if (enabled)
+                {
+                    material.EnableKeyword(keyword);
+                }
+                else
+                {
+                    material.DisableKeyword(keyword);
+                }
             }
-            else
-            {
-                shader.DisableKeyword(keyword);
-            }
-        }
 
-        public static void SetShaderKeyword(this CommandBuffer buffer, string keyword, bool enabled)
-        {
-            if (enabled)
+            public static void SetKeyword(this ComputeShader shader, string keyword, bool enabled)
             {
-                buffer.EnableShaderKeyword(keyword);
+                if (enabled)
+                {
+                    shader.EnableKeyword(keyword);
+                }
+                else
+                {
+                    shader.DisableKeyword(keyword);
+                }
             }
-            else
-            {
-                buffer.DisableShaderKeyword(keyword);
-            }
-        }
 
-        ///<summary>
-        /// Sets the msaaSamples property to the highest supported MSAA level in the settings.
-        ///</summary>
-        public static void SetMSAASamples(this ref RenderTextureDescriptor descriptor, Camera camera)
-        {
-            // QualitySettings.antiAliasing is zero when disabled which is invalid for msaaSamples.
-            // We need to set this first as GetRenderTextureSupportedMSAASampleCount uses it:
-            // https://docs.unity3d.com/ScriptReference/SystemInfo.GetRenderTextureSupportedMSAASampleCount.html
-            descriptor.msaaSamples = Helpers.IsMSAAEnabled(camera) ? Mathf.Max(QualitySettings.antiAliasing, 1) : 1;
-            descriptor.msaaSamples = SystemInfo.GetRenderTextureSupportedMSAASampleCount(descriptor);
+            public static void SetShaderKeyword(this CommandBuffer buffer, string keyword, bool enabled)
+            {
+                if (enabled)
+                {
+                    buffer.EnableShaderKeyword(keyword);
+                }
+                else
+                {
+                    buffer.DisableShaderKeyword(keyword);
+                }
+            }
+
+            ///<summary>
+            /// Sets the msaaSamples property to the highest supported MSAA level in the settings.
+            ///</summary>
+            public static void SetMSAASamples(this ref RenderTextureDescriptor descriptor, Camera camera)
+            {
+                // QualitySettings.antiAliasing is zero when disabled which is invalid for msaaSamples.
+                // We need to set this first as GetRenderTextureSupportedMSAASampleCount uses it:
+                // https://docs.unity3d.com/ScriptReference/SystemInfo.GetRenderTextureSupportedMSAASampleCount.html
+                descriptor.msaaSamples = Helpers.IsMSAAEnabled(camera) ? Mathf.Max(QualitySettings.antiAliasing, 1) : 1;
+                descriptor.msaaSamples = SystemInfo.GetRenderTextureSupportedMSAASampleCount(descriptor);
+            }
         }
     }
+
 }

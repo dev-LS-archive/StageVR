@@ -2,6 +2,7 @@
 
 // Copyright 2020 Wave Harmonic Ltd
 
+using Crest;
 using UnityEngine;
 
 /// <summary>
@@ -40,7 +41,7 @@ public class TimedDestroy : MonoBehaviour
 
         if (age >= m_lifeTime)
         {
-            Destroy(gameObject);
+            Helpers.Destroy(gameObject);
         }
         else if (age > m_lifeTime - m_scaleToZeroDuration)
         {

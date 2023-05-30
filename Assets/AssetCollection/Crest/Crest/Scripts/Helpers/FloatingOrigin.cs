@@ -45,7 +45,7 @@ namespace Crest
     /// script should normally be attached to the viewpoint, typically the main camera.
     /// </summary>
     [AddComponentMenu(Internal.Constants.MENU_PREFIX_SCRIPTS + "Floating Origin")]
-    [HelpURL(Internal.Constants.HELP_URL_BASE_USER + "other-features.html" + Internal.Constants.HELP_URL_RP + "#floating-origin")]
+    [HelpURL(Internal.Constants.HELP_URL_BASE_USER + "open-worlds.html" + Internal.Constants.HELP_URL_RP + "#floating-origin")]
     public class FloatingOrigin : CustomMonoBehaviour
     {
         const string k_Keyword = "CREST_FLOATING_ORIGIN";
@@ -380,6 +380,15 @@ namespace Crest.CrestEditor
     {
         public override void OnInspectorGUI()
         {
+            EditorGUILayout.Space();
+            EditorGUILayout.HelpBox
+            (
+                "It is recommended to read the documentation on this component (click the (?) button) if you want to " +
+                "change the default threshold value to avoid popping on world shifts.",
+                MessageType.Info
+            );
+            EditorGUILayout.Space();
+
             base.OnInspectorGUI();
 
             var target = this.target as FloatingOrigin;

@@ -13,13 +13,23 @@ void GeoMorph_half
 	in const float3 i_oceanPosScale0,
 	in const float i_meshScaleAlpha,
 	in const float i_geometryGridSize,
+	in const float i_sliceIndex0,
+	in const float4x4 i_matrix,
+	in const bool i_previous,
 	out float3 o_positionMorphedWS,
 	out float o_lodAlpha
 )
 {
-	const CascadeParams cascadeData0 = _CrestCascadeData[_LD_SliceIndex];
 	o_positionMorphedWS = i_positionWS;
 
-	// Vertex snapping and lod transition
-	SnapAndTransitionVertLayout(i_meshScaleAlpha, cascadeData0, i_geometryGridSize, o_positionMorphedWS, o_lodAlpha);
+	if (i_previous)
+	{
+		// Vertex snapping and lod transition
+		SnapAndTransitionVertLayout(i_matrix, i_meshScaleAlpha, _CrestCascadeDataSource[i_sliceIndex0], i_geometryGridSize, o_positionMorphedWS, o_lodAlpha);
+	}
+	else
+	{
+		// Vertex snapping and lod transition
+		SnapAndTransitionVertLayout(i_matrix, i_meshScaleAlpha, _CrestCascadeData[i_sliceIndex0], i_geometryGridSize, o_positionMorphedWS, o_lodAlpha);
+	}
 }

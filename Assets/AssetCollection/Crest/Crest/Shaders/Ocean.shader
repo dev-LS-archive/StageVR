@@ -82,6 +82,8 @@ Shader "Crest/Ocean URP"
 		[Toggle] _PlanarReflections("Planar Reflections", Float) = 0
 		// How much the water normal affects the planar reflection
 		_PlanarReflectionNormalsStrength("Planar Reflections Distortion", Float) = 1
+		// Multiplier to adjust the strength of the distortion at a distance.
+		_PlanarReflectionDistanceFactor("Planar Reflections Distortion Distance Factor", Range(0.0, 1.0)) = 0.0
 		// Multiplier to adjust how intense the reflection is
 		_PlanarReflectionIntensity("Planar Reflection Intensity", Range(0.0, 1.0)) = 1.0
 
@@ -201,8 +203,10 @@ Shader "Crest/Ocean URP"
 
 		Pass
 		{
-			// Following URP code. Apparently this can be not defined according to https://gist.github.com/phi-lira/225cd7c5e8545be602dca4eb5ed111ba
-			//Tags {"LightMode" = "UniversalForward"}
+			Tags
+			{
+				"LightMode" = "UniversalForward"
+			}
 
 			// Need to set this explicitly as we dont rely on built-in pipeline render states anymore.
 			ZWrite On
@@ -716,6 +720,26 @@ Shader "Crest/Ocean URP"
 			}
 
 			ENDHLSL
+		}
+
+		Pass
+		{
+			Name "SceneSelectionPass"
+			Tags { "LightMode" = "SceneSelectionPass" }
+
+			CGPROGRAM
+			#pragma vertex Vert
+			#pragma fragment Frag
+			// for VFACE
+			#pragma target 3.0
+
+			#include "UnityCG.cginc"
+
+			#include "Helpers/BIRP/Core.hlsl"
+			#include "Helpers/BIRP/InputsDriven.hlsl"
+
+			#include "Underwater/UnderwaterMaskShared.hlsl"
+			ENDCG
 		}
 	}
 

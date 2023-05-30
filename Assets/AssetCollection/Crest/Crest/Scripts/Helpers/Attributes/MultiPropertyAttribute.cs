@@ -2,7 +2,8 @@
 
 // Copyright 2021 Wave Harmonic Ltd
 
-// Adapted from: https://forum.unity.com/threads/drawing-a-field-using-multiple-property-drawers.479377/
+// Adapted from:
+// https://forum.unity.com/threads/drawing-a-field-using-multiple-property-drawers.479377/
 
 // DecoratedPropertyAttribute renders the field and DecoratorAttribute decorates said field. The decorator changes the
 // GUI state so that the decorated field receives that state. The DecoratedDrawer targets DecoratedPropertyAttribute,

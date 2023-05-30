@@ -2,8 +2,11 @@
 
 // Copyright 2021 Wave Harmonic Ltd
 
-// Lovingly adapted from Cinemachine - https://raw.githubusercontent.com/Unity-Technologies/upm-package-cinemachine/master/Editor/Utility/EmbeddedAssetHelpers.cs
-// Unity Companion License: https://github.com/Unity-Technologies/upm-package-cinemachine/blob/master/LICENSE.md
+// This file is subject to the Unity Companion License:
+// https://github.com/Unity-Technologies/com.unity.cinemachine/blob/593fa283bee378322337e5d9f5a7b91331a45799/LICENSE.md
+
+// Lovingly adapted from Cinemachine:
+// https://github.com/Unity-Technologies/com.unity.cinemachine/blob/593fa283bee378322337e5d9f5a7b91331a45799/Editor/Utility/EmbeddedAssetHelpers.cs
 
 #if UNITY_EDITOR
 

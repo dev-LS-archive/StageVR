@@ -2,6 +2,8 @@
 
 // Copyright 2021 Wave Harmonic Ltd
 
+using Crest.Internal;
+
 namespace Crest
 {
     using Unity.Collections;
@@ -172,17 +174,7 @@ namespace Crest
             }
 
             // Copy the color buffer into a texture.
-            if (Helpers.IsMSAAEnabled(_camera))
-            {
-                // Use blit if MSAA is active because transparents were not included with CopyTexture.
-                // This appears to be a bug. CopyTexture + MSAA works fine when the stencil is required.
-                _underwaterEffectCommandBuffer.Blit(BuiltinRenderTextureType.CameraTarget, temporaryColorBuffer);
-            }
-            else
-            {
-                // Copy the frame buffer as we cannot read/write at the same time. If it causes problems, replace with Blit.
-                _underwaterEffectCommandBuffer.CopyTexture(BuiltinRenderTextureType.CameraTarget, temporaryColorBuffer);
-            }
+            _underwaterEffectCommandBuffer.Blit(BuiltinRenderTextureType.CameraTarget, temporaryColorBuffer);
 
             if (UseStencilBufferOnEffect)
             {
@@ -384,7 +376,7 @@ namespace Crest
             // We sample shadows at the camera position. Pass a user defined slice offset for smoothing out detail.
             Helpers.SetShaderInt(underwaterPostProcessMaterial, ShaderIDs.s_CrestDataSliceOffset, dataSliceOffset, setGlobalShaderData);
             // We use this for caustics to get the displacement.
-            underwaterPostProcessMaterial.SetFloat(LodDataMgr.sp_LD_SliceIndex, 0);
+            underwaterPostProcessMaterial.SetInt(LodDataMgr.sp_LD_SliceIndex, 0);
 
             LodDataMgrAnimWaves.Bind(underwaterPostProcessMaterialWrapper);
             LodDataMgrSeaFloorDepth.Bind(underwaterPostProcessMaterialWrapper);

@@ -88,12 +88,25 @@ namespace Crest
         bool _runValidationOnStart = true;
 #pragma warning restore 414
 
+        // Workaround to ODC depth not being relative. This allows the change without break current baked depth caches.
+        // Except if the user swaps a baked depth cache out manually and it is not relative after making ODC relative.
+        // Hopefully a rare case but rebaking will solve that.
+        [SerializeField, HideInInspector]
+        internal bool _relative;
+
         RenderTexture _cacheTexture;
         public RenderTexture CacheTexture => _cacheTexture;
 
         GameObject _drawCacheQuad;
         Camera _camDepthCache;
         Material _copyDepthMaterial;
+
+        public static class ShaderIDs
+        {
+            public static readonly int s_CamDepthBuffer = Shader.PropertyToID("_CamDepthBuffer");
+            public static readonly int s_CustomZBufferParams = Shader.PropertyToID("_CustomZBufferParams");
+            public static readonly int s_HeightNearHeightFar = Shader.PropertyToID("_HeightNearHeightFar");
+        }
 
 #if CREST_HDRP
         static readonly List<FrameSettingsField> s_FrameSettingsFields = new List<FrameSettingsField>()
@@ -105,6 +118,11 @@ namespace Crest
             FrameSettingsField.AsyncCompute,
         };
 #endif
+
+        void Reset()
+        {
+            _relative = true;
+        }
 
         void Start()
         {
@@ -295,21 +313,21 @@ namespace Crest
             {
                 _drawCacheQuad = GameObject.CreatePrimitive(PrimitiveType.Quad);
                 _drawCacheQuad.hideFlags = HideFlags.DontSave;
-#if UNITY_EDITOR
-                DestroyImmediate(_drawCacheQuad.GetComponent<Collider>());
-#else
-                Destroy(_drawCacheQuad.GetComponent<Collider>());
-#endif
+                Helpers.Destroy(_drawCacheQuad.GetComponent<Collider>());
                 _drawCacheQuad.name = "DepthCache_" + gameObject.name + "_NOSAVE";
                 _drawCacheQuad.transform.SetParent(transform, false);
                 _drawCacheQuad.transform.localEulerAngles = 90f * Vector3.right;
-                _drawCacheQuad.AddComponent<RegisterSeaFloorDepthInput>()._assignOceanDepthMaterial = false;
+                var sfdi = _drawCacheQuad.AddComponent<RegisterSeaFloorDepthInput>();
+                sfdi._assignOceanDepthMaterial = false;
+                sfdi._relative = _relative;
                 qr = _drawCacheQuad.GetComponent<Renderer>();
                 qr.sharedMaterial = new Material(Shader.Find(LodDataMgrSeaFloorDepth.ShaderName));
             }
             else
             {
                 qr = _drawCacheQuad.GetComponent<Renderer>();
+                var sfdi = _drawCacheQuad.GetComponent<RegisterSeaFloorDepthInput>();
+                sfdi._relative = _relative;
             }
 
             if (_type == OceanDepthCacheType.Baked)
@@ -338,6 +356,11 @@ namespace Crest
                 return;
             }
 
+            PopulateCacheInternal(updateComponents);
+        }
+
+        internal void PopulateCacheInternal(bool updateComponents = false)
+        {
             if (OceanRenderer.RunningWithoutGPU)
             {
                 // Don't bake in headless mode
@@ -382,17 +405,19 @@ namespace Crest
                 _copyDepthMaterial = new Material(Shader.Find("Crest/Copy Depth Buffer Into Cache"));
             }
 
-            _copyDepthMaterial.SetTexture("_CamDepthBuffer", _camDepthCache.targetTexture);
+            _copyDepthMaterial.SetTexture(ShaderIDs.s_CamDepthBuffer, _camDepthCache.targetTexture);
 
             // Zbuffer params
             //float4 _ZBufferParams;            // x: 1-far/near,     y: far/near, z: x/far,     w: y/far
             float near = _camDepthCache.nearClipPlane, far = _camDepthCache.farClipPlane;
-            _copyDepthMaterial.SetVector("_CustomZBufferParams", new Vector4(1f - far / near, far / near, (1f - far / near) / far, (far / near) / far));
+            _copyDepthMaterial.SetVector(ShaderIDs.s_CustomZBufferParams, new Vector4(1f - far / near, far / near, (1f - far / near) / far, (far / near) / far));
+
+            _copyDepthMaterial.SetFloat(RegisterSeaFloorDepthInput.ShaderIDs.s_HeightOffset, _relative ? transform.position.y : 0f);
 
             // Altitudes for near and far planes
             float ymax = _camDepthCache.transform.position.y - near;
             float ymin = ymax - far;
-            _copyDepthMaterial.SetVector("_HeightNearHeightFar", new Vector2(ymax, ymin));
+            _copyDepthMaterial.SetVector(ShaderIDs.s_HeightNearHeightFar, new Vector2(ymax, ymin));
 
             // Copy from depth buffer into the cache
             Graphics.Blit(null, _cacheTexture, _copyDepthMaterial);
@@ -418,12 +443,23 @@ namespace Crest
     [CustomEditor(typeof(OceanDepthCache))]
     public class OceanDepthCacheEditor : CustomBaseEditor
     {
-        readonly string[] _propertiesToExclude = new string[] { "m_Script", "_type", "_refreshMode", "_savedCache", "_layers", "_resolution", "_cameraMaxTerrainHeight", "_forceAlwaysUpdateDebug" };
+        readonly string[] _propertiesToExclude = new string[] { "m_Script", "_type", "_refreshMode", "_savedCache", "_layers", "_resolution", "_cameraMaxTerrainHeight", "_forceAlwaysUpdateDebug", "_relative" };
 
         public override void OnInspectorGUI()
         {
             // We won't just use default inspector because we want to show some of the params conditionally based on cache type
             RenderBeforeInspectorGUI();
+
+            EditorGUILayout.Space();
+            EditorGUILayout.HelpBox
+            (
+                "The Ocean Depth Cache depth is now height relative. This means you must move the ODC, and what is " +
+                "rendered into it, together after you have populated it or depth values will be incorrect. This is " +
+                "how the ODC behaves already horizontally. This mainly affects baked depth caches and the new " +
+                "approach is active for new ODCs or after clicking \"Save cache to file\".",
+                MessageType.Info
+            );
+            EditorGUILayout.Space();
 
             // First show standard 'Script' field
             GUI.enabled = false;
@@ -450,6 +486,7 @@ namespace Crest
             {
                 // Only expose saved cache if non-real-time
                 EditorGUILayout.PropertyField(serializedObject.FindProperty("_savedCache"));
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("_relative"));
             }
 
             // Draw rest of inspector fields
@@ -465,14 +502,25 @@ namespace Crest
                 dc.RefreshMode == OceanDepthCache.OceanDepthCacheRefreshMode.OnDemand;
             var isBakeable = cacheType == OceanDepthCache.OceanDepthCacheType.Realtime &&
                 (!isOnDemand || dc.CacheTexture != null);
+            var isRebakeable = cacheType == OceanDepthCache.OceanDepthCacheType.Baked && dc.SavedCache != null;
 
             if ((!playing || isOnDemand) && dc.Type != OceanDepthCache.OceanDepthCacheType.Baked && GUILayout.Button("Populate cache"))
             {
                 dc.PopulateCache(updateComponents: true);
             }
 
-            if (isBakeable && GUILayout.Button("Save cache to file"))
+            if ((isBakeable && GUILayout.Button("Save Cache to File")) || (isRebakeable && GUILayout.Button("Update Saved Cache File")))
             {
+                if (!serializedObject.FindProperty("_relative").boolValue)
+                {
+                    // It is always relative except for old data which should now be new data.
+                    serializedObject.FindProperty("_relative").boolValue = true;
+                    serializedObject.ApplyModifiedProperties();
+                    Debug.Log($"Crest: {target} depth is now relative!");
+                }
+
+                dc.PopulateCacheInternal(updateComponents: true);
+
                 var rt = dc.CacheTexture;
                 RenderTexture.active = rt;
                 Texture2D tex = new Texture2D(rt.width, rt.height, TextureFormat.RGBAHalf, false);
@@ -486,6 +534,13 @@ namespace Crest
                     AssetDatabase.GetAssetPath(dc.SavedCache) : $"Assets/OceanDepthCache_{Guid.NewGuid()}.exr";
                 System.IO.File.WriteAllBytes(path, bytes);
                 AssetDatabase.ImportAsset(path);
+
+                if (dc.SavedCache == null)
+                {
+                    serializedObject.FindProperty("_savedCache").objectReferenceValue = AssetDatabase.LoadAssetAtPath<Texture2D>(path);
+                    serializedObject.FindProperty("_type").enumValueIndex = (int)OceanDepthCache.OceanDepthCacheType.Baked;
+                    serializedObject.ApplyModifiedProperties();
+                }
 
                 TextureImporter ti = AssetImporter.GetAtPath(path) as TextureImporter;
                 ti.textureShape = TextureImporterShape.Texture2D;
@@ -725,7 +780,7 @@ namespace Crest
 
                 foreach (var renderer in renderers)
                 {
-                    if (ReferenceEquals(renderer, quadRenderer)) continue;
+                    if (renderer == quadRenderer) continue;
 
                     showMessage
                     (

@@ -82,6 +82,8 @@ namespace Crest
             {
                 // Create volume to weigh in underwater profile
                 var go = new GameObject();
+                go.transform.parent = OceanRenderer.Instance.Container.transform;
+                go.hideFlags = HideFlags.HideAndDontSave;
                 go.name = "Underwater Lighting Volume";
                 _volume = go.AddComponent<Volume>();
                 _volume.weight = 0;

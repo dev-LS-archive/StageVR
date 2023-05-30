@@ -31,6 +31,7 @@ void CrestNodeLightWaterVolume_half
 )
 {
 	half shadow = 1.0 - i_shadow.x;
+	const half noShadows = 1.0;
 
 	// base colour
 	o_volumeLight = i_scatterColourBase;
@@ -49,8 +50,8 @@ void CrestNodeLightWaterVolume_half
 	o_volumeLight = lerp(o_volumeLight, shallowCol, shallowness);
 
 	// Light the base colour. Use the constant term (0th order) of SH stuff - this is the average. Use the primary light integrated over the
-	// hemisphere (divide by pi).
-	o_volumeLight *= i_ambientLighting + shadow * i_primaryLightIntensity / 3.14159;
+	// hemisphere (divide by pi). Shadows are already applied using the shadow color.
+	o_volumeLight *= i_ambientLighting + noShadows * i_primaryLightIntensity / 3.14159;
 
 	// Approximate subsurface scattering - add light when surface faces viewer. Use geometry normal - don't need high freqs.
 	half towardsSun = pow(max(0.0, dot(i_primaryLightDirection, -i_viewNorm)), i_sssSunFalloff);

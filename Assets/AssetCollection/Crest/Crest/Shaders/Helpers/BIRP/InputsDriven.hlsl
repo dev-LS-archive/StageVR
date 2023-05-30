@@ -1,5 +1,7 @@
 // Crest Ocean System
 
+// Copyright 2021 Wave Harmonic Ltd
+
 // Defines missing inputs.
 
 float4x4 _InvViewProjection;

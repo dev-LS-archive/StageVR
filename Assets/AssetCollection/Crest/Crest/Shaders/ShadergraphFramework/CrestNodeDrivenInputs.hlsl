@@ -24,7 +24,7 @@ void CrestOceanSurfaceValues_half
 		o_sliceIndex0 = clamp(_LD_SliceIndex + _CrestLodChange, 0, _SliceCount);
 
 		uint si0 = (uint)o_sliceIndex0;
-		uint si1 = clamp(si0 + 1, 0, _SliceCount);
+		uint si1 = si0 + 1;
 
 		o_oceanPosScale0 = float3(_CrestCascadeDataSource[si0]._posSnapped, _CrestCascadeDataSource[si0]._scale);
 		o_oceanPosScale1 = float3(_CrestCascadeDataSource[si1]._posSnapped, _CrestCascadeDataSource[si1]._scale);

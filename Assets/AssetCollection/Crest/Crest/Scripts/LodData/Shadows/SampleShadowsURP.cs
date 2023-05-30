@@ -4,6 +4,7 @@
 
 #if CREST_URP
 
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
@@ -45,6 +46,13 @@ namespace Crest
                 return;
             }
 
+#if UNITY_EDITOR
+            if (!OceanRenderer.IsWithinEditorUpdate || EditorApplication.isPaused)
+            {
+                return;
+            }
+#endif
+
             // Only sample shadows for the main camera.
             if (!ReferenceEquals(ocean.ViewCamera, camera))
             {
@@ -85,8 +93,12 @@ namespace Crest
 
             var buffer = CommandBufferPool.Get("Crest Shadow Data");
 
+            // We need to check the mask or it will cause entire pipeline to output black. Appears to only affect URP.
+            var isStereoRendering = renderingData.cameraData.xrRendering && XRHelpers.IsSinglePass &&
+                camera.stereoTargetEye == StereoTargetEyeMask.Both;
+
             // Disable for XR SPI otherwise input will not have correct world position.
-            if (renderingData.cameraData.xrRendering && XRHelpers.IsSinglePass)
+            if (isStereoRendering)
             {
                 buffer.DisableShaderKeyword("STEREO_INSTANCING_ON");
             }
@@ -98,7 +110,7 @@ namespace Crest
             buffer.SetViewProjectionMatrices(camera.worldToCameraMatrix, camera.projectionMatrix);
 
             // Restore XR SPI as we cannot rely on remaining pipeline to do it for us.
-            if (renderingData.cameraData.xrRendering && XRHelpers.IsSinglePass)
+            if (isStereoRendering)
             {
                 buffer.EnableShaderKeyword("STEREO_INSTANCING_ON");
             }

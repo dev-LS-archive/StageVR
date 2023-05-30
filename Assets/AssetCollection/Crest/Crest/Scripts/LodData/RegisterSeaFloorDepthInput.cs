@@ -3,6 +3,7 @@
 // Copyright 2020 Wave Harmonic Ltd
 
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace Crest
 {
@@ -11,7 +12,7 @@ namespace Crest
     /// For static objects, use an Ocean Depth Cache.
     /// </summary>
     [AddComponentMenu(MENU_PREFIX + "Sea Floor Depth Input")]
-    [HelpURL(Internal.Constants.HELP_URL_BASE_USER + "ocean-simulation.html" + Internal.Constants.HELP_URL_RP + "#sea-floor-depth")]
+    [HelpURL(Internal.Constants.HELP_URL_BASE_USER + "shallows-and-shorelines.html" + Internal.Constants.HELP_URL_RP + "#sea-floor-depth")]
     public class RegisterSeaFloorDepthInput : RegisterLodDataInput<LodDataMgrSeaFloorDepth>
     {
         /// <summary>
@@ -33,18 +34,32 @@ namespace Crest
 
         protected override string ShaderPrefix => "Crest/Inputs/Depth";
 
+        // Workaround to ODC depth not being relative. This allows the change without break current baked depth caches.
+        [SerializeField, HideInInspector]
+        internal bool _relative;
+
+        public static class ShaderIDs
+        {
+            public static readonly int s_HeightOffset = Shader.PropertyToID("_HeightOffset");
+        }
+
         protected override void OnEnable()
         {
             base.OnEnable();
 
             if (_assignOceanDepthMaterial)
             {
-                var rend = GetComponent<Renderer>();
-                if (rend != null)
+                if (TryGetComponent<Renderer>(out var rend))
                 {
                     rend.material = new Material(Shader.Find("Crest/Inputs/Depth/Ocean Depth From Geometry"));
                 }
             }
+        }
+
+        public override void Draw(LodDataMgr lodData, CommandBuffer buf, float weight, int isTransition, int lodIdx)
+        {
+            buf.SetGlobalFloat(ShaderIDs.s_HeightOffset, _relative ? transform.position.y : 0f);
+            base.Draw(lodData, buf, weight, isTransition, lodIdx);
         }
 
 #if UNITY_EDITOR

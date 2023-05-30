@@ -21497,7 +21497,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &545868218
 Transform:
   m_ObjectHideFlags: 0
@@ -40233,7 +40233,6 @@ MonoBehaviour:
   _blendMode: 0
   _queue: 0
   _resolution: 128
-  _debugDrawSlicesInEditor: 0
   _overrideSplineSettings: 0
   _radius: 50
   _subdivisions: 1
@@ -40246,6 +40245,9 @@ MonoBehaviour:
   _timeResolution: 4
   _smallestWavelengthRequired: 2
   _timeLoopLength: 32
+  _debug:
+    _drawBounds: 0
+    _drawSlicesInEditor: 0
 --- !u!114 &1020891942
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46050,17 +46052,18 @@ MonoBehaviour:
   _settingsAlbedo: {fileID: 0}
   _surfaceSelfIntersectionFixMode: 2
   _underwaterCullLimit: 0.001
+  _verifyOpaqueAndDepthTexturesEnabled: 1
   _showOceanProxyPlane: 0
   _editModeFPS: 30
   _followSceneCamera: 1
   _heightQueries: 1
-  _forceBatchMode: 0
-  _forceNoGPU: 0
-  _attachDebugGUI: 0
-  _hideOceanTileGameObjects: 1
-  _uniformTiles: 0
-  _disableSkirt: 0
-  _verifyOpaqueAndDepthTexturesEnabled: 1
+  _debug:
+    _attachDebugGUI: 0
+    _showOceanTileGameObjects: 0
+    _disableFollowViewpoint: 0
+    _destroyResourcesInOnDisable: 0
+    _forceBatchMode: 0
+    _forceNoGPU: 0
 --- !u!1 &1215389007
 GameObject:
   m_ObjectHideFlags: 0
@@ -61574,7 +61577,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1708274382
 Transform:
   m_ObjectHideFlags: 0
@@ -62798,7 +62801,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _version: 0
-  _radius: 50
+  _radius: 2
   _weight: 30
   _weightUpDownMul: 0.1
   _innerSphereMultiplier: 1.55
@@ -64184,7 +64187,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _version: 0
-  _radius: 50
+  _radius: 2
   _weight: 5
   _weightUpDownMul: 0.1
   _innerSphereMultiplier: 1.55
@@ -66364,7 +66367,6 @@ MonoBehaviour:
   _blendMode: 0
   _queue: 0
   _resolution: 256
-  _debugDrawSlicesInEditor: 0
   _overrideSplineSettings: 0
   _radius: 50
   _subdivisions: 1
@@ -66377,6 +66379,9 @@ MonoBehaviour:
   _timeResolution: 4
   _smallestWavelengthRequired: 2
   _timeLoopLength: 32
+  _debug:
+    _drawBounds: 0
+    _drawSlicesInEditor: 0
 --- !u!1001 &1853385864
 PrefabInstance:
   m_ObjectHideFlags: 0

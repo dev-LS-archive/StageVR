@@ -2,6 +2,7 @@
 
 // Copyright 2020 Wave Harmonic Ltd
 
+using Crest.Internal;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -13,7 +14,7 @@ namespace Crest
     /// clip the surface of the ocean.
     /// </summary>
     [AddComponentMenu(MENU_PREFIX + "Clip Surface Input")]
-    [HelpURL(Internal.Constants.HELP_URL_BASE_USER + "ocean-simulation.html" + Internal.Constants.HELP_URL_RP + "#clip-surface")]
+    [HelpURL(Internal.Constants.HELP_URL_BASE_USER + "clipping.html" + Internal.Constants.HELP_URL_RP + "#clip-surface")]
     public partial class RegisterClipSurfaceInput : RegisterLodDataInput<LodDataMgrClipSurface>
     {
         /// <summary>
@@ -176,7 +177,6 @@ namespace Crest
             }
 
             buf.SetGlobalFloat(sp_Weight, weight);
-            buf.SetGlobalFloat(LodDataMgr.sp_LD_SliceIndex, lodIdx);
             buf.SetGlobalVector(sp_DisplacementAtInputPosition, Vector3.zero);
 
             if (_mode == Mode.Primitive)
@@ -207,8 +207,10 @@ namespace Crest
             }
         }
 
-        private void LateUpdate()
+        protected override void LateUpdate()
         {
+            base.LateUpdate();
+
             if (OceanRenderer.Instance == null || (_mode == Mode.Geometry && _renderer == null))
             {
                 return;
@@ -260,7 +262,6 @@ namespace Crest
                     _signedDistancedMaterial.SetInt(sp_BlendOp, (int)(_inverted ? BlendOp.Min : BlendOp.Max));
                 }
 
-                _mpb.SetInt(LodDataMgr.sp_LD_SliceIndex, lodIdx);
                 _mpb.SetInt(sp_DisplacementSamplingIterations, (int)_animatedWavesDisplacementSamplingIterations);
 
                 if (_mode == Mode.Geometry)

@@ -2,7 +2,8 @@
 
 // Copyright 2021 Wave Harmonic Ltd
 
-// Adapted from: https://forum.unity.com/threads/drawing-a-field-using-multiple-property-drawers.479377/
+// Adapted from:
+// https://forum.unity.com/threads/drawing-a-field-using-multiple-property-drawers.479377/
 
 // This class draws all the attributes which inherit from DecoratedPropertyAttribute. This class may need to be
 // extended to handle reseting GUI states as we need them.

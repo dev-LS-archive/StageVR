@@ -34,6 +34,12 @@ namespace Crest
         UnderwaterRenderer _renderer;
         static ShaderTagId[] s_ForwardShaderTags;
 
+        public static class ShaderIDs
+        {
+            public static readonly int s_DepthTextureMS = Shader.PropertyToID("_DepthTextureMS");
+            public static readonly int s_BlitScaleBias = Shader.PropertyToID("_BlitScaleBias");
+        }
+
         public static void Enable()
         {
             CustomPassHelpers.CreateOrUpdate<UnderwaterEffectPassHDRP>(ref s_GameObject, k_Name, CustomPassInjectionPoint.BeforePostProcess);
@@ -194,8 +200,8 @@ namespace Crest
                 {
                     CoreUtils.SetRenderTarget(context.cmd, _depthTexture);
                     var rtScale = context.cameraDepthBuffer.rtHandleProperties.rtHandleScale / DynamicResolutionHandler.instance.GetCurrentScale();
-                    _depthValuesMaterialPropertyBlock.SetTexture("_DepthTextureMS", context.cameraDepthBuffer);
-                    _depthValuesMaterialPropertyBlock.SetVector("_BlitScaleBias", rtScale);
+                    _depthValuesMaterialPropertyBlock.SetTexture(ShaderIDs.s_DepthTextureMS, context.cameraDepthBuffer);
+                    _depthValuesMaterialPropertyBlock.SetVector(ShaderIDs.s_BlitScaleBias, rtScale);
                     // Copy depth then clear stencil.
                     CoreUtils.DrawFullScreen(context.cmd, _depthValuesMaterial, _depthValuesMaterialPropertyBlock, shaderPassId: 0);
                     Helpers.Blit(context.cmd, _depthTarget, Helpers.UtilityMaterial, (int)Helpers.UtilityPass.ClearStencil);

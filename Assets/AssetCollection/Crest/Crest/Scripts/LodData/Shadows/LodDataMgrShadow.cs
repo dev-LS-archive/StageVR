@@ -52,6 +52,7 @@ namespace Crest
         readonly int sp_MainCameraProjectionMatrix = Shader.PropertyToID("_MainCameraProjectionMatrix");
         readonly int sp_SimDeltaTime = Shader.PropertyToID("_SimDeltaTime");
         static readonly int sp_CrestScreenSpaceShadowTexture = Shader.PropertyToID("_CrestScreenSpaceShadowTexture");
+        static readonly int sp_ShadowMapTexture = Shader.PropertyToID("_ShadowMapTexture");
 
         public override SimSettingsBase SettingsBase => Settings;
         public SettingsType Settings => _ocean._simSettingsShadow != null ? _ocean._simSettingsShadow : GetDefaultSettings<SettingsType>();
@@ -92,6 +93,7 @@ namespace Crest
                 for (int i = 0; i < _renderMaterial.Length; i++)
                 {
                     _renderMaterial[i] = new PropertyWrapperMaterial(shader);
+                    _renderMaterial[i].SetInt(sp_LD_SliceIndex, i);
                 }
             }
 
@@ -117,7 +119,7 @@ namespace Crest
             else if (RenderPipelineHelper.IsUniversal)
             {
 #if CREST_URP
-                var asset = GraphicsSettings.renderPipelineAsset as UniversalRenderPipelineAsset;
+                var asset = GraphicsSettings.currentRenderPipeline as UniversalRenderPipelineAsset;
 
                 // TODO: Support single casacades as it is possible.
                 if (asset && asset.shadowCascadeCount < 2)
@@ -164,6 +166,13 @@ namespace Crest
         {
             base.OnEnable();
 
+            Enable();
+        }
+
+        internal override void Enable()
+        {
+            base.Enable();
+
             if (RenderPipelineHelper.IsLegacy)
             {
                 Camera.onPreCull -= OnPreCullCamera;
@@ -188,17 +197,24 @@ namespace Crest
             }
         }
 
-        internal override void OnDisable()
+        internal override void Disable()
         {
-            base.OnDisable();
+            base.Disable();
+
+            CleanUpShadowCommandBuffers();
 
             if (RenderPipelineHelper.IsLegacy)
             {
                 Camera.onPreCull -= OnPreCullCamera;
                 Camera.onPostRender -= OnPostRenderCamera;
             }
+        }
 
-            CleanUpShadowCommandBuffers();
+        internal override void OnDisable()
+        {
+            base.OnDisable();
+
+            Disable();
 
             if (RenderPipelineHelper.IsHighDefinition)
             {
@@ -234,8 +250,16 @@ namespace Crest
         void OnPreCullCamera(Camera camera)
         {
 #if UNITY_EDITOR
+            // Do not execute when editor is not active to conserve power and prevent possible leaks.
+            if (!UnityEditorInternal.InternalEditorUtility.isApplicationActive)
+            {
+                BufCopyShadowMap?.Clear();
+                return;
+            }
+
             if (!OceanRenderer.IsWithinEditorUpdate)
             {
+                BufCopyShadowMap?.Clear();
                 return;
             }
 #endif
@@ -276,15 +300,23 @@ namespace Crest
         void OnPostRenderCamera(Camera camera)
         {
 #if UNITY_EDITOR
+            // Do not execute when editor is not active to conserve power and prevent possible leaks.
+            if (!UnityEditorInternal.InternalEditorUtility.isApplicationActive)
+            {
+                BufCopyShadowMap?.Clear();
+                return;
+            }
+
             if (!OceanRenderer.IsWithinEditorUpdate)
             {
+                BufCopyShadowMap?.Clear();
                 return;
             }
 #endif
 
             var ocean = OceanRenderer.Instance;
 
-            if (ocean)
+            if (ocean == null)
             {
                 return;
             }
@@ -459,7 +491,7 @@ namespace Crest
             {
                 name = "Deferred Shadow Data"
             };
-            _deferredShadowMapCommandBuffer.SetGlobalTexture("_ShadowMapTexture", BuiltinRenderTextureType.CurrentActive);
+            _deferredShadowMapCommandBuffer.SetGlobalTexture(sp_ShadowMapTexture, BuiltinRenderTextureType.CurrentActive);
             _mainLight.AddCommandBuffer(LightEvent.AfterShadowMap, _deferredShadowMapCommandBuffer);
         }
 
@@ -548,8 +580,12 @@ namespace Crest
                     _renderMaterial[lodIdx].SetMatrix(sp_MainCameraProjectionMatrix, GL.GetGPUProjectionMatrix(camera.projectionMatrix, renderIntoTexture: true) * camera.worldToCameraMatrix);
                     _renderMaterial[lodIdx].SetFloat(sp_SimDeltaTime, Time.deltaTime);
 
-                    _renderMaterial[lodIdx].SetInt(sp_LD_SliceIndex, lodIdx);
                     _renderMaterial[lodIdx].SetTexture(GetParamIdSampler(true), _targets.Previous(1));
+
+#if UNITY_EDITOR
+                    // On recompiles this becomes unset even though we run over the code path to set it again...
+                    _renderMaterial[lodIdx].material.SetInt(LodDataMgr.sp_LD_SliceIndex, lodIdx);
+#endif
 
                     LodDataMgrSeaFloorDepth.Bind(_renderMaterial[lodIdx]);
 
@@ -559,6 +595,7 @@ namespace Crest
                 // Process registered inputs.
                 for (var lodIdx = lt.LodCount - 1; lodIdx >= 0; lodIdx--)
                 {
+                    buffer.SetGlobalInt(sp_LD_SliceIndex, lodIdx);
                     buffer.SetRenderTarget(_targets.Current, _targets.Current.depthBuffer, 0, CubemapFace.Unknown, lodIdx);
                     // BUG: These draw calls will "leak" and be duplicated before the above blit. They are executed at
                     // the beginning of this CB before any commands are applied.

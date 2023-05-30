@@ -180,7 +180,7 @@ namespace Crest
             var root = new GameObject("Root");
             Debug.Assert(root != null, "Crest: The ocean Root transform could not be immediately constructed. Please report this issue to the Crest developers via our support email or GitHub at https://github.com/wave-harmonic/crest/issues .");
 
-            root.hideFlags = ocean._hideOceanTileGameObjects ? HideFlags.HideAndDontSave : HideFlags.DontSave;
+            root.hideFlags = ocean._debug._showOceanTileGameObjects ? HideFlags.DontSave : HideFlags.HideAndDontSave;
             root.transform.parent = ocean.transform;
             root.transform.localPosition = Vector3.zero;
             root.transform.localRotation = Quaternion.identity;
@@ -214,8 +214,8 @@ namespace Crest
 
         static Mesh BuildOceanPatch(OceanRenderer ocean, PatchType pt, float vertDensity, out Bounds bounds)
         {
-            ArrayList verts = new ArrayList();
-            ArrayList indices = new ArrayList();
+            var verts = new List<Vector3>();
+            var indices = new List<int>();
 
             // stick a bunch of verts into a 1m x 1m patch (scaling happens later)
             float dx = 1f / vertDensity;
@@ -352,7 +352,7 @@ namespace Crest
                 // to allow for horizontal displacement
                 mesh.RecalculateBounds();
                 bounds = mesh.bounds;
-                bounds.extents = new Vector3(bounds.extents.x + dx, 100f, bounds.extents.z + dx);
+                bounds.extents = new Vector3(bounds.extents.x + dx, bounds.extents.y, bounds.extents.z + dx);
                 mesh.bounds = bounds;
                 mesh.name = pt.ToString();
             }
@@ -369,7 +369,11 @@ namespace Crest
             float horizScale = Mathf.Pow(2f, lodIndex);
 
             bool isBiggestLOD = lodIndex == lodCount - 1;
-            bool generateSkirt = isBiggestLOD && !ocean._disableSkirt;
+            bool generateSkirt = isBiggestLOD;
+
+#if CREST_DEBUG
+            generateSkirt = generateSkirt && !ocean._debug._disableSkirt;
+#endif
 
             Vector2[] offsets;
             PatchType[] patchTypes;
@@ -429,15 +433,17 @@ namespace Crest
                 };
             }
 
+#if CREST_DEBUG
             // debug toggle to force all patches to be the same. they'll be made with a surrounding skirt to make sure patches
             // overlap
-            if (ocean._uniformTiles)
+            if (ocean._debug._uniformTiles)
             {
                 for (int i = 0; i < patchTypes.Length; i++)
                 {
                     patchTypes[i] = PatchType.Fat;
                 }
             }
+#endif
 
             // create the ocean patches
             for (int i = 0; i < offsets.Length; i++)
@@ -448,7 +454,7 @@ namespace Crest
                     : new GameObject();
                 patch.name = $"Tile_L{lodIndex}_{patchTypes[i]}";
                 // Also applying the hide flags to the chunk will prevent it from being pickable in the editor.
-                patch.hideFlags = ocean._hideOceanTileGameObjects ? HideFlags.HideAndDontSave : HideFlags.DontSave;
+                patch.hideFlags = ocean._debug._showOceanTileGameObjects ? HideFlags.DontSave : HideFlags.HideAndDontSave;
                 patch.layer = oceanLayer;
                 patch.transform.parent = parent;
                 Vector2 pos = offsets[i];
@@ -459,7 +465,11 @@ namespace Crest
                 {
                     var oceanChunkRenderer = patch.AddComponent<OceanChunkRenderer>();
                     oceanChunkRenderer._boundsLocal = meshBounds[(int)patchTypes[i]];
-                    patch.AddComponent<MeshFilter>().sharedMesh = meshData[(int)patchTypes[i]];
+
+                    var mesh = Object.Instantiate(meshData[(int)patchTypes[i]]);
+                    mesh.name = meshData[(int)patchTypes[i]].name;
+                    patch.AddComponent<MeshFilter>().sharedMesh = mesh;
+
                     oceanChunkRenderer.SetInstanceData(lodIndex);
                     tiles.Add(oceanChunkRenderer);
                 }

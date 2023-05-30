@@ -31,17 +31,17 @@ float ComputeLodAlpha(float3 i_worldPos, float i_meshScaleAlpha, in const Cascad
 	return lodAlpha;
 }
 
-void SnapAndTransitionVertLayout(in const float i_meshScaleAlpha, in const CascadeParams i_cascadeData0, in const float i_geometryGridSize, inout float3 io_worldPos, out float o_lodAlpha)
+void SnapAndTransitionVertLayout(in const float4x4 i_objectMatrix, in const float i_meshScaleAlpha, in const CascadeParams i_cascadeData0, in const float i_geometryGridSize, inout float3 io_worldPos, out float o_lodAlpha)
 {
 	const float GRID_SIZE_2 = 2.0 * i_geometryGridSize, GRID_SIZE_4 = 4.0 * i_geometryGridSize;
 
 	// snap the verts to the grid
 	// The snap size should be twice the original size to keep the shape of the eight triangles (otherwise the edge layout changes).
-	float2 objectPosXZWS = UNITY_MATRIX_M._m03_m23;
+	float2 objectPosXZWS = i_objectMatrix._m03_m23;
 
 	// Relative world space - add camera pos to get back out to world. Would be nice if we could operate in RWS..
 #if (SHADEROPTIONS_CAMERA_RELATIVE_RENDERING != 0)
-		objectPosXZWS += _WorldSpaceCameraPos.xz;
+	objectPosXZWS += _WorldSpaceCameraPos.xz;
 #endif
 
 	io_worldPos.xz -= frac(objectPosXZWS / GRID_SIZE_2) * GRID_SIZE_2; // caution - sign of frac might change in non-hlsl shaders
@@ -58,6 +58,11 @@ void SnapAndTransitionVertLayout(in const float i_meshScaleAlpha, in const Casca
 	const float minRadius = 0.375;
 	if (abs(offset.x) < minRadius) io_worldPos.x += offset.x * o_lodAlpha * GRID_SIZE_4;
 	if (abs(offset.y) < minRadius) io_worldPos.z += offset.y * o_lodAlpha * GRID_SIZE_4;
+}
+
+void SnapAndTransitionVertLayout(in const float i_meshScaleAlpha, in const CascadeParams i_cascadeData0, in const float i_geometryGridSize, inout float3 io_worldPos, out float o_lodAlpha)
+{
+	SnapAndTransitionVertLayout(UNITY_MATRIX_M, i_meshScaleAlpha, i_cascadeData0, i_geometryGridSize, io_worldPos, o_lodAlpha);
 }
 
 #endif // CREST_OCEAN_VERT_HELPERS_H

@@ -6,6 +6,7 @@
 
 namespace Crest
 {
+    using Crest.Internal;
     using System.Collections.Generic;
     using UnityEngine;
     using UnityEngine.Rendering;
@@ -19,7 +20,12 @@ namespace Crest
         readonly PropertyWrapperMaterial _underwaterEffectMaterial;
         RenderTargetIdentifier _colorTarget;
         RenderTargetIdentifier _depthTarget;
+        RenderTargetIdentifier _depthStencilTarget = new RenderTargetIdentifier(UnderwaterRenderer.ShaderIDs.s_CrestWaterVolumeStencil, 0, CubemapFace.Unknown, -1);
         RenderTargetIdentifier _temporaryColorTarget = new RenderTargetIdentifier(sp_TemporaryColor, 0, CubemapFace.Unknown, -1);
+        RenderTargetIdentifier _cameraDepthTarget = new RenderTargetIdentifier(BuiltinRenderTextureType.CameraTarget);
+        RenderTexture _depthStencil;
+        RenderTexture _temporaryColor;
+
         bool _firstRender = true;
         Camera _camera;
 
@@ -103,7 +109,8 @@ namespace Crest
             {
                 var descriptor = cameraDescriptor;
                 descriptor.msaaSamples = 1;
-                cmd.GetTemporaryRT(sp_TemporaryColor, descriptor);
+                _temporaryColor = RenderTexture.GetTemporary(descriptor);
+                _temporaryColorTarget = new RenderTargetIdentifier(_temporaryColor, 0, CubemapFace.Unknown, -1);
             }
 
             if (_underwaterRenderer.UseStencilBufferOnEffect)
@@ -114,7 +121,8 @@ namespace Crest
                 descriptor.SetMSAASamples(_camera);
                 descriptor.bindMS = descriptor.msaaSamples > 1;
 
-                cmd.GetTemporaryRT(UnderwaterRenderer.ShaderIDs.s_CrestWaterVolumeStencil, descriptor);
+                _depthStencil = RenderTexture.GetTemporary(descriptor);
+                _depthStencilTarget = new RenderTargetIdentifier(_depthStencil, 0, CubemapFace.Unknown, -1);
             }
         }
 
@@ -155,8 +163,8 @@ namespace Crest
             // Create a separate stencil buffer context by copying the depth texture.
             if (_underwaterRenderer.UseStencilBufferOnEffect)
             {
-                commandBuffer.SetRenderTarget(_underwaterRenderer._depthStencilTarget);
-                Helpers.Blit(commandBuffer, _underwaterRenderer._depthStencilTarget, Helpers.UtilityMaterial, (int)Helpers.UtilityPass.CopyDepth);
+                commandBuffer.SetRenderTarget(_depthStencilTarget);
+                Helpers.Blit(commandBuffer, _depthStencilTarget, Helpers.UtilityMaterial, (int)Helpers.UtilityPass.CopyDepth);
             }
 
             // Copy color buffer.
@@ -173,28 +181,42 @@ namespace Crest
 
             if (_underwaterRenderer.UseStencilBufferOnEffect)
             {
-                commandBuffer.SetRenderTarget(_colorTarget, _underwaterRenderer._depthStencilTarget);
+                commandBuffer.SetRenderTarget(_colorTarget, _depthStencilTarget);
             }
             else
             {
-#if !UNITY_2022_1_OR_NEWER
-                if (!renderingData.cameraData.xrRendering && (renderingData.cameraData.isSceneViewCamera || Helpers.IsSSAOEnabled(camera)))
-                {
-                    commandBuffer.SetRenderTarget(_colorTarget);
-
-                }
-                else
-#endif
+#if UNITY_2022_1_OR_NEWER
+                commandBuffer.SetRenderTarget(_colorTarget, _depthTarget);
+#elif UNITY_2021_3_OR_NEWER
+                // Some modes require a depth buffer but getting the depth buffer to bind depends on whether depth
+                // prepass is used in addition to one of Unity's render passes being active like SSAO. Turns out that if
+                // the depth target type is camera target, then we must rely on implicit binding below.
+                if (_underwaterRenderer._mode != UnderwaterRenderer.Mode.FullScreen && _cameraDepthTarget != _depthTarget)
                 {
                     commandBuffer.SetRenderTarget(_colorTarget, _depthTarget);
                 }
+                else
+                {
+                    commandBuffer.SetRenderTarget(_colorTarget);
+                }
+#else
+                if (_underwaterRenderer._mode != UnderwaterRenderer.Mode.FullScreen && renderingData.cameraData.xrRendering)
+                {
+                    commandBuffer.SetRenderTarget(_colorTarget, _depthTarget);
+                }
+                else
+                {
+                    commandBuffer.SetRenderTarget(_colorTarget);
+                }
+#endif
             }
 
             _underwaterRenderer.ExecuteEffect(commandBuffer, _underwaterEffectMaterial.material);
 
             context.ExecuteCommandBuffer(commandBuffer);
 
-            commandBuffer.ReleaseTemporaryRT(sp_TemporaryColor);
+            RenderTexture.ReleaseTemporary(_temporaryColor);
+            RenderTexture.ReleaseTemporary(_depthStencil);
 
             if (_underwaterRenderer.UseStencilBufferOnEffect)
             {

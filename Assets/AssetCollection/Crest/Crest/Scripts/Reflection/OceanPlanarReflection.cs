@@ -148,14 +148,13 @@ namespace Crest
                 return;
             }
 
-            _camViewpoint = GetComponent<Camera>();
-            if (!_camViewpoint)
+            if (!TryGetComponent(out _camViewpoint))
             {
                 Debug.LogWarning("Crest: Disabling planar reflections as no camera found on gameobject to generate reflection from.", this);
                 enabled = false;
                 return;
             }
-            _camViewpointSkybox = _camViewpoint?.GetComponent<Skybox>();
+            _camViewpointSkybox = _camViewpoint.GetComponent<Skybox>();
 
             // This is anyway called in OnPreRender, but was required here as there was a black reflection
             // for a frame without this earlier setup call.
@@ -337,7 +336,7 @@ namespace Crest
             {
                 if (_reflectionTexture)
                 {
-                    DestroyImmediate(_reflectionTexture);
+                    Helpers.Destroy(_reflectionTexture);
                 }
 
                 var format = _hdr ? RenderTextureFormat.ARGBHalf : RenderTextureFormat.ARGB32;
@@ -425,12 +424,12 @@ namespace Crest
             // Cleanup all the objects we possibly have created
             if (_reflectionTexture)
             {
-                Destroy(_reflectionTexture);
+                Helpers.Destroy(_reflectionTexture);
                 _reflectionTexture = null;
             }
             if (_camReflections)
             {
-                Destroy(_camReflections.gameObject);
+                Helpers.Destroy(_camReflections.gameObject);
                 _camReflections = null;
             }
 

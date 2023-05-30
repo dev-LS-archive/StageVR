@@ -16,20 +16,6 @@ namespace Crest
 {
     using OceanInput = CrestSortedList<int, ILodDataInput>;
 
-    /// <summary>
-    /// Comparer that always returns less or greater, never equal, to get work around unique key constraint
-    /// </summary>
-    public class DuplicateKeyComparer<TKey> : IComparer<TKey> where TKey : IComparable
-    {
-        public int Compare(TKey x, TKey y)
-        {
-            int result = x.CompareTo(y);
-
-            // If non-zero, use result, otherwise return greater (never equal)
-            return result != 0 ? result : 1;
-        }
-    }
-
     public interface ILodDataInput
     {
         /// <summary>
@@ -48,6 +34,8 @@ namespace Crest
         /// Whether to apply this input.
         /// </summary>
         bool Enabled { get; }
+
+        bool IgnoreTransitionWeight { get; }
     }
 
     /// <summary>
@@ -81,14 +69,13 @@ namespace Crest
 
         protected abstract string ShaderPrefix { get; }
 
-        static DuplicateKeyComparer<int> s_comparer = new DuplicateKeyComparer<int>();
         static Dictionary<Type, OceanInput> s_registrar = new Dictionary<Type, OceanInput>();
 
         public static OceanInput GetRegistrar(Type lodDataMgrType)
         {
             if (!s_registrar.TryGetValue(lodDataMgrType, out var registered))
             {
-                registered = new OceanInput(s_comparer);
+                registered = new OceanInput(Helpers.DuplicateComparison);
                 s_registrar.Add(lodDataMgrType, registered);
             }
             return registered;
@@ -99,6 +86,9 @@ namespace Crest
         // We pass this to GetSharedMaterials to avoid allocations.
         protected List<Material> _sharedMaterials = new List<Material>();
         SampleHeightHelper _sampleHelper = new SampleHeightHelper();
+        Vector3 _displacement;
+
+        int _lastDrawFrame = -1;
 
         // If this is false, then the renderer should not be there as input source is from something else.
         protected virtual bool RendererRequired => true;
@@ -106,9 +96,7 @@ namespace Crest
 
         void InitRendererAndMaterial(bool verifyShader)
         {
-            _renderer = GetComponent<Renderer>();
-
-            if (RendererRequired && _renderer != null)
+            if (RendererRequired && TryGetComponent(out _renderer))
             {
 #if UNITY_EDITOR
                 if (Application.isPlaying && verifyShader)
@@ -136,39 +124,51 @@ namespace Crest
 #endif
         }
 
+        protected virtual void LateUpdate()
+        {
+            if (!FollowHorizontalMotion)
+            {
+                // allowMultipleCallsPerFrame because we are calling before the time values are updated.
+                _sampleHelper.Init(transform.position, i_minLength: 0f, allowMultipleCallsPerFrame: true, context: this);
+                _sampleHelper.Sample(out _displacement, out _, out _);
+            }
+            else
+            {
+                _displacement = Vector3.zero;
+            }
+        }
+
         public virtual void Draw(LodDataMgr lodData, CommandBuffer buf, float weight, int isTransition, int lodIdx)
         {
-            if (_renderer && _material && weight > 0f)
+            if (_material && weight > 0f)
             {
                 buf.SetGlobalFloat(sp_Weight, weight);
-                buf.SetGlobalFloat(LodDataMgr.sp_LD_SliceIndex, lodIdx);
+                buf.SetGlobalVector(sp_DisplacementAtInputPosition, _displacement);
 
-                if (!FollowHorizontalMotion)
+                if (_lastDrawFrame < OceanRenderer.FrameCount)
                 {
-                    // This can be called multiple times per frame - one for each LOD potentially
-                    _sampleHelper.Init(transform.position, 0f, true, this);
-                    _sampleHelper.Sample(out Vector3 displacement, out _, out _);
-                    buf.SetGlobalVector(sp_DisplacementAtInputPosition, displacement);
-                }
-                else
-                {
-                    buf.SetGlobalVector(sp_DisplacementAtInputPosition, Vector3.zero);
+                    _renderer.GetSharedMaterials(_sharedMaterials);
                 }
 
-                _renderer.GetSharedMaterials(_sharedMaterials);
                 for (var i = 0; i < _sharedMaterials.Count; i++)
                 {
+                    Debug.AssertFormat(_sharedMaterials[i] != null, _renderer, "Crest: Attached renderer has an empty material slot which is not allowed.");
+
+#if UNITY_EDITOR
                     // Empty material slots is a user error, but skip so we do not spam errors.
                     if (_sharedMaterials[i] == null)
                     {
                         continue;
                     }
+#endif
 
                     // By default, shaderPass is -1 which is all passes. Shader Graph will produce multi-pass shaders
                     // for depth etc so we should only render one pass. Unlit SG will have the unlit pass first.
                     // Submesh count generally must equal number of materials.
                     buf.DrawRenderer(_renderer, _sharedMaterials[i], submeshIndex: i, shaderPass: 0);
                 }
+
+                _lastDrawFrame = OceanRenderer.FrameCount;
             }
         }
 
@@ -192,6 +192,8 @@ namespace Crest
                 return s_Quad = Resources.GetBuiltinResource<Mesh>("Quad.fbx");
             }
         }
+
+        public bool IgnoreTransitionWeight => false;
     }
 
     /// <summary>
@@ -211,8 +213,7 @@ namespace Crest
 
         protected virtual bool GetQueue(out int queue)
         {
-            var rend = GetComponent<Renderer>();
-            if (rend && rend.sharedMaterial != null)
+            if (TryGetComponent<Renderer>(out var rend) && rend.sharedMaterial != null)
             {
                 queue = rend.sharedMaterial.renderQueue;
                 return true;
@@ -243,8 +244,7 @@ namespace Crest
         {
             if (_disableRenderer)
             {
-                var rend = GetComponent<Renderer>();
-                if (rend)
+                if (TryGetComponent<Renderer>(out var rend))
                 {
                     if (rend is TrailRenderer || rend is LineRenderer)
                     {
@@ -289,10 +289,9 @@ namespace Crest
 #endif
         }
 
-        protected void OnDrawGizmosSelected()
+        protected virtual void OnDrawGizmosSelected()
         {
-            var mf = GetComponent<MeshFilter>();
-            if (mf)
+            if (TryGetComponent<MeshFilter>(out var mf))
             {
                 Gizmos.color = GizmoColor;
                 Gizmos.DrawWireMesh(mf.sharedMesh, transform.position, transform.rotation, transform.lossyScale);
@@ -326,6 +325,7 @@ namespace Crest
         protected Material _splineMaterial;
         Spline.Spline _spline;
         Mesh _splineMesh;
+        protected Vector3[] _splineBoundingPoints = new Vector3[0];
 
         protected abstract string SplineShaderName { get; }
         protected abstract Vector2 DefaultCustomData { get; }
@@ -334,6 +334,8 @@ namespace Crest
 
         protected float _splinePointHeightMin;
         protected float _splinePointHeightMax;
+
+        protected override bool FollowHorizontalMotion => _spline != null;
 
         void Awake()
         {
@@ -351,7 +353,7 @@ namespace Crest
             var radius = _overrideSplineSettings ? _radius : _spline.Radius;
             var subdivs = _overrideSplineSettings ? _subdivisions : _spline.Subdivisions;
             ShapeGerstnerSplineHandling.GenerateMeshFromSpline<SplinePointCustomData>(_spline, transform, subdivs,
-                radius, DefaultCustomData, ref _splineMesh, out _splinePointHeightMin, out _splinePointHeightMax);
+                radius, DefaultCustomData, ref _splineMesh, out _splinePointHeightMin, out _splinePointHeightMax, ref _splineBoundingPoints);
 
             if (_splineMaterial == null)
             {
@@ -371,7 +373,6 @@ namespace Crest
             if (_splineMesh != null && _splineMaterial != null)
             {
                 buf.SetGlobalFloat(sp_Weight, weight);
-                buf.SetGlobalFloat(LodDataMgr.sp_LD_SliceIndex, lodIdx);
                 buf.SetGlobalVector(sp_DisplacementAtInputPosition, Vector3.zero);
                 buf.DrawMesh(_splineMesh, transform.localToWorldMatrix, _splineMaterial);
             }
@@ -400,8 +401,14 @@ namespace Crest
         }
 
 #if UNITY_EDITOR
-        protected new void OnDrawGizmosSelected()
+        protected override void OnDrawGizmosSelected()
         {
+            if (!TryGetComponent(out _spline))
+            {
+                base.OnDrawGizmosSelected();
+                return;
+            }
+
             // Restrict this call as it is costly.
             if (Selection.activeGameObject == gameObject)
             {
@@ -464,7 +471,7 @@ namespace Crest
                         (
                             $"<i>{_renderer.GetType().Name}</i> used by this input (<i>{GetType().Name}</i>) has empty material slots.",
                             "Remove these slots or fill them with a material.",
-                            ValidatedHelper.MessageType.Warning, _renderer
+                            ValidatedHelper.MessageType.Error, _renderer
                         );
                     }
                 }

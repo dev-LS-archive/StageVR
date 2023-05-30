@@ -13,7 +13,8 @@
 
 // Or simply retreat back to CG where SetViewProjectionMatrices() handles everything automatically.
 
-// Draw cached terrain heights into current frame data
+// Draw cached world-space heights into current frame data. If heights are coming from an ODC, then they are in
+// object-space and are converted to world-space as the LOD data stores world-space height.
 
 Shader "Crest/Inputs/Depth/Cached Depths"
 {
@@ -37,6 +38,7 @@ Shader "Crest/Inputs/Depth/Cached Depths"
 			#include "UnityCG.cginc"
 
 			sampler2D _MainTex;
+			float _HeightOffset;
 
 			CBUFFER_START(CrestPerOceanInput)
 			float4 _MainTex_ST;
@@ -64,7 +66,7 @@ Shader "Crest/Inputs/Depth/Cached Depths"
 
 			float2 Frag(Varyings input) : SV_Target
 			{
-				return float2(tex2D(_MainTex, input.uv).x, 0.0);
+				return float2(tex2D(_MainTex, input.uv).x + _HeightOffset, 0.0);
 			}
 			ENDCG
 		}

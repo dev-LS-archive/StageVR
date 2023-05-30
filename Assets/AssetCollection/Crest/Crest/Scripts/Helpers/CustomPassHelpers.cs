@@ -18,7 +18,7 @@ namespace Crest
             // the editor if it is safe to do so. The last thing we want is leaking objects.
             if (gameObject == null)
             {
-                var transform = OceanRenderer.Instance.transform.Find(name);
+                var transform = OceanRenderer.Instance.Container.transform.Find(name);
                 if (transform != null)
                 {
                     gameObject = transform.gameObject;
@@ -31,17 +31,17 @@ namespace Crest
                 gameObject = new GameObject()
                 {
                     name = name,
-                    hideFlags = OceanRenderer.Instance._hideOceanTileGameObjects
-                        ? HideFlags.HideAndDontSave : HideFlags.DontSave,
+                    hideFlags = OceanRenderer.Instance._debug._showOceanTileGameObjects
+                        ? HideFlags.DontSave : HideFlags.HideAndDontSave,
                 };
                 // Place the custom pass under the ocean renderer since it is easier to find later. Transform.Find can
                 // find inactive game objects unlike GameObject.Find.
-                gameObject.transform.parent = OceanRenderer.Instance.transform;
+                gameObject.transform.parent = OceanRenderer.Instance.Container.transform;
             }
             else
             {
-                gameObject.hideFlags = OceanRenderer.Instance._hideOceanTileGameObjects
-                        ? HideFlags.HideAndDontSave : HideFlags.DontSave;
+                gameObject.hideFlags = OceanRenderer.Instance._debug._showOceanTileGameObjects
+                        ? HideFlags.DontSave : HideFlags.HideAndDontSave;
                 gameObject.SetActive(true);
             }
 

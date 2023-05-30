@@ -6,6 +6,7 @@
 
 namespace Crest
 {
+    using UnityEditor;
     using UnityEngine;
     using UnityEngine.Rendering.HighDefinition;
 
@@ -37,6 +38,13 @@ namespace Crest
             {
                 return;
             }
+
+#if UNITY_EDITOR
+            if (!OceanRenderer.IsWithinEditorUpdate || EditorApplication.isPaused)
+            {
+                return;
+            }
+#endif
 
             var camera = context.hdCamera.camera;
 

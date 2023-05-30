@@ -1,6 +1,6 @@
 // Crest Ocean System
 
-// This file is subject to the MIT License as seen in the root of this folder structure (LICENSE)
+// Copyright 2022 Wave Harmonic Ltd
 
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -16,8 +16,8 @@ namespace Crest
     /// FFT ocean wave shape
     /// </summary>
     [ExecuteDuringEditMode(ExecuteDuringEditModeAttribute.Include.None)]
-    [HelpURL(Internal.Constants.HELP_URL_BASE_USER + "wave-conditions.html" + Internal.Constants.HELP_URL_RP)]
-    public abstract partial class ShapeWaves : CustomMonoBehaviour, LodDataMgrAnimWaves.IShapeUpdatable, ISplinePointCustomDataSetup
+    [HelpURL(Internal.Constants.HELP_URL_BASE_USER + "waves.html" + Internal.Constants.HELP_URL_RP)]
+    public abstract partial class ShapeWaves : CustomMonoBehaviour, LodDataMgrAnimWaves.IShapeUpdatable, ISplinePointCustomDataSetup, IReportsDisplacement
     {
         [Tooltip("The spectrum that defines the ocean surface shape. Assign asset of type Crest/Ocean Waves Spectrum."), Embedded]
         public OceanWaveSpectrum _spectrum;
@@ -66,11 +66,6 @@ namespace Crest
         [Tooltip("Resolution to use for wave generation buffers. Low resolutions are more efficient but can result in noticeable patterns in the shape."), Delayed]
         public int _resolution = 128;
 
-        [Tooltip("In Editor, shows the wave generation buffers on screen."), SerializeField]
-#pragma warning disable 414
-        protected bool _debugDrawSlicesInEditor = false;
-#pragma warning restore 414
-
 
         [Header("Spline Settings")]
 
@@ -83,6 +78,20 @@ namespace Crest
 
         [SerializeField]
         float _featherWaveStart = 0.1f;
+
+
+        [System.Serializable]
+        protected class DebugFields
+        {
+            [Predicated(typeof(ShapeWaves), "IsLocalWaves"), DecoratedField]
+            public bool _drawBounds = false;
+
+            [Tooltip("In Editor, shows the wave generation buffers on screen."), DecoratedField]
+            public bool _drawSlicesInEditor = false;
+        }
+
+        protected abstract DebugFields DebugSettings { get; }
+
 
         protected Mesh _meshForDrawingWaves;
 
@@ -106,19 +115,27 @@ namespace Crest
 
         public class WaveBatch : ILodDataInput
         {
-            ShapeWaves _shapeWaves;
+            readonly ShapeWaves _shapeWaves;
 
             Material _material;
             Mesh _mesh;
 
             int _waveBufferSliceIndex;
 
-            public static Component _previousShapeComponent;
-            public static int _previousLodIndex = -1;
+            static Component _previousShapeComponent;
+            static int _previousLodIndex = -1;
 
             public WaveBatch(ShapeWaves shapeWaves, float wavelength, int waveBufferSliceIndex, Material material, Mesh mesh)
             {
                 _shapeWaves = shapeWaves;
+                Wavelength = wavelength;
+                _waveBufferSliceIndex = waveBufferSliceIndex;
+                _mesh = mesh;
+                _material = material;
+            }
+
+            public void UpdateData(float wavelength, int waveBufferSliceIndex, Material material, Mesh mesh)
+            {
                 Wavelength = wavelength;
                 _waveBufferSliceIndex = waveBufferSliceIndex;
                 _mesh = mesh;
@@ -130,15 +147,39 @@ namespace Crest
 
             public bool Enabled { get => true; set { } }
 
+            public bool IgnoreTransitionWeight => _shapeWaves._blendMode == ShapeBlendMode.Blend;
+
             public void Draw(LodDataMgr lodData, CommandBuffer buf, float weight, int isTransition, int lodIdx)
             {
                 var finalWeight = weight * _shapeWaves._weight;
-                if (finalWeight > 0f)
+
+                // If the component has changed or the LOD slice then this is a new batch of cascades. We use this
+                // to add alpha blending without changing much of the architecture. It requires an extra pass which
+                // is not very lean performance wise. Use blend states when breaking change can be introduced.
+                // Blend pass needs to ignore transition weight (including last LOD) otherwise it cannot flatten waves.
+                var isBlendPassNeeded = _mesh != null
+                    && _material != null
+                    && _shapeWaves._weight > 0f
+                    && _shapeWaves._blendMode == ShapeBlendMode.Blend
+                    && (_previousShapeComponent != _shapeWaves || _previousLodIndex != lodIdx);
+
+                if (isBlendPassNeeded || finalWeight > 0f)
                 {
-                    buf.SetGlobalInt(LodDataMgr.sp_LD_SliceIndex, lodIdx);
-                    buf.SetGlobalFloat(RegisterLodDataInputBase.sp_Weight, finalWeight);
                     buf.SetGlobalInt(sp_WaveBufferSliceIndex, _waveBufferSliceIndex);
                     buf.SetGlobalFloat(sp_AverageWavelength, Wavelength * 1.5f);
+                }
+
+                if (isBlendPassNeeded)
+                {
+                    _previousShapeComponent = _shapeWaves;
+                    _previousLodIndex = lodIdx;
+                    buf.SetGlobalFloat(RegisterLodDataInputBase.sp_Weight, _shapeWaves._weight);
+                    buf.DrawMesh(_mesh, _shapeWaves.transform.localToWorldMatrix, _material, submeshIndex: 0, shaderPass: 1);
+                }
+
+                if (finalWeight > 0f)
+                {
+                    buf.SetGlobalFloat(RegisterLodDataInputBase.sp_Weight, finalWeight);
 
                     // Either use a full screen quad, or a provided mesh renderer to draw the waves
                     if (_mesh == null)
@@ -147,16 +188,6 @@ namespace Crest
                     }
                     else if (_material != null)
                     {
-                        // If the component has changed or the LOD slice then this is a new batch of cascades. We use this
-                        // to add alpha blending without changing much of the architecture. It requires an extra pass which
-                        // is not very lean performance wise. Use blend states when breaking change can be introduced.
-                        if (_shapeWaves._blendMode == ShapeBlendMode.Blend && (_previousShapeComponent != _shapeWaves || _previousLodIndex != lodIdx))
-                        {
-                            _previousShapeComponent = _shapeWaves;
-                            _previousLodIndex = lodIdx;
-                            buf.DrawMesh(_mesh, _shapeWaves.transform.localToWorldMatrix, _material, submeshIndex: 0, shaderPass: 1);
-                        }
-
                         buf.DrawMesh(_mesh, _shapeWaves.transform.localToWorldMatrix, _material, submeshIndex: 0, shaderPass: 0);
                     }
                 }
@@ -165,7 +196,7 @@ namespace Crest
 
         public const int CASCADE_COUNT = 16;
 
-        WaveBatch[] _batches = null;
+        readonly WaveBatch[] _batches = new WaveBatch[CASCADE_COUNT];
 
         // First cascade of wave buffer that has waves and will be rendered.
         protected int _firstCascade = -1;
@@ -183,6 +214,12 @@ namespace Crest
 
         MeshRenderer _renderer;
         Spline.Spline _spline;
+        Vector3[] _splineBoundingPoints = new Vector3[0];
+        Rect _rect;
+
+        protected float _maxHorizDisp;
+        protected float _maxVertDisp;
+        protected float _maxWavesDisp;
 
         protected static readonly int sp_WaveBuffer = Shader.PropertyToID("_WaveBuffer");
         protected static readonly int sp_WaveBufferSliceIndex = Shader.PropertyToID("_WaveBufferSliceIndex");
@@ -213,6 +250,8 @@ namespace Crest
         protected abstract void ReportMaxDisplacement();
         protected abstract void DestroySharedResources();
 
+        protected bool IsGlobalWaves => _renderer == null && _spline == null;
+
         public virtual void CrestUpdate(CommandBuffer buffer)
         {
 #if UNITY_EDITOR
@@ -240,7 +279,7 @@ namespace Crest
                 var radius = _overrideSplineSettings ? _radius : _spline.Radius;
                 var subdivs = _overrideSplineSettings ? _subdivisions : _spline.Subdivisions;
                 if (ShapeGerstnerSplineHandling.GenerateMeshFromSpline<SplinePointDataWaves>(_spline, transform,
-                    subdivs, radius, Vector2.one, ref _meshForDrawingWaves, out _, out _))
+                    subdivs, radius, Vector2.one, ref _meshForDrawingWaves, out _, out _, ref _splineBoundingPoints))
                 {
                     _meshForDrawingWaves.name = gameObject.name + "_mesh";
                 }
@@ -302,11 +341,19 @@ namespace Crest
             }
 
             // Submit draws to create the FFT waves
-            _batches = new WaveBatch[CASCADE_COUNT];
             for (int i = _firstCascade; i <= _lastCascade; i++)
             {
                 if (i == -1) break;
-                _batches[i] = new WaveBatch(this, MinWavelength(i), i, _matGenerateWaves, _meshForDrawingWaves);
+
+                if (_batches[i] == null)
+                {
+                    _batches[i] = new WaveBatch(this, MinWavelength(i), i, _matGenerateWaves, _meshForDrawingWaves);
+                }
+                else
+                {
+                    _batches[i].UpdateData(MinWavelength(i), i, _matGenerateWaves, _meshForDrawingWaves);
+                }
+
                 RegisterLodDataInput<LodDataMgrAnimWaves>.RegisterInput(_batches[i], queue, subQueue);
             }
         }
@@ -354,11 +401,13 @@ namespace Crest
 #endif
 
             LodDataMgrAnimWaves.RegisterUpdatable(this);
+            OceanChunkRenderer.DisplacementReporters.Add(this);
         }
 
         protected virtual void OnDisable()
         {
             LodDataMgrAnimWaves.DeregisterUpdatable(this);
+            OceanChunkRenderer.DisplacementReporters.Remove(this);
 
             if (_batches != null)
             {
@@ -366,8 +415,6 @@ namespace Crest
                 {
                     RegisterLodDataInput<LodDataMgrAnimWaves>.DeregisterInput(batch);
                 }
-
-                _batches = null;
             }
         }
 
@@ -381,6 +428,33 @@ namespace Crest
 
             splinePoint.AddComponent<SplinePointDataWaves>();
             return true;
+        }
+
+        public bool ReportDisplacement(ref Rect bounds, ref float horizontal, ref float vertical)
+        {
+            if (IsGlobalWaves || _meshForDrawingWaves == null)
+            {
+                return false;
+            }
+
+            if (_renderer != null)
+            {
+                _rect = Rect.MinMaxRect(_renderer.bounds.min.x, _renderer.bounds.min.z, _renderer.bounds.max.x, _renderer.bounds.max.z);
+            }
+            else if (_spline != null)
+            {
+                var splineBounds = GeometryUtility.CalculateBounds(_splineBoundingPoints, transform.localToWorldMatrix);
+                _rect = Rect.MinMaxRect(splineBounds.min.x, splineBounds.min.z, splineBounds.max.x, splineBounds.max.z);
+            }
+
+            if (bounds.Overlaps(_rect, false))
+            {
+                horizontal = _maxHorizDisp;
+                vertical = _maxVertDisp;
+                return true;
+            }
+
+            return false;
         }
     }
 
@@ -430,6 +504,19 @@ namespace Crest
             }
 
             DrawMesh();
+        }
+
+        void OnDrawGizmos()
+        {
+            if (DebugSettings._drawBounds)
+            {
+                // Render bounds.
+                var ocean = OceanRenderer.Instance;
+                if (ocean != null && _rect != null && !IsGlobalWaves)
+                {
+                    Gizmos.DrawWireCube(new Vector3(_rect.center.x, ocean.SeaLevel, _rect.center.y), new Vector3(_rect.size.x, 0, _rect.size.y));
+                }
+            }
         }
 
         public void OnSplinePointDrawGizmosSelected(SplinePoint point)

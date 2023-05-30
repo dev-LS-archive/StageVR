@@ -4,12 +4,6 @@
 
 Shader "Crest/Inputs/Dynamic Waves/Sphere-Water Interaction"
 {
-	Properties
-	{
-		_Strength("Strength", Range(0.0, 10.0)) = 0.2
-		_StrengthVertical("Vertical Strength Multiplier", Range(0.0, 1.0)) = 1.0
-	}
-
 	SubShader
 	{
 		Pass
@@ -33,7 +27,6 @@ Shader "Crest/Inputs/Dynamic Waves/Sphere-Water Interaction"
 			CBUFFER_END
 
 			float _MinWavelength;
-			float _LodIdx;
 
 			struct Attributes
 			{
@@ -50,8 +43,6 @@ Shader "Crest/Inputs/Dynamic Waves/Sphere-Water Interaction"
 
 			UNITY_INSTANCING_BUFFER_START(CrestPerInstance)
 				UNITY_DEFINE_INSTANCED_PROP(float3, _Velocity)
-				UNITY_DEFINE_INSTANCED_PROP(float, _Strength)
-				UNITY_DEFINE_INSTANCED_PROP(float, _StrengthVertical)
 				UNITY_DEFINE_INSTANCED_PROP(float, _Weight)
 				UNITY_DEFINE_INSTANCED_PROP(float, _Radius)
 				UNITY_DEFINE_INSTANCED_PROP(float3, _DisplacementAtInputPosition)
@@ -82,7 +73,7 @@ Shader "Crest/Inputs/Dynamic Waves/Sphere-Water Interaction"
 				float largeWaveMultiplier = UNITY_ACCESS_INSTANCED_PROP(CrestPerInstance, _LargeWaveMultiplier);
 				float radius = UNITY_ACCESS_INSTANCED_PROP(CrestPerInstance, _Radius);
 
-				if (largeWaveMultiplier * radius < _CrestCascadeData[_LodIdx]._texelWidth) o.positionCS *= 0.0;
+				if (largeWaveMultiplier * radius < _CrestCascadeData[_LD_SliceIndex]._texelWidth) o.positionCS *= 0.0;
 
 				return o;
 			}
@@ -122,7 +113,7 @@ Shader "Crest/Inputs/Dynamic Waves/Sphere-Water Interaction"
 				// Forces from up/down motion. Push in same direction as vel inside sphere, and opposite dir outside.
 				float forceUpDown = 0.0;
 				{
-					forceUpDown = -1.0 * UNITY_ACCESS_INSTANCED_PROP(CrestPerInstance, _StrengthVertical) * velocity.y;
+					forceUpDown = -velocity.y;
 
 					// Range / radius of interaction force
 					const float a = 1.67 / _MinWavelength;
@@ -148,8 +139,9 @@ Shader "Crest/Inputs/Dynamic Waves/Sphere-Water Interaction"
 					}
 				}
 
-				// Add to velocity (y-channel) to accelerate water.
-				float accel = UNITY_ACCESS_INSTANCED_PROP(CrestPerInstance, _Weight) * (forceUpDown + forceHoriz) * UNITY_ACCESS_INSTANCED_PROP(CrestPerInstance, _Strength);
+				// Add to velocity (y-channel) to accelerate water. Magic number was the default value for _Strength
+				// which has been removed.
+				float accel = UNITY_ACCESS_INSTANCED_PROP(CrestPerInstance, _Weight) * (forceUpDown + forceHoriz) * 0.2;
 
 				// Helps interaction to work at different scales
 				accel /= _MinWavelength;

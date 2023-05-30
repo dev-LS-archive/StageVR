@@ -14,6 +14,7 @@ namespace Crest
     /// Ocean shape representation - power values for each octave of wave components.
     /// </summary>
     [CreateAssetMenu(fileName = "OceanWaves", menuName = "Crest/Ocean Wave Spectrum", order = 10000)]
+    [HelpURL(Internal.Constants.HELP_URL_BASE_USER + "waves.html" + Internal.Constants.HELP_URL_RP)]
     public class OceanWaveSpectrum : ScriptableObject
     {
         /// <summary>
@@ -421,7 +422,7 @@ namespace Crest
                 }
                 else
                 {
-                    EditorGUILayout.LabelField(string.Format("{0}", smallWL), GUILayout.Width(30f));
+                    EditorGUILayout.LabelField(string.Format("{0}", smallWL), GUILayout.Width(50f));
                     // Disable slider if authoring with model.
                     GUI.enabled = !canEditSpectrum && !spDisabled_i.boolValue;
                     powerValue = GUILayout.HorizontalSlider(powerValue, OceanWaveSpectrum.MIN_POWER_LOG, OceanWaveSpectrum.MAX_POWER_LOG);

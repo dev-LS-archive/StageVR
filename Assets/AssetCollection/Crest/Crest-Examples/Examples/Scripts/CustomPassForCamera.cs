@@ -17,7 +17,7 @@ namespace Crest.Examples
 #endif
 
     [ExecuteDuringEditMode]
-    public abstract class CustomPassForCameraBase : MonoBehaviour
+    public abstract class CustomPassForCameraBase : CustomMonoBehaviour
     {
         // Use int to support other RPs. We could use a custom enum to map to each RP in the future.
         protected abstract int Event { get; }
@@ -145,7 +145,7 @@ namespace Crest.Examples
             _buffer.Clear();
 
             // Only execute for main camera and editor only cameras.
-            if (Camera.main != camera && camera.cameraType != CameraType.SceneView && !camera.name.StartsWith("Preview"))
+            if (Camera.main != camera && camera.cameraType != CameraType.SceneView && !camera.name.StartsWithNoAlloc("Preview"))
             {
                 Clear(_buffer, camera);
                 return;
