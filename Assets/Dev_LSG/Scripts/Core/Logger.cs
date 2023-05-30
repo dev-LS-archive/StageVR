@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using Dev_LSG.Scripts.Core.Singletons;
 using TMPro;
