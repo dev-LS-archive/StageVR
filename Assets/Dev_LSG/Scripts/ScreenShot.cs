@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,11 +7,21 @@ namespace Dev_LSG.Scripts
 {
     public class ScreenShot : MonoBehaviour
     {
+        [SerializeField] private List<GameObject> findList = null;
         public Camera cam;
 
         public void Capture(Image image)
         {
             StartCoroutine(CaptureScreen(image));
+        }
+
+        public void ViewPortCheck()
+        {
+            for (int i = 0; i < findList.Count; i++)
+            {
+                Vector3 viewPos = cam.WorldToViewportPoint(findList[i].transform.position);
+                //if (viewPos.x >= 0 && viewPos.x <= 1)
+            }
         }
         
         IEnumerator CaptureScreen(Image image)
