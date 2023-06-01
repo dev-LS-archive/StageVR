@@ -14,6 +14,11 @@ namespace Dev_LSG.Scripts.Event
             resetPoint.position = new Vector3(pos.x, resetPoint.position.y, pos.z);
             eventReset.Invoke();
         }
+        public void ChangeResetRot()
+        {
+            var rot = transform.rotation;
+            resetPoint.rotation = rot;
+        }
         public void ChangeResetPosAll()
         {
             var pos = transform.position;

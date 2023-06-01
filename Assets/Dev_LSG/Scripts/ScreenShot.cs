@@ -37,6 +37,7 @@ namespace Dev_LSG.Scripts
             {
                 outViewEvent[evenNum].Invoke();
             }
+            
         }
         
         IEnumerator CaptureScreen(Image image)

@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using HexabodyVR.PlayerController;
 using UnityEngine;
 using UnityEngine.Events;
@@ -73,6 +73,7 @@ namespace Dev_LSG.Scripts.Interactables
                     if (!dontSnap) 
                         body.GetComponent<HexaBodyPlayer4>().CallSnapTurn();
                     fullFillFunctions.Invoke();
+                    print("call");
                     StartCoroutine(UnFade());
                     break;
                 }
