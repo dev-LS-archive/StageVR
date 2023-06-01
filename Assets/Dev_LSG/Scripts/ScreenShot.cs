@@ -1,26 +1,41 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Dev_LSG.Scripts
 {
     public class ScreenShot : MonoBehaviour
     {
-        [SerializeField] private List<GameObject> findList = null;
         public Camera cam;
+        public UnityEvent[] inViewEvent;
+        public UnityEvent[] outViewEvent;
+        public int evenNum;
+        [SerializeField]
 
         public void Capture(Image image)
         {
             StartCoroutine(CaptureScreen(image));
         }
-
-        public void ViewPortCheck()
+        
+        public void SetEventNum(int num)
         {
-            for (int i = 0; i < findList.Count; i++)
+            evenNum = num;
+        }
+        
+        public void ViewPortCheck(GameObject obj)
+        {
+            var viewPos = cam.WorldToViewportPoint(obj.transform.position);
+            if (viewPos.x is >= 0 and <= 1 && viewPos.y is >= 0 and <= 1 && viewPos.z > 0)
             {
-                Vector3 viewPos = cam.WorldToViewportPoint(findList[i].transform.position);
-                //if (viewPos.x >= 0 && viewPos.x <= 1)
+                inViewEvent[evenNum].Invoke();
+            }
+            else
+            {
+                outViewEvent[evenNum].Invoke();
             }
         }
         

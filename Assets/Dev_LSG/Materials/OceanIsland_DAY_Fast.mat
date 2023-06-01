@@ -17,7 +17,6 @@ Material:
   - _FOAM_ON
   - _PLANARREFLECTIONS_ON
   - _PROCEDURALSKY_ON
-  - _SHADOWS_ON
   - _SUBSURFACESCATTERING_ON
   - _SUBSURFACESHALLOWCOLOUR_ON
   - _TRANSPARENCY_ON
@@ -139,6 +138,7 @@ Material:
     - _NormalsStrengthOverall: 1
     - _Offset: 0.00008
     - _OverrideReflectionCubemap: 0
+    - _PlanarReflectionDistanceFactor: 0
     - _PlanarReflectionIntensity: 0.8
     - _PlanarReflectionNormalsStrength: 31.12
     - _PlanarReflections: 1
@@ -150,7 +150,7 @@ Material:
     - _RefractiveIndexOfAir: 1.172
     - _RefractiveIndexOfWater: 1.33
     - _S: 1
-    - _Shadows: 1
+    - _Shadows: 0
     - _ShorelineFoamMinDepth: 0.86
     - _SkyDirectionality: 0.556
     - _Smoothness: 0.85
