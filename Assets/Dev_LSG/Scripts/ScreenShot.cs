@@ -14,7 +14,8 @@ namespace Dev_LSG.Scripts
         public UnityEvent[] inViewEvent;
         public UnityEvent[] outViewEvent;
         public int evenNum;
-        [SerializeField]
+        [SerializeField] 
+        private List<GameObject> findList = null;
 
         public void Capture(Image image)
         {
@@ -38,6 +39,24 @@ namespace Dev_LSG.Scripts
                 outViewEvent[evenNum].Invoke();
             }
             
+        }
+        public void ViewPortCheckList()
+        {
+            var hasFound = false;
+            foreach (var viewPos in findList.Select(t => cam.WorldToViewportPoint(t.transform.position)).
+                         Where(viewPos => viewPos.x is >= 0 and <= 1 && viewPos.y is >= 0 and <= 1 && viewPos.z > 0))
+            {
+                hasFound = true;
+            }
+
+            if (hasFound)
+            {
+                inViewEvent[evenNum].Invoke();
+            }
+            else
+            {
+                outViewEvent[evenNum].Invoke();
+            }
         }
         
         IEnumerator CaptureScreen(Image image)
