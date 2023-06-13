@@ -6086,6 +6086,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 2067314249}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!54 &116389433
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -6991,21 +7003,25 @@ PrefabInstance:
       propertyPath: m_Name
       value: Dolphin Model_Swim_Anim
       objectReference: {fileID: 0}
+    - target: {fileID: 100006, guid: d408ba6304e864a4dadf9135083c9c60, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 400006, guid: d408ba6304e864a4dadf9135083c9c60, type: 3}
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400006, guid: d408ba6304e864a4dadf9135083c9c60, type: 3}
       propertyPath: m_LocalScale.x
-      value: 6
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 400006, guid: d408ba6304e864a4dadf9135083c9c60, type: 3}
       propertyPath: m_LocalScale.y
-      value: 6
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 400006, guid: d408ba6304e864a4dadf9135083c9c60, type: 3}
       propertyPath: m_LocalScale.z
-      value: 6
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 400006, guid: d408ba6304e864a4dadf9135083c9c60, type: 3}
       propertyPath: m_LocalPosition.x
@@ -7493,21 +7509,25 @@ PrefabInstance:
       propertyPath: m_Name
       value: Dolphin Model_Swim_Anim
       objectReference: {fileID: 0}
+    - target: {fileID: 100006, guid: d408ba6304e864a4dadf9135083c9c60, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 400006, guid: d408ba6304e864a4dadf9135083c9c60, type: 3}
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400006, guid: d408ba6304e864a4dadf9135083c9c60, type: 3}
       propertyPath: m_LocalScale.x
-      value: 6
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 400006, guid: d408ba6304e864a4dadf9135083c9c60, type: 3}
       propertyPath: m_LocalScale.y
-      value: 6
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 400006, guid: d408ba6304e864a4dadf9135083c9c60, type: 3}
       propertyPath: m_LocalScale.z
-      value: 6
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 400006, guid: d408ba6304e864a4dadf9135083c9c60, type: 3}
       propertyPath: m_LocalPosition.x
@@ -9531,7 +9551,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _version: 0
-  _radius: 3
+  _radius: 2
   _weight: 15
   _weightUpDownMul: 1
   _innerSphereMultiplier: 1.55
@@ -10009,7 +10029,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _version: 0
-  _radius: 3
+  _radius: 2
   _weight: 5
   _weightUpDownMul: 1
   _innerSphereMultiplier: 1.55
@@ -22853,21 +22873,25 @@ PrefabInstance:
       propertyPath: m_Name
       value: Dolphin Model_Swim_Anim
       objectReference: {fileID: 0}
+    - target: {fileID: 100006, guid: d408ba6304e864a4dadf9135083c9c60, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 400006, guid: d408ba6304e864a4dadf9135083c9c60, type: 3}
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400006, guid: d408ba6304e864a4dadf9135083c9c60, type: 3}
       propertyPath: m_LocalScale.x
-      value: 6
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 400006, guid: d408ba6304e864a4dadf9135083c9c60, type: 3}
       propertyPath: m_LocalScale.y
-      value: 6
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 400006, guid: d408ba6304e864a4dadf9135083c9c60, type: 3}
       propertyPath: m_LocalScale.z
-      value: 6
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 400006, guid: d408ba6304e864a4dadf9135083c9c60, type: 3}
       propertyPath: m_LocalPosition.x
@@ -28381,7 +28405,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _version: 0
-  _bottomH: -0.75
+  _bottomH: -1
   _buoyancyCoeff: 1.5
   _boyancyTorque: 8
   _accelerateDownhill: 0
@@ -47116,7 +47140,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _version: 0
-  _radius: 3
+  _radius: 2
   _weight: 15
   _weightUpDownMul: 1
   _innerSphereMultiplier: 1.55
@@ -52543,21 +52567,25 @@ PrefabInstance:
       propertyPath: m_Name
       value: Dolphin Model_Swim_Anim
       objectReference: {fileID: 0}
+    - target: {fileID: 100006, guid: d408ba6304e864a4dadf9135083c9c60, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 400006, guid: d408ba6304e864a4dadf9135083c9c60, type: 3}
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400006, guid: d408ba6304e864a4dadf9135083c9c60, type: 3}
       propertyPath: m_LocalScale.x
-      value: 6
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 400006, guid: d408ba6304e864a4dadf9135083c9c60, type: 3}
       propertyPath: m_LocalScale.y
-      value: 6
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 400006, guid: d408ba6304e864a4dadf9135083c9c60, type: 3}
       propertyPath: m_LocalScale.z
-      value: 6
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 400006, guid: d408ba6304e864a4dadf9135083c9c60, type: 3}
       propertyPath: m_LocalPosition.x
@@ -54854,7 +54882,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _version: 0
-  _radius: 3
+  _radius: 2
   _weight: 15
   _weightUpDownMul: 1
   _innerSphereMultiplier: 1.55
@@ -55366,7 +55394,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4268289294875378077, guid: 2de1170a0c2f8d749b35e9dc5747295a, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4414276863705915253, guid: 2de1170a0c2f8d749b35e9dc5747295a, type: 3}
       propertyPath: ParentHandModel
@@ -61958,7 +61986,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _version: 0
-  _bottomH: -0.75
+  _bottomH: -1
   _buoyancyCoeff: 1.5
   _boyancyTorque: 8
   _accelerateDownhill: 0
@@ -66902,7 +66930,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _version: 0
-  _bottomH: -0.75
+  _bottomH: -1
   _buoyancyCoeff: 1.5
   _boyancyTorque: 8
   _accelerateDownhill: 0
@@ -71990,7 +72018,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _version: 0
-  _radius: 3
+  _radius: 2
   _weight: 15
   _weightUpDownMul: 1
   _innerSphereMultiplier: 1.55
@@ -80571,7 +80599,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _version: 0
-  _bottomH: -0.75
+  _bottomH: -1
   _buoyancyCoeff: 1.25
   _boyancyTorque: 8
   _accelerateDownhill: 0
@@ -80738,6 +80766,10 @@ PrefabInstance:
     - target: {fileID: 4326663701675288, guid: 352526ef86f761742a6578cb8a261dd4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4326663701675288, guid: 352526ef86f761742a6578cb8a261dd4, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 352526ef86f761742a6578cb8a261dd4, type: 3}
@@ -81480,7 +81512,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1507137603}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 510.5, y: 89.05, z: 179.3}
+  m_LocalPosition: {x: 515.5, y: 89.05, z: 135.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -83656,7 +83688,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _version: 0
-  _radius: 3
+  _radius: 2
   _weight: 5
   _weightUpDownMul: 1
   _innerSphereMultiplier: 1.55
@@ -105489,7 +105521,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _version: 0
-  _radius: 3
+  _radius: 2
   _weight: 5
   _weightUpDownMul: 1
   _innerSphereMultiplier: 1.55
@@ -107489,7 +107521,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2067314250
 Transform:
   m_ObjectHideFlags: 0
@@ -109941,7 +109973,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _version: 0
-  _radius: 3
+  _radius: 2
   _weight: 5
   _weightUpDownMul: 1
   _innerSphereMultiplier: 1.55
