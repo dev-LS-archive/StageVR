@@ -441,6 +441,97 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6381815}
   m_Mesh: {fileID: 4300004, guid: 077c48741ca14124b92b280a172238d7, type: 3}
+--- !u!1 &7930164
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7930165}
+  - component: {fileID: 7930168}
+  - component: {fileID: 7930167}
+  - component: {fileID: 7930166}
+  m_Layer: 0
+  m_Name: UpEvent (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7930165
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7930164}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 20, y: -0.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 929664701}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &7930166
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7930164}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &7930167
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7930164}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b527e9a57d40fea4ab0492a325182610, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tagName: Dolphin
+  triggerEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 929664702}
+        m_TargetAssemblyTypeName: Dev_LSG.Scripts.Event.SetDollyCartSpeed, Dev_LSG.Scripts.Event
+        m_MethodName: SetCartSpeed
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 13
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!135 &7930168
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7930164}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &9329183
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5646,7 +5737,7 @@ GameObject:
   - component: {fileID: 106470365}
   - component: {fileID: 106470366}
   m_Layer: 0
-  m_Name: Dolphin_Anim
+  m_Name: Dolphin_Anim_Path
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5659,7 +5750,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 106470364}
-  m_LocalRotation: {x: -0.01239915, y: 0.9171744, z: -0.028626319, w: -0.3972632}
+  m_LocalRotation: {x: 0.020888228, y: 0.90917504, z: 0.04594489, w: -0.41334426}
   m_LocalPosition: {x: -2.7999878, y: 0, z: 0.30000305}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
@@ -23356,97 +23447,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: dfd0bd5ad2cfff249b8be30fc742a65c, type: 3}
   m_PrefabInstance: {fileID: 338268034}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &338275162
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 338275163}
-  - component: {fileID: 338275166}
-  - component: {fileID: 338275165}
-  - component: {fileID: 338275164}
-  m_Layer: 0
-  m_Name: DownEvent
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &338275163
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 338275162}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.8, y: 4, z: 12}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 1
-  m_Children: []
-  m_Father: {fileID: 929664701}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!54 &338275164
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 338275162}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
---- !u!114 &338275165
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 338275162}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b527e9a57d40fea4ab0492a325182610, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tagName: Dolphin
-  triggerEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1877855083}
-        m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
-        m_MethodName: SetTrigger
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: Down
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!135 &338275166
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 338275162}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &339338373
 GameObject:
   m_ObjectHideFlags: 0
@@ -56695,6 +56695,7 @@ GameObject:
   m_Component:
   - component: {fileID: 929664701}
   - component: {fileID: 929664700}
+  - component: {fileID: 929664702}
   m_Layer: 0
   m_Name: DollyTrack1
   m_TagString: Untagged
@@ -56725,17 +56726,25 @@ MonoBehaviour:
     roll: 0
   - position: {x: 0.5, y: -0.5, z: 8}
     roll: 0
-  - position: {x: 3.8, y: 4, z: 12}
-    roll: 0
-  - position: {x: 6.5, y: -0.5, z: 18}
-    roll: 0
+  - position: {x: 2.1, y: 6, z: 13.6}
+    roll: 180
+  - position: {x: 5, y: -0.5, z: 20}
+    roll: 360
   - position: {x: 10, y: 0, z: 20}
-    roll: 0
-  - position: {x: 16.867939, y: 0, z: 13.735867}
-    roll: 0
-  - position: {x: 20, y: 0, z: 0}
+    roll: 360
+  - position: {x: 14.373195, y: 1.1360168, z: 17.30144}
+    roll: 360
+  - position: {x: 18.815144, y: 1.4670258, z: 11.658359}
+    roll: 360
+  - position: {x: 20, y: -0.5, z: 0}
+    roll: 360
+  - position: {x: 19.5, y: 6, z: -8.5}
+    roll: 180
+  - position: {x: 18.5, y: -0.5, z: -17}
     roll: 0
   - position: {x: 10, y: 0, z: -20}
+    roll: 0
+  - position: {x: 4.2, y: -3.3, z: -11}
     roll: 0
 --- !u!4 &929664701
 Transform:
@@ -56750,11 +56759,25 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1904578635}
-  - {fileID: 338275163}
   - {fileID: 1790136061}
+  - {fileID: 7930165}
+  - {fileID: 1149164031}
   m_Father: {fileID: 1129289656}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 240, z: 0}
+--- !u!114 &929664702
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 929664699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfb2388c38f524f4ca3b87224d3d3973, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cart: {fileID: 106470366}
 --- !u!1001 &930645099
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -65527,6 +65550,7 @@ Transform:
   m_Children:
   - {fileID: 106470365}
   - {fileID: 929664701}
+  - {fileID: 1792819937}
   m_Father: {fileID: 1433984782}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -66332,6 +66356,97 @@ MonoBehaviour:
   _maxSpeed: 100
   _warnOnSpeedClamp: 0
   _debugSubsteps: 0
+--- !u!1 &1149164030
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1149164031}
+  - component: {fileID: 1149164034}
+  - component: {fileID: 1149164033}
+  - component: {fileID: 1149164032}
+  m_Layer: 0
+  m_Name: SwimEvent (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1149164031
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1149164030}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 18.5, y: -0.5, z: -17}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 929664701}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &1149164032
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1149164030}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &1149164033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1149164030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b527e9a57d40fea4ab0492a325182610, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tagName: Dolphin
+  triggerEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 929664702}
+        m_TargetAssemblyTypeName: Dev_LSG.Scripts.Event.SetDollyCartSpeed, Dev_LSG.Scripts.Event
+        m_MethodName: SetCartSpeed
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 10
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!135 &1149164034
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1149164030}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1150051124
 GameObject:
   m_ObjectHideFlags: 0
@@ -82313,7 +82428,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1507137604
 Transform:
   m_ObjectHideFlags: 0
@@ -93832,12 +93947,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1790136060}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.5, y: -0.5, z: 18}
+  m_LocalPosition: {x: 5, y: -0.5, z: 20}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 929664701}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &1790136062
 Rigidbody:
@@ -93871,16 +93986,16 @@ MonoBehaviour:
   triggerEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1877855083}
-        m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
-        m_MethodName: SetTrigger
-        m_Mode: 5
+      - m_Target: {fileID: 929664702}
+        m_TargetAssemblyTypeName: Dev_LSG.Scripts.Event.SetDollyCartSpeed, Dev_LSG.Scripts.Event
+        m_MethodName: SetCartSpeed
+        m_Mode: 4
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: Swim
+          m_FloatArgument: 10
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!135 &1790136064
@@ -93896,6 +94011,87 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &1792819936
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1792819937}
+  - component: {fileID: 1792819938}
+  m_Layer: 0
+  m_Name: DollyTrack
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &1792819937
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1792819936}
+  m_LocalRotation: {x: -0, y: 0.8660254, z: -0, w: -0.5}
+  m_LocalPosition: {x: -2.8, y: 0, z: 0.3}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 1129289656}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 240, z: 0}
+--- !u!114 &1792819938
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1792819936}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d37e5385efd7064cb1d54c94960acae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Resolution: 20
+  m_Appearance:
+    pathColor: {r: 0, g: 1, b: 0, a: 1}
+    inactivePathColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    width: 0.2
+  m_Looped: 1
+  m_Waypoints:
+  - position: {x: 0, y: 0, z: 0}
+    tangent: {x: 0, y: 0, z: 0}
+    roll: 0
+  - position: {x: 0.5, y: -0.5, z: 8}
+    tangent: {x: 0.407906, y: 0.64237976, z: 1.5837936}
+    roll: 0
+  - position: {x: 3.8, y: 8, z: 12}
+    tangent: {x: 0.647485, y: 0, z: 1.2894754}
+    roll: 0
+  - position: {x: 5.5, y: -0.5, z: 16}
+    tangent: {x: 0.015862465, y: 0, z: 3.0073624}
+    roll: 0
+  - position: {x: 10, y: 0, z: 20}
+    tangent: {x: 1.8803749, y: 0, z: 0.45732117}
+    roll: 0
+  - position: {x: 18, y: 0, z: 13.8}
+    tangent: {x: 0.731699, y: 1.548996, z: -1.275857}
+    roll: 0
+  - position: {x: 20, y: -0.5, z: 0}
+    tangent: {x: -0.62098503, y: 1.8133698, z: -1.5351547}
+    roll: 0
+  - position: {x: 19.5, y: 8, z: -8.5}
+    tangent: {x: 0.000011444092, y: -2, z: -1.4999905}
+    roll: 0
+  - position: {x: 22, y: -0.5, z: -15}
+    tangent: {x: 7.5306168, y: -2.527794, z: -6.808235}
+    roll: 0
+  - position: {x: 10, y: 0, z: -20}
+    tangent: {x: -4.675823, y: -2.4697418, z: 0.79556084}
+    roll: 0
 --- !u!1001 &1794310697
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -94570,14 +94766,11 @@ MonoBehaviour:
         m_CallState: 2
   evenNum: 0
   findList:
+  - {fileID: 106470364}
   - {fileID: 426465807}
   - {fileID: 1487301089}
   - {fileID: 1052244158}
   - {fileID: 1184646801}
-  - {fileID: 188313113}
-  - {fileID: 1756998581}
-  - {fileID: 181432786}
-  - {fileID: 2100043617}
 --- !u!114 &1797777634
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -99498,16 +99691,16 @@ MonoBehaviour:
   triggerEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1877855083}
-        m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
-        m_MethodName: SetTrigger
-        m_Mode: 5
+      - m_Target: {fileID: 929664702}
+        m_TargetAssemblyTypeName: Dev_LSG.Scripts.Event.SetDollyCartSpeed, Dev_LSG.Scripts.Event
+        m_MethodName: SetCartSpeed
+        m_Mode: 4
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: Up
+          m_FloatArgument: 13
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!135 &1904578637
