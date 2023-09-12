@@ -587,7 +587,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &603192688
 Transform:
   m_ObjectHideFlags: 0
@@ -1699,6 +1699,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5422579301309828179, guid: 71f5d8ad14596b44897a8477544449c6, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1130209484}
+    - targetCorrespondingSourceObject: {fileID: 5422579301309828179, guid: 71f5d8ad14596b44897a8477544449c6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1130209486}
+    - targetCorrespondingSourceObject: {fileID: 5422579301309828179, guid: 71f5d8ad14596b44897a8477544449c6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1130209485}
   m_SourcePrefab: {fileID: 100100000, guid: 71f5d8ad14596b44897a8477544449c6, type: 3}
 --- !u!1 &1130209481 stripped
 GameObject:
@@ -1743,6 +1749,62 @@ MonoBehaviour:
   Grabbable: {fileID: 1130209483}
   GrabTrigger: 2
   GrabPoint: {fileID: 1130209482}
+--- !u!114 &1130209485
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1130209481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6386dd11689ee3448bb05f04528e2c2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  delayEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1130209484}
+        m_TargetAssemblyTypeName: HurricaneVR.TechDemo.Scripts.DemoCodeGrabbing,
+          HurricaneVR.TechDemo
+        m_MethodName: Grab
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  delay: 1
+--- !u!114 &1130209486
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1130209481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5764bcb803196014eb23d679b19b2487, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enableEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1130209485}
+        m_TargetAssemblyTypeName: Dev_LSG.Scripts.Event.DelayEvent, Dev_LSG.Scripts.Event
+        m_MethodName: CallInvoke
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1001 &1210634506
 PrefabInstance:
   m_ObjectHideFlags: 0
