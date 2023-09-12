@@ -205,6 +205,7 @@ namespace Obi
             SetSelfCollisions(selfCollisions);
             RecalculateRestLength();
             SetSimplicesDirty();
+            UpdateCollisionMaterials();
         }
 
         public override void Substep(float substepTime)

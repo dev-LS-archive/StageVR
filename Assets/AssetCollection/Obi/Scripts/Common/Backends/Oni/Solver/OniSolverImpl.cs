@@ -76,9 +76,9 @@ namespace Obi
             return Oni.RemoveDeformableTriangles(m_OniSolver, num, sourceOffset);
         }
 
-        public void SetSimplices(int[] simplices, SimplexCounts counts)
+        public void SetSimplices(ObiNativeIntList simplices, SimplexCounts counts)
         {
-            Oni.SetSimplices(m_OniSolver, simplices, counts.pointCount, counts.edgeCount, counts.triangleCount);
+            Oni.SetSimplices(m_OniSolver, simplices.AsNativeArray<int>().ToArray(), counts.pointCount, counts.edgeCount, counts.triangleCount);
         }
 
         public void ParticleCountChanged(ObiSolver solver)
@@ -130,9 +130,9 @@ namespace Obi
             Oni.SetRigidbodyAngularDeltas(m_OniSolver, solver.rigidbodyAngularDeltas.GetIntPtr());
         }
 
-        public void SetActiveParticles(int[] indices, int num)
+        public void SetActiveParticles(ObiNativeIntList indices)
         {
-            Oni.SetActiveParticles(oniSolver, indices, num);
+            Oni.SetActiveParticles(oniSolver, indices.AsNativeArray<int>().ToArray(), indices.count);
         }
 
         public void ResetForces()

@@ -12,7 +12,7 @@ namespace Obi
     [BurstCompile]
     struct UpdateVelocitiesJob : IJobParallelFor
     {
-        [ReadOnly] public NativeList<int> activeParticles;
+        [ReadOnly] public NativeArray<int> activeParticles;
 
         // linear/position properties:
         [ReadOnly] public NativeArray<float> inverseMasses;

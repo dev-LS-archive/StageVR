@@ -198,6 +198,7 @@ namespace Obi
             SetSelfCollisions(selfCollisions);
             RecalculateRestLength();
             SetSimplicesDirty();
+            UpdateCollisionMaterials();
         }
 
         public Vector3 GetBendTwistCompliance(ObiBendTwistConstraintsBatch batch, int constraintIndex)

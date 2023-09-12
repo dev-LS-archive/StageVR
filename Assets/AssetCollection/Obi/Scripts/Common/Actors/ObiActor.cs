@@ -1171,8 +1171,6 @@ namespace Obi
 
         public virtual void PrepareStep(float stepTime)
         {
-            UpdateCollisionMaterials();
-
             if (OnPrepareStep != null)
                 OnPrepareStep(this, stepTime);
         }

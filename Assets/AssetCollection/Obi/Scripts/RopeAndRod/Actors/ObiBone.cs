@@ -319,6 +319,7 @@ namespace Obi
             SetSelfCollisions(selfCollisions);
             SetSimplicesDirty();
             UpdateFilter();
+            UpdateCollisionMaterials();
         }
 
         private void FixRoot()

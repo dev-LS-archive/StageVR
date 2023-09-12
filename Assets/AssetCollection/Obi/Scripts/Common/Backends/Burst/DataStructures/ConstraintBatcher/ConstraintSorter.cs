@@ -9,7 +9,7 @@ using Unity.Jobs;
 
 namespace Obi
 {
-    public class ConstraintSorter<T> where T : struct, IConstraint
+    public class ConstraintSorter<T> where T : unmanaged, IConstraint
     {
 
         public struct ConstraintComparer<K> : IComparer<K> where K : IConstraint
