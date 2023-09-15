@@ -1,6 +1,28 @@
 # Change Log
 All notable changes to “Obi - Advanced ropes for Unity” will be documented in this file.
 
+## [6.5.4]
+
+### Fixed
+- Workaround for kinematic rigidbody velocities not writable in Unity 2022.1 and above.
+
+## [6.5.3]
+
+### Changed
+- Updated UnsafeList with its generic version for supporting newer versions of the Collections package.
+
+## [6.5.2]
+
+### Changed
+- Slightly improved overall performance by only updating collision material references during OnValidate()
+- Exposed solver.activeParticles and solver.colors as a ObiNativeIntList instead of int[], which allows to use them directly in jobs.
+- Updated for compatibility with newest Collections package.
+
+## [6.5.1]
+
+### Added
+- Support for holes in terrain colliders.
+
 ## [6.5]
 
 ### Added
