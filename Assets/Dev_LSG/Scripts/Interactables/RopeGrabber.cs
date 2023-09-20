@@ -1,5 +1,9 @@
 using UnityEngine;
 using Obi;
+using HurricaneVR.Framework.ControllerInput;
+using HurricaneVR.Framework.Core.Grabbers;
+using HurricaneVR.Framework.Shared;
+using UnityEngine.Serialization;
 
 // ReSharper disable once IdentifierTypo
 namespace Dev_LSG.Scripts.Interactables
@@ -14,10 +18,26 @@ namespace Dev_LSG.Scripts.Interactables
         private ObiSolver.ObiCollisionEventArgs _collisionEvent;
         private ObiPinConstraintsBatch _newBatch;
         private ObiConstraints<ObiPinConstraintsBatch> _pinConstraints;
+        private enum Hand
+        {
+            LeftHand,
+            RightHand
+        }
+
+        [SerializeField] private Hand hand;
+        public HVRHandGrabber grabber;
 
         private void Awake()
         {
             _obiCollider = GetComponent<ObiCollider>();
+            if (grabber.HandSide == HVRHandSide.Left)
+            {
+                hand = Hand.LeftHand;
+            }
+            if (grabber.HandSide == HVRHandSide.Right)
+            {
+                hand = Hand.RightHand;
+            }
         }
         
         private void Start()
@@ -31,17 +51,47 @@ namespace Dev_LSG.Scripts.Interactables
             _solver = rope.solver;
             if (_solver != null)
                 _solver.OnCollision += Solver_OnCollision;
+            AddListen();
         }
 
         private void OnDisable()
         {
             if (_solver != null)
                 _solver.OnCollision -= Solver_OnCollision;
+            RemoveListen();
         }
 
         void Solver_OnCollision(object sender, ObiSolver.ObiCollisionEventArgs e)
         {
             _collisionEvent = e;
+        }
+
+        void AddListen()
+        {
+            if (hand == Hand.LeftHand)
+            {
+                HVRControllerEvents.Instance.LeftTriggerActivated.AddListener(Grab);
+                HVRControllerEvents.Instance.LeftTriggerDeactivated.AddListener(Release);
+            }
+            if (hand == Hand.RightHand)
+            {
+                HVRControllerEvents.Instance.RightTriggerActivated.AddListener(Grab);
+                HVRControllerEvents.Instance.RightTriggerDeactivated.AddListener(Release);
+            }
+        }
+
+        void RemoveListen()
+        {
+            if (hand == Hand.LeftHand)
+            {
+                HVRControllerEvents.Instance.LeftTriggerActivated.RemoveListener(Grab);
+                HVRControllerEvents.Instance.LeftTriggerDeactivated.RemoveListener(Release);
+            }
+            if (hand == Hand.RightHand)
+            {
+                HVRControllerEvents.Instance.RightTriggerActivated.RemoveListener(Grab);
+                HVRControllerEvents.Instance.RightTriggerDeactivated.RemoveListener(Release);
+            }
         }
 
         public void Grab()
