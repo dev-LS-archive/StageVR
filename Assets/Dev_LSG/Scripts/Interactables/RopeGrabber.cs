@@ -70,13 +70,13 @@ namespace Dev_LSG.Scripts.Interactables
         {
             if (hand == Hand.LeftHand)
             {
-                HVRControllerEvents.Instance.LeftTriggerActivated.AddListener(Grab);
-                HVRControllerEvents.Instance.LeftTriggerDeactivated.AddListener(Release);
+                HVRControllerEvents.Instance.LeftGripActivated.AddListener(Grab);
+                HVRControllerEvents.Instance.LeftGripDeactivated.AddListener(Release);
             }
             if (hand == Hand.RightHand)
             {
-                HVRControllerEvents.Instance.RightTriggerActivated.AddListener(Grab);
-                HVRControllerEvents.Instance.RightTriggerDeactivated.AddListener(Release);
+                HVRControllerEvents.Instance.RightGripActivated.AddListener(Grab);
+                HVRControllerEvents.Instance.RightGripDeactivated.AddListener(Release);
             }
         }
 
@@ -84,13 +84,13 @@ namespace Dev_LSG.Scripts.Interactables
         {
             if (hand == Hand.LeftHand)
             {
-                HVRControllerEvents.Instance.LeftTriggerActivated.RemoveListener(Grab);
-                HVRControllerEvents.Instance.LeftTriggerDeactivated.RemoveListener(Release);
+                HVRControllerEvents.Instance.LeftGripActivated.RemoveListener(Grab);
+                HVRControllerEvents.Instance.LeftGripDeactivated.RemoveListener(Release);
             }
             if (hand == Hand.RightHand)
             {
-                HVRControllerEvents.Instance.RightTriggerActivated.RemoveListener(Grab);
-                HVRControllerEvents.Instance.RightTriggerDeactivated.RemoveListener(Release);
+                HVRControllerEvents.Instance.RightGripActivated.RemoveListener(Grab);
+                HVRControllerEvents.Instance.RightGripDeactivated.RemoveListener(Release);
             }
         }
 
