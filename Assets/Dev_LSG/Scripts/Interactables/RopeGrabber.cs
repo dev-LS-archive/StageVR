@@ -1,9 +1,8 @@
-using UnityEngine;
+﻿using UnityEngine;
 using Obi;
 using HurricaneVR.Framework.ControllerInput;
 using HurricaneVR.Framework.Core.Grabbers;
 using HurricaneVR.Framework.Shared;
-using UnityEngine.Serialization;
 
 // ReSharper disable once IdentifierTypo
 namespace Dev_LSG.Scripts.Interactables
@@ -70,13 +69,13 @@ namespace Dev_LSG.Scripts.Interactables
         {
             if (hand == Hand.LeftHand)
             {
-                HVRControllerEvents.Instance.LeftGripActivated.AddListener(Grab);
-                HVRControllerEvents.Instance.LeftGripDeactivated.AddListener(Release);
+                HVRControllerEvents.Instance.LeftTriggerActivated.AddListener(Grab);
+                HVRControllerEvents.Instance.LeftTriggerDeactivated.AddListener(Release);
             }
             if (hand == Hand.RightHand)
             {
-                HVRControllerEvents.Instance.RightGripActivated.AddListener(Grab);
-                HVRControllerEvents.Instance.RightGripDeactivated.AddListener(Release);
+                HVRControllerEvents.Instance.RightTriggerActivated.AddListener(Grab);
+                HVRControllerEvents.Instance.RightTriggerDeactivated.AddListener(Release);
             }
         }
 
