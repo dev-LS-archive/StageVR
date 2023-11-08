@@ -6,8 +6,8 @@ namespace Obi
 {
 
     /**
-	 * Small helper class that lets you specify Obi-only properties for rigidbodies.
-	 */
+     * Small helper class that lets you specify Obi-only properties for rigidbodies.
+     */
 
     [ExecuteInEditMode]
     [RequireComponent(typeof(Rigidbody))]
@@ -70,8 +70,8 @@ namespace Obi
         }
 
         /**
-		 * Reads velocities back from the solver.
-		 */
+         * Reads velocities back from the solver.
+         */
         public override void UpdateVelocities(Vector3 linearDelta, Vector3 angularDelta)
         {
             // kinematic rigidbodies are passed to Obi with zero velocity, so we must ignore the new velocities calculated by the solver:
