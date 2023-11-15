@@ -10,7 +10,7 @@ namespace Dev_LSG.Scripts.Interactables
         // Start is called before the first frame update
         private void OnEnable()
         {
-            transform.DOMove(target.position, 3);
+            transform.DOMove(target.position, 3).SetEase(Ease.OutBounce);
         }
     }
 }
