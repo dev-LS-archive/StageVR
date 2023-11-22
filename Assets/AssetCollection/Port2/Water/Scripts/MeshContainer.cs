@@ -1,27 +1,26 @@
-using System;
 using UnityEngine;
 
-namespace UnityStandardAssets.Water
+namespace NWH.DWP2.DefaultWater
 {
     public class MeshContainer
     {
-        public Mesh mesh;
+        public Mesh      mesh;
         public Vector3[] vertices;
         public Vector3[] normals;
 
 
         public MeshContainer(Mesh m)
         {
-            mesh = m;
+            mesh     = m;
             vertices = m.vertices;
-            normals = m.normals;
+            normals  = m.normals;
         }
 
 
         public void Update()
         {
             mesh.vertices = vertices;
-            mesh.normals = normals;
+            mesh.normals  = normals;
         }
     }
 }

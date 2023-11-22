@@ -1,7 +1,6 @@
-using System;
 using UnityEngine;
 
-namespace UnityStandardAssets.Water
+namespace NWH.DWP2.DefaultWater
 {
     [ExecuteInEditMode]
     [RequireComponent(typeof(WaterBase))]

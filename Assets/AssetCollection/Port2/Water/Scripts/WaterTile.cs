@@ -1,13 +1,12 @@
-using System;
 using UnityEngine;
 
-namespace UnityStandardAssets.Water
+namespace NWH.DWP2.DefaultWater
 {
     [ExecuteInEditMode]
     public class WaterTile : MonoBehaviour
     {
         public PlanarReflection reflection;
-        public WaterBase waterBase;
+        public WaterBase        waterBase;
 
 
         public void Start()
@@ -16,7 +15,15 @@ namespace UnityStandardAssets.Water
         }
 
 
-        void AcquireComponents()
+        #if UNITY_EDITOR
+        public void Update()
+        {
+            AcquireComponents();
+        }
+        #endif
+
+
+        private void AcquireComponents()
         {
             if (!reflection)
             {
@@ -44,20 +51,13 @@ namespace UnityStandardAssets.Water
         }
 
 
-#if UNITY_EDITOR
-        public void Update()
-        {
-            AcquireComponents();
-        }
-#endif
-
-
         public void OnWillRenderObject()
         {
             if (reflection)
             {
                 reflection.WaterTileBeingRendered(transform, Camera.current);
             }
+
             if (waterBase)
             {
                 waterBase.WaterTileBeingRendered(transform, Camera.current);

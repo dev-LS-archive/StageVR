@@ -1,21 +1,29 @@
-using System;
 using UnityEngine;
 
-namespace UnityStandardAssets.Water
+namespace NWH.DWP2.DefaultWater
 {
     public enum WaterQuality
     {
-        High = 2,
+        High   = 2,
         Medium = 1,
-        Low = 0,
+        Low    = 0,
     }
 
     [ExecuteInEditMode]
     public class WaterBase : MonoBehaviour
     {
-        public Material sharedMaterial;
+        public Material     sharedMaterial;
         public WaterQuality waterQuality = WaterQuality.High;
-        public bool edgeBlend = true;
+        public bool         edgeBlend    = true;
+
+
+        public void Update()
+        {
+            if (sharedMaterial)
+            {
+                UpdateShader();
+            }
+        }
 
 
         public void UpdateShader()
@@ -63,15 +71,6 @@ namespace UnityStandardAssets.Water
             if (currentCam && edgeBlend)
             {
                 currentCam.depthTextureMode |= DepthTextureMode.Depth;
-            }
-        }
-
-
-        public void Update()
-        {
-            if (sharedMaterial)
-            {
-                UpdateShader();
             }
         }
     }
