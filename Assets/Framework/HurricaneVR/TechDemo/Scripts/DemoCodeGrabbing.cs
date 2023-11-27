@@ -1,4 +1,4 @@
-﻿using System.Linq;
+﻿ using System.Linq;
 using HurricaneVR.Framework.Core;
 using HurricaneVR.Framework.Core.Grabbers;
 using HurricaneVR.Framework.Core.HandPoser;
