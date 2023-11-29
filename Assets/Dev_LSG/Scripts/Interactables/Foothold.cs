@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using HexabodyVR.PlayerController;
 using UnityEngine;
 using UnityEngine.Events;
@@ -27,7 +27,7 @@ namespace Dev_LSG.Scripts.Interactables
             if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
             {
                 //print("PlayerEnter");
-                if (fading == false)
+                if (fading == false) 
                 {
                     //print("call");
                     fading = true;
