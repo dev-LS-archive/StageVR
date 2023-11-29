@@ -1,4 +1,4 @@
-// Author: Daniele Giardini - http://www.demigiant.com
+﻿// Author: Daniele Giardini - http://www.demigiant.com
 // Created: 2015/03/12 15:55
 
 using System;
@@ -627,7 +627,7 @@ namespace DG.Tweening
         /// </summary>
         public override void DORewind()
         {
-        	_playCount = -1;
+            _playCount = -1;
             // Rewind using Components order (in case there are multiple animations on the same property)
             DOTweenAnimation[] anims = this.gameObject.GetComponents<DOTweenAnimation>();
             for (int i = anims.Length - 1; i > -1; --i) {
@@ -649,7 +649,7 @@ namespace DG.Tweening
         /// Set it to TRUE when spawning the same DOTweenAnimation in different positions (like when using a pooling system)</param>
         public override void DORestart(bool fromHere)
         {
-        	_playCount = -1;
+            _playCount = -1;
             if (tween == null) {
                 if (Debugger.logPriority > 1) Debugger.LogNullTween(tween); return;
             }
