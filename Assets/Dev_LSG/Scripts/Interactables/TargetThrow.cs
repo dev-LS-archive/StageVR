@@ -1,16 +1,30 @@
 using System;
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.Events;
 
 namespace Dev_LSG.Scripts.Interactables
 {
     public class TargetThrow : MonoBehaviour
     {
         public Transform target;
-        // Start is called before the first frame update
-        private void OnEnable()
+
+        public float duration = 3f;
+
+        public UnityEvent startEvent;
+        public UnityEvent endEvent;
+
+        [ContextMenu("Throw")]
+        public void Throw()
         {
-            transform.DOMove(target.position, 3).SetEase(Ease.OutBounce);
+            startEvent.Invoke();
+            transform.DOMove(target.position, duration).SetEase(Ease.OutBounce);
+            Invoke(nameof(EndEvent), duration);
+        }
+
+        private void EndEvent()
+        {
+            endEvent.Invoke();
         }
     }
 }
