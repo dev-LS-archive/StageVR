@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Dev_LSG.Scripts.Interactables
 {
@@ -9,6 +9,10 @@ namespace Dev_LSG.Scripts.Interactables
         public void SetParentFunction()
         {
             transform.SetParent(parent);
+        }
+        public void SetParentFunction_Target(Transform par)
+        {
+            transform.SetParent(par);
         }
     }
 }
