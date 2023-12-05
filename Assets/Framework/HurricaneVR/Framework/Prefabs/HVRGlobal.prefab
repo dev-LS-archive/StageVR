@@ -267,6 +267,7 @@ GameObject:
   - component: {fileID: 6604352366278366314}
   - component: {fileID: 836756127}
   - component: {fileID: 48620402202784479}
+  - component: {fileID: 169942336364922116}
   m_Layer: 0
   m_Name: BGMPlayer
   m_TagString: Untagged
@@ -325,6 +326,24 @@ MonoBehaviour:
   bgmAudioSource: {fileID: 7848824075361005512}
   fortBGM: {fileID: 8300000, guid: 3bb410df17efeab4d8e6a8dd8b117f4c, type: 3}
   select: {fileID: 8300000, guid: 353c8d315e43e2e43984cbb204dbd556, type: 3}
+--- !u!114 &169942336364922116
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1667527619117936718}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d70d527c7629b3847a8ca9e87d51c748, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bgmAudioSource: {fileID: 7848824075361005512}
+  waveAudioSource: {fileID: 257689948713446660}
+  buildingAudioSource: {fileID: 7247425176742465407}
+  waves: {fileID: 0}
+  buildingAudio: {fileID: 0}
+  wind: {fileID: 0}
 --- !u!1 &1937853630109693343
 GameObject:
   m_ObjectHideFlags: 0
