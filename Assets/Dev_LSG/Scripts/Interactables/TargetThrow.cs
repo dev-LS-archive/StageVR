@@ -19,6 +19,7 @@ namespace Dev_LSG.Scripts.Interactables
         {
             startEvent.Invoke();
             transform.DOMove(target.position, duration).SetEase(Ease.OutBounce);
+            transform.DORotateQuaternion(target.rotation, duration);
             Invoke(nameof(EndEvent), duration);
         }
 
