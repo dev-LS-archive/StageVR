@@ -47,17 +47,26 @@ namespace Dev_LSG.Scripts.Manager
                     Stop(bgmAudioSource);
                 if (waveAudioSource.clip != waves)
                     Play(waveAudioSource, waves);
-                if (buildingAudioSource.clip != buildingAudio)
-                    Play(buildingAudioSource, buildingAudio);
+                if (buildingAudioSource.isPlaying) 
+                    Stop(buildingAudioSource);
             }
             else if (scene.name == "Fall_Test_TBM" || scene.name == "Fall_Test" || scene.name == "Fall_Test_Explain")
             {
-                if (buildingAudioSource.clip != wind)
-                    Play(bgmAudioSource, wind);
+                if (bgmAudioSource.isPlaying) 
+                    Stop(bgmAudioSource);
                 if (waveAudioSource.clip != waves)
                     Play(waveAudioSource, waves);
                 if (buildingAudioSource.clip != buildingAudio)
                     Stop(buildingAudioSource);
+            }
+            else if (scene.name == "Pipe_Test_TBM" || scene.name == "Pipe_Test" || scene.name == "Pipe_Test_Explain")
+            {
+                if (bgmAudioSource.isPlaying) 
+                    Stop(bgmAudioSource);
+                if (waveAudioSource.clip != waves)
+                    Play(waveAudioSource, waves);
+                if (buildingAudioSource.clip != buildingAudio)
+                    Play(buildingAudioSource, buildingAudio);
             }
             else
             {
