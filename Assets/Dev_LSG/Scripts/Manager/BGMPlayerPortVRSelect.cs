@@ -22,6 +22,7 @@ namespace Dev_LSG.Scripts.Manager
         // called second
         void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
+            print(scene.name);
             bgmAudioSource.loop = true;
             bgmAudioSource.volume = 0.2f;
             
@@ -57,7 +58,7 @@ namespace Dev_LSG.Scripts.Manager
                 if (waveAudioSource.clip != waves)
                     Play(waveAudioSource, waves);
                 if (buildingAudioSource.clip != buildingAudio)
-                    Stop(buildingAudioSource);
+                    Play(buildingAudioSource, buildingAudio);
             }
             else if (scene.name == "Pipe_Test_TBM" || scene.name == "Pipe_Test" || scene.name == "Pipe_Test_Explain")
             {
