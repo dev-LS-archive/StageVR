@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿#if UNITY_EDITOR
+
+using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
 using Unity.Collections;
@@ -78,3 +80,4 @@ namespace RopeToolkit
         }
     }
 }
+#endif
