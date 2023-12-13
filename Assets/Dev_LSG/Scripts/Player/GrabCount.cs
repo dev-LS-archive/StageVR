@@ -9,6 +9,7 @@ namespace Dev_LSG.Scripts.Player
         private bool _eventDone;
 
         public UnityEvent twoGrabEvent;
+        public UnityEvent releasedAllEvent;
 
         private void OnEnable()
         {
@@ -29,6 +30,10 @@ namespace Dev_LSG.Scripts.Player
         public void DisCount()
         {
             _count -= 1;
+            if (_count == 0)
+            {
+                releasedAllEvent.Invoke();
+            }
         }
     }
 }
