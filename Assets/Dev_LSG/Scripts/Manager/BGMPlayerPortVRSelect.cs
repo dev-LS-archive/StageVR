@@ -31,9 +31,9 @@ namespace Dev_LSG.Scripts.Manager
             
             buildingAudioSource.loop = true;
             buildingAudioSource.volume = 0.2f;
-            
-            if (scene.name == "MainMenu_Port" || scene.name == "SelectMenu_Port" || scene.name == "SelectMenu_Port" || scene.name == "SelectMenu_Port"
-                || scene.name == "GangForm_Play"|| scene.name == "GangForm_Explain")
+
+            if (scene.name == "MainMenu_Port" || scene.name == "SelectMenu_Port" || scene.name == "GangForm_Play" ||
+                scene.name == "GangForm_Explain")
             {
                 if (bgmAudioSource.isPlaying) 
                     Stop(bgmAudioSource);
@@ -42,7 +42,16 @@ namespace Dev_LSG.Scripts.Manager
                 if (buildingAudioSource.clip != buildingAudio)
                     Play(buildingAudioSource, buildingAudio);
             }
-            else if (scene.name == "Bollard-pull_Tugboat_TBM" || scene.name == "Bollard-pull_Tugboat" || scene.name == "Bollard-pull_Tugboat_Explain")
+            else if (scene.name == "Fall_Test_TBM" || scene.name == "Bollard-pull_Tugboat_TBM" || scene.name == "Pipe_Test_TBM")
+            {
+                if (bgmAudioSource.isPlaying) 
+                    Stop(bgmAudioSource);
+                if (waveAudioSource.clip != waves)
+                    Play(waveAudioSource, waves);
+                if (buildingAudioSource.isPlaying)
+                    Stop(buildingAudioSource);
+            }
+            else if (scene.name == "Bollard-pull_Tugboat" || scene.name == "Bollard-pull_Tugboat_Explain")
             {
                 if (bgmAudioSource.isPlaying) 
                     Stop(bgmAudioSource);
@@ -51,7 +60,7 @@ namespace Dev_LSG.Scripts.Manager
                 if (buildingAudioSource.isPlaying) 
                     Stop(buildingAudioSource);
             }
-            else if (scene.name == "Fall_Test_TBM" || scene.name == "Fall_Test" || scene.name == "Fall_Test_Explain")
+            else if (scene.name == "Fall_Test" || scene.name == "Fall_Test_Explain")
             {
                 if (bgmAudioSource.isPlaying) 
                     Stop(bgmAudioSource);
@@ -60,14 +69,14 @@ namespace Dev_LSG.Scripts.Manager
                 if (buildingAudioSource.clip != buildingAudio)
                     Play(buildingAudioSource, buildingAudio);
             }
-            else if (scene.name == "Pipe_Test_TBM" || scene.name == "Pipe_Test" || scene.name == "Pipe_Test_Explain")
+            else if (scene.name == "Pipe_Test" || scene.name == "Pipe_Test_Explain")
             {
                 if (bgmAudioSource.isPlaying) 
                     Stop(bgmAudioSource);
-                if (waveAudioSource.clip != waves)
-                    Play(waveAudioSource, waves);
-                if (buildingAudioSource.clip != buildingAudio)
-                    Play(buildingAudioSource, buildingAudio);
+                if (waveAudioSource.isPlaying)
+                    Stop(waveAudioSource);
+                if (buildingAudioSource.clip != wind)
+                    Play(buildingAudioSource, wind);
             }
             else
             {
