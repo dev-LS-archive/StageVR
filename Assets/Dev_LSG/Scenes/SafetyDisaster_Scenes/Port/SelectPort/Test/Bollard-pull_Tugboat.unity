@@ -584,6 +584,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 291821791}
+        m_TargetAssemblyTypeName: Dev_LSG.Scripts.Interactables.SetMaterial, Dev_LSG.Scripts.Interactables
+        m_MethodName: ChangeMat
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
   delay: 0.2
 --- !u!114 &30655858
 MonoBehaviour:
@@ -1358,6 +1370,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 291821791}
+        m_TargetAssemblyTypeName: Dev_LSG.Scripts.Interactables.SetMaterial, Dev_LSG.Scripts.Interactables
+        m_MethodName: OriginMat
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -3490,6 +3514,7 @@ GameObject:
   - component: {fileID: 291821788}
   - component: {fileID: 291821785}
   - component: {fileID: 291821790}
+  - component: {fileID: 291821791}
   m_Layer: 0
   m_Name: pull-rope
   m_TagString: Untagged
@@ -3922,6 +3947,21 @@ MonoBehaviour:
   m_ConstrainOrientation: 0
   m_Compliance: 0
   m_BreakThreshold: Infinity
+--- !u!114 &291821791
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 291821776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d471192bcf4792a4aa2f75be96bcb0c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  render: {fileID: 291821782}
+  origin: {fileID: 2100000, guid: 9fe9acf3b4a8e0448a67b165a9835327, type: 2}
+  change: {fileID: 2100000, guid: 92a6bc4466988854d956e384c2df4665, type: 2}
 --- !u!1 &307040253
 GameObject:
   m_ObjectHideFlags: 0
