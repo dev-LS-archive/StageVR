@@ -35,5 +35,10 @@ namespace Dev_LSG.Scripts.Player
                 releasedAllEvent.Invoke();
             }
         }
+
+        public void ResetEvent()
+        {
+            _eventDone = false;
+        }
     }
 }
