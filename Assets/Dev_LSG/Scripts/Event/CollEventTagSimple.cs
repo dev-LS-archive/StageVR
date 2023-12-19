@@ -13,7 +13,7 @@ namespace Dev_LSG.Scripts.Event
         {
             if (collision.gameObject.CompareTag(tagStr))
             {
-                print("Coll");
+                print("Coll " + collision.gameObject.name);
                 collEvent.Invoke();
             }
         }
@@ -22,7 +22,7 @@ namespace Dev_LSG.Scripts.Event
         {
             if (other.gameObject.CompareTag(tagStr))
             {
-                print("Trigger");
+                print("Trigger " + other.gameObject.name);
                 collEvent.Invoke();
             }
         }

@@ -3140,7 +3140,8 @@ namespace HurricaneVR.Framework.Core.Grabbers
         }
 
 
-
+        [Tooltip("체크시 그랩할때 자동 오브젝트 놓기 기능 비활성화")]
+        public bool releaseDisable = false;
         /// <summary>
         /// Will grab the provided object using the provided grab point, if the grab point isn't provided then the first valid one on the object will be used.
         /// If there are no grab points that are allowed to be grabbed by this hand you shouldn't use this method.
@@ -3153,8 +3154,8 @@ namespace HurricaneVR.Framework.Core.Grabbers
         {
             try
             {
-                //if (grabbable.IsBeingHeld)
-                    //grabbable.ForceRelease();
+                if (grabbable.IsBeingHeld && !releaseDisable)
+                    grabbable.ForceRelease();
 
                 if (!grabPoint)
                     grabPoint = grabbable.GetGrabPoint(this, GrabpointFilter.Normal);

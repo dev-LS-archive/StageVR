@@ -13,7 +13,6 @@ namespace HurricaneVR.TechDemo.Scripts
         public HVRGrabbable Grabbable;
         public HVRGrabTrigger GrabTrigger;
         public HVRPosableGrabPoint GrabPoint;
-        public bool isTwoGrab = false;
 
         private void CallGrab(HVRGrabberBase arg0, HVRGrabbable arg1)
         {
@@ -27,7 +26,6 @@ namespace HurricaneVR.TechDemo.Scripts
 
         public void ResetEvent()
         {
-            Grabbable.Released.RemoveAllListeners();
             Grabber.ForceRelease();
         }
     }
