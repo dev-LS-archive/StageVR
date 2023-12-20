@@ -691,6 +691,7 @@ GameObject:
   - component: {fileID: 60388638}
   - component: {fileID: 60388640}
   - component: {fileID: 60388639}
+  - component: {fileID: 60388641}
   m_Layer: 20
   m_Name: GrabPoint_L
   m_TagString: Untagged
@@ -797,6 +798,22 @@ MonoBehaviour:
   LineFreeRotation: 0
   LineInitialCanRotate: 1
   Others: []
+--- !u!114 &60388641
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 60388637}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2bd18caa8f32804d97fa07947f8b092, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Grabber: {fileID: 1269867113}
+  Grabbable: {fileID: 879821314}
+  GrabTrigger: 2
+  GrabPoint: {fileID: 60388640}
 --- !u!1 &71088730
 GameObject:
   m_ObjectHideFlags: 0
@@ -12229,14 +12246,13 @@ GameObject:
   - component: {fileID: 811265605}
   - component: {fileID: 811265609}
   - component: {fileID: 811265611}
-  - component: {fileID: 811265610}
   - component: {fileID: 811265613}
   - component: {fileID: 811265612}
   - component: {fileID: 811265614}
   - component: {fileID: 811265615}
   m_Layer: 0
   m_Name: "\uC0C1\uC2B9\uAC01_Grab_1"
-  m_TagString: Untagged
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -12320,14 +12336,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 811265604}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.054062232, y: -0.6470084, z: 0.06332991, w: 0.7579227}
+  m_LocalRotation: {x: 0.054062236, y: 0.6470084, z: -0.06332992, w: -0.7579227}
   m_LocalPosition: {x: 0.020999916, y: 0.20788002, z: -0.08100128}
   m_LocalScale: {x: 2.515029, y: 0.1553446, z: 0.15534458}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 496204802}
   m_Father: {fileID: 1985364623}
-  m_LocalEulerAnglesHint: {x: 0, y: -170.972, z: 9.553}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &811265609
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12402,46 +12418,10 @@ MonoBehaviour:
       m_Calls: []
   Grabbed:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1032242039}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 811265615}
-        m_TargetAssemblyTypeName: Dev_LSG.Scripts.Interactables.SetMaterial, Dev_LSG.Scripts.Interactables
-        m_MethodName: OriginMat
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   Released:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 811265612}
-        m_TargetAssemblyTypeName: Dev_LSG.Scripts.Player.GrabCount, Dev_LSG.Scripts.Player
-        m_MethodName: DisCount
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   HoverEnter:
     m_PersistentCalls:
       m_Calls: []
@@ -12456,19 +12436,7 @@ MonoBehaviour:
       m_Calls: []
   HandGrabbed:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 811265612}
-        m_TargetAssemblyTypeName: Dev_LSG.Scripts.Player.GrabCount, Dev_LSG.Scripts.Player
-        m_MethodName: Count
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   HandReleased:
     m_PersistentCalls:
       m_Calls: []
@@ -12486,27 +12454,6 @@ MonoBehaviour:
   HandGrabbers: []
   Stabbers: []
   Stabbable: {fileID: 0}
---- !u!65 &811265610
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 811265604}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 8, z: 8}
-  m_Center: {x: 0.00000047683716, y: -0.0000019073486, z: 0}
 --- !u!54 &811265611
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -12541,7 +12488,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 811265604}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 54800ff17b46cd24db93cc47332826bd, type: 3}
   m_Name: 
@@ -14651,14 +14598,13 @@ GameObject:
   - component: {fileID: 879821310}
   - component: {fileID: 879821314}
   - component: {fileID: 879821316}
-  - component: {fileID: 879821315}
   - component: {fileID: 879821317}
   - component: {fileID: 879821319}
   - component: {fileID: 879821318}
   - component: {fileID: 879821320}
   m_Layer: 0
   m_Name: "\uC0C1\uC2B9\uAC01_Grab_2"
-  m_TagString: Untagged
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -14824,46 +14770,10 @@ MonoBehaviour:
       m_Calls: []
   Grabbed:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 306357818}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 879821320}
-        m_TargetAssemblyTypeName: Dev_LSG.Scripts.Interactables.SetMaterial, Dev_LSG.Scripts.Interactables
-        m_MethodName: OriginMat
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   Released:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 879821319}
-        m_TargetAssemblyTypeName: Dev_LSG.Scripts.Player.GrabCount, Dev_LSG.Scripts.Player
-        m_MethodName: DisCount
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   HoverEnter:
     m_PersistentCalls:
       m_Calls: []
@@ -14878,19 +14788,7 @@ MonoBehaviour:
       m_Calls: []
   HandGrabbed:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 879821319}
-        m_TargetAssemblyTypeName: Dev_LSG.Scripts.Player.GrabCount, Dev_LSG.Scripts.Player
-        m_MethodName: Count
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   HandReleased:
     m_PersistentCalls:
       m_Calls: []
@@ -14908,27 +14806,6 @@ MonoBehaviour:
   HandGrabbers: []
   Stabbers: []
   Stabbable: {fileID: 0}
---- !u!65 &879821315
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 879821309}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 8, z: 8}
-  m_Center: {x: 0.00000047683716, y: 0, z: 0.000015258789}
 --- !u!54 &879821316
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -15016,7 +14893,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 879821309}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 54800ff17b46cd24db93cc47332826bd, type: 3}
   m_Name: 
@@ -17593,6 +17470,10 @@ GameObject:
   - component: {fileID: 1056316762}
   - component: {fileID: 1056316764}
   - component: {fileID: 1056316763}
+  - component: {fileID: 1056316765}
+  - component: {fileID: 1056316766}
+  - component: {fileID: 1056316768}
+  - component: {fileID: 1056316767}
   m_Layer: 20
   m_Name: GrabPoint_R
   m_TagString: Untagged
@@ -17699,6 +17580,110 @@ MonoBehaviour:
   LineFreeRotation: 0
   LineInitialCanRotate: 1
   Others: []
+--- !u!65 &1056316765
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1056316761}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 0
+  serializedVersion: 3
+  m_Size: {x: 1, y: 2.5, z: 0.7}
+  m_Center: {x: 0, y: 0, z: 0.06}
+--- !u!54 &1056316766
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1056316761}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &1056316767
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1056316761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0885bfab25789049a46e6bf65ea2e57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tagStr: Hand
+  collEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 811265611}
+        m_TargetAssemblyTypeName: UnityEngine.Rigidbody, UnityEngine
+        m_MethodName: set_isKinematic
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1056316765}
+        m_TargetAssemblyTypeName: UnityEngine.Collider, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1056316768
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1056316761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2bd18caa8f32804d97fa07947f8b092, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Grabber: {fileID: 1269867110}
+  Grabbable: {fileID: 811265609}
+  GrabTrigger: 2
+  GrabPoint: {fileID: 1056316764}
 --- !u!1 &1058871795
 GameObject:
   m_ObjectHideFlags: 0
@@ -21549,6 +21534,17 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1269867113 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 864083890085138547, guid: 44b63bb6bd900144c980dd258f8af779, type: 3}
+  m_PrefabInstance: {fileID: 1269867109}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce026d01d1f538044a048be125f5a85e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!95 &1279321744 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 2000608869806591323, guid: 5160879d311c1494d81f333ed8194cad, type: 3}
@@ -22815,6 +22811,7 @@ GameObject:
   - component: {fileID: 1440748635}
   - component: {fileID: 1440748637}
   - component: {fileID: 1440748636}
+  - component: {fileID: 1440748638}
   m_Layer: 20
   m_Name: GrabPoint_L
   m_TagString: Untagged
@@ -22921,6 +22918,22 @@ MonoBehaviour:
   LineFreeRotation: 0
   LineInitialCanRotate: 1
   Others: []
+--- !u!114 &1440748638
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1440748634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2bd18caa8f32804d97fa07947f8b092, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Grabber: {fileID: 1269867113}
+  Grabbable: {fileID: 811265609}
+  GrabTrigger: 2
+  GrabPoint: {fileID: 1440748637}
 --- !u!1001 &1446787574
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -29859,6 +29872,10 @@ GameObject:
   - component: {fileID: 1990761984}
   - component: {fileID: 1990761986}
   - component: {fileID: 1990761985}
+  - component: {fileID: 1990761987}
+  - component: {fileID: 1990761988}
+  - component: {fileID: 1990761990}
+  - component: {fileID: 1990761989}
   m_Layer: 20
   m_Name: GrabPoint_R
   m_TagString: Untagged
@@ -29965,6 +29982,86 @@ MonoBehaviour:
   LineFreeRotation: 0
   LineInitialCanRotate: 1
   Others: []
+--- !u!65 &1990761987
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1990761983}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 0
+  serializedVersion: 3
+  m_Size: {x: 1.5, y: 2.5, z: 1.5}
+  m_Center: {x: 0, y: 0, z: 0.06}
+--- !u!54 &1990761988
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1990761983}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &1990761989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1990761983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0885bfab25789049a46e6bf65ea2e57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tagStr: Hand
+  collEvent:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &1990761990
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1990761983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2bd18caa8f32804d97fa07947f8b092, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Grabber: {fileID: 1269867110}
+  Grabbable: {fileID: 879821314}
+  GrabTrigger: 2
+  GrabPoint: {fileID: 1990761986}
 --- !u!1 &1996152224
 GameObject:
   m_ObjectHideFlags: 0
