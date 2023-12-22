@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,6 +9,7 @@ namespace Dev_LSG.Scripts.Player
                 [SerializeField] private Transform resetTransform;
                 [SerializeField] private GameObject player;
                 [SerializeField] private Camera playerHead;
+                [SerializeField] private HVRHexaBodyInputs bodyInputs;
                 
                 public KeyCode recenter = KeyCode.Space;
                 [SerializeField] private Transform firstPos;
@@ -58,6 +58,9 @@ namespace Dev_LSG.Scripts.Player
                                 //print("First");
                                 FirstResetPosition();
                         }
+
+                        if (bodyInputs != null) 
+                                bodyInputs.RecalibratePressed = true;
                 }
                 void OnDisable()
                 {

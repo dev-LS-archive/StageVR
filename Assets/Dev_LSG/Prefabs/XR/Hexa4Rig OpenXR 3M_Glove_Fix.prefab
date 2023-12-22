@@ -1044,8 +1044,9 @@ MonoBehaviour:
   resetTransform: {fileID: 0}
   player: {fileID: 460882198905123989}
   playerHead: {fileID: 460882200860161366}
+  bodyInputs: {fileID: 460882199080251066}
   recenter: 32
-  firstPos: {fileID: 0}
+  firstPos: {fileID: 460882199080251071}
   isFirstReset: 0
   notResetEnable: 0
 --- !u!114 &87395829
@@ -1194,6 +1195,22 @@ MonoBehaviour:
       m_Action: Rotation
       m_Flags: 0
     m_Flags: 0
+--- !u!114 &460882199080251066 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4118300635981618679, guid: ae0dc9a988adf1848ac652930f105d0e, type: 3}
+  m_PrefabInstance: {fileID: 4558282123857474381}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab96ced2b11c798499709433180d7c72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &460882199080251071 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4118300635981618674, guid: ae0dc9a988adf1848ac652930f105d0e, type: 3}
+  m_PrefabInstance: {fileID: 4558282123857474381}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &460882199266722717 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4118300635614523600, guid: ae0dc9a988adf1848ac652930f105d0e, type: 3}
